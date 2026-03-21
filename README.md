@@ -333,6 +333,12 @@ A estrada formal permanece aberta.
 | Conjectura de Collatz | n/2 (contracao) | 1 (atrator) | 3n+1 (expansao) | 1 e o unico ponto fixo do sistema -- polo (0) natural |
 | Medicao Quantica | Superposicao | Observador | Resultado | Observador e o polo (0) que media (-1) e (+1) |
 | Consciencia (Chalmers) | Neuronios | Consciencia | Experiencia | Polo (0) de sistemas biologicos complexos que persistem |
+| Envelhecimento | DNA / telomeros | Regulacao epigenetica | Metabolismo / celulas | Degradacao progressiva do polo (0). Quando a regulacao epigenetica perde coerencia, A = A começa a falhar. |
+
+> Nota sobre o envelhecimento: o diagnostico Y identifica o polo (0) biologico
+> como regulacao epigenetica. A pergunta aberta -- como estabilizar esse polo --
+> e investigada independentemente pela epigenetica regenerativa. Y oferece o
+> mapa estrutural. A biologia molecular constroi a estrada.
 
 ```
 H . C . N = sempre
