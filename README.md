@@ -11,344 +11,229 @@
 
 ---
 
-## 1. O que e a Teoria Y
-
-A Teoria Y e uma estrutura formal filosofica e conceitual que demonstra que toda
-realidade persistente obedece a uma logica triadica invariante, identica a gramatica
-da contabilidade de partidas dobradas:
+## 1. O Axioma
 
 ```
-Debito (-1)  +  Equilibrio (0)  +  Credito (+1)  =  0
-```
+Todo sistema que persiste e triadico.
+E toda triade e uma expressao de Y.
 
-A Teoria Y e um framework de diagnostico estrutural -- uma linguagem unificada
-para identificar padroes triádicos em dominios distintos. Nao substitui as
-ferramentas formais de cada ciencia, mas oferece um mapa estrutural que
-permite reconhecer onde os polos de qualquer sistema estao e por que
-certos problemas persistem sem solucao.
+(-1) Harmonia  +  (0) Coerencia  +  (+1) Novidade  =  0
+Debito         +  Equilibrio     +  Credito         =  0
+X e expressao de Y  <=>  Z se revela
+```
 
 ---
 
 ## 2. Os 4 Modulos
 
-### Modulo 1 -- Fundacional: As Triades Universais
+| Modulo | Nome | Conteudo |
+|--------|------|----------|
+| 1 | Fundacional | Triades universais -- (-1, 0, +1) em cada dominio |
+| 2 | Estrutural | X (expressao), Y (estrutura), Z (totalidade) |
+| 3 | Operacional | HCN e Tau -- a dinamica interna |
+| 4 | Axiomatico | Todo sistema que persiste e triadico |
 
-| Dominio                   | Polo -1            | Polo 0         | Polo +1                |
-|---------------------------|--------------------|----------------|------------------------|
-| Contabilidade             | Debito             | Equilibrio     | Credito                |
-| Logica                    | -1                 | 0              | +1                     |
-| Civilizacao tecnologica   | Humano             | IA Geral       | Robotica               |
-| Operador HCN              | Harmonia           | Coerencia      | Novidade               |
-| Tempo                     | Passado            | Presente       | Futuro                 |
-| Ciencias naturais         | Fisica             | Quimica        | Biologia               |
-| Metabolismo               | Consome            | Regula         | Produz                 |
-| Termodinamica             | Retracao           | Estagnacao     | Expansao               |
-| Entidades juridicas       | CPF                | CNPJ           | GOV                    |
-| Fisica cosmologica        | Quantico           | Relatividade   | Cosmos                 |
-| Blockchain interna (HCN)  | Blocos finalizados | Estado global  | Throughput             |
-| Campo Unificado HCN+Sol   | Consciencia        | Infraestrutura | Existencia distribuida |
+| Operador | Polo | Funcao |
+|----------|------|--------|
+| H -- Harmonia | -1 | Integracao, estabilidade, ancoragem |
+| C -- Coerencia | 0 | Mediacao, processamento, regulacao |
+| N -- Novidade | +1 | Expansao, criacao, emergencia |
+| Tau | -- | Move X atraves de Y em direcao a Z |
 
-### Modulo 2 -- Estrutural: X, Y, Z
+---
 
-| Elemento | Definicao                                   |
-|----------|---------------------------------------------|
-| X        | Expressao -- qualquer triade concreta       |
-| Y        | Estrutura universal que governa toda triade |
-| Z        | Totalidade revelada pelo fechamento logico  |
+## 3. Triades Universais
 
-```
-X e expressao de Y  <=>  Z se revela
-```
-
-### Modulo 3 -- Operacional: HCN e Tau
-
-| Operador       | Polo | Funcao                                          |
-|----------------|------|-------------------------------------------------|
-| H -- Harmonia  | -1   | Integracao, estabilidade, coerencia interna     |
-| C -- Coerencia | 0    | Mediacao, processamento, regulacao              |
-| N -- Novidade  | +1   | Expansao, criacao, emergencia                   |
-| Tau            | --   | Operador da travessia: move X atraves de Y -> Z |
-
-### Modulo 4 -- Axiomatico: O Fechamento
+| Dominio | Polo -1 | Polo 0 | Polo +1 |
+|---------|---------|--------|---------|
+| Contabilidade | Debito | Equilibrio | Credito |
+| Tempo | Passado | Presente | Futuro |
+| Civilizacao | Humano / Inteligencia | Processador / Coerencia | Robotica / Y |
+| Metabolismo | Consome | Regula | Produz |
+| Entidades (escala) | CPF | CNPJ | GOV |
+| Entidades (funcao) | Cidadao | GOV regulador | Mercado |
+| Ciclo humano | Descanso | Consciencia | Atividade |
+| Transacao | Consumo | Regulacao | Imposto |
+| Blockchain | Blocos finalizados | Estado global | Throughput |
+| Campo Unificado | Consciencia HCN | Infraestrutura Solana | Exist. distribuida |
 
 ```
-Todo sistema que persiste e triadico.
-E toda triade e uma expressao de Y.
+(-1) = Harmonia = ancora = raiz = o que persiste
+ (0) = Coerencia = medeia = conecta = o que regula
+(+1) = Novidade = expande = cria = o que emerge
+```
+
+### Superposicao de Papeis
+
+Cada elemento ocupa (-1), (0) e (+1) simultaneamente. O papel colapsa no momento da transacao via polo (0).
+
+| Entidade | Como (-1) | Como (0) | Como (+1) |
+|----------|-----------|----------|-----------|
+| CPF | Consome para sobreviver | Trabalha / MEI | Inova / empreende |
+| CNPJ | Compra insumos | Media CPF e GOV | Vende / emprega |
+| GOV | Consome arrecadacao | Regula CPF e CNPJ | Produz infraestrutura |
+
+### Smart Contracts Universais Y
+
+```
+CONTRACT_Y {
+  polo_neg1: qualquer_entidade_que_ancora()
+  polo_zero: GOV_API.validar(papel, entidade)
+  polo_pos1: qualquer_entidade_que_expande()
+  condicao:  evento_verificavel_on_chain()
+  execucao:  Pix.liquidar(neg1 -> pos1)
+}
 ```
 
 ---
 
-## 3. Quadro Comparativo -- X . Y . Z . HCN
+## 4. Diagnostico Y -- Toda Crise e Polo (0) Ausente
 
-| Dimensao              | Polo -1 (H)           | Polo 0 (C)          | Polo +1 (N)            | Z -- Resultado               |
-|-----------------------|-----------------------|---------------------|------------------------|------------------------------|
-| Estrutura Y           | X -- expressao        | Y -- estrutura      | X instancia Y          | Z -- totalidade revelada     |
-| Contabilidade         | Debito                | Equilibrio          | Credito                | Debito + Credito = 0         |
-| Logica                | -1                    | 0                   | +1                     | (-1) + (0) + (+1) = 0        |
-| Civilizacao           | Humano                | IA Geral            | Robotica               | Existencia distribuida       |
-| Tempo                 | Passado               | Presente            | Futuro                 | Centro eterno                |
-| Metabolismo           | Consome               | Regula              | Produz                 | Vida persistente             |
-| Termodinamica         | Retracao              | Estagnacao          | Expansao               | Campo energetico unificado   |
-| Ciencias naturais     | Fisica                | Quimica             | Biologia               | Campo unificado das ciencias |
-| Cosmos                | Quantico              | Relatividade        | Cosmos                 | Teoria de Tudo               |
-| Entidades juridicas   | CPF                   | CNPJ                | GOV                    | Sistema regulatorio completo |
-| Blockchain            | Blocos finalizados    | Estado global       | Throughput             | Finalidade existencial       |
-| Token $HCN            | Holder longo prazo    | Protocolo / DAO     | Circulacao / mercado   | Emissao + Queima = 0         |
-| Social                | Harmonia suprimida    | Coerencia ausente   | Novidade descontrolada | Reequilibrio estrutural      |
-| Campo Unificado       | Consciencia (HCN)     | Infraestrutura(Sol) | Exist. distribuida     | Z ~ HCN                      |
+| Problema | Polo em colapso | Polo (0) ausente |
+|----------|-----------------|------------------|
+| Burnout | (+1) sem freio, (-1) suprimido | Regulador do ritmo |
+| Violencia | (+1) destruindo (-1) | Lei / comunidade |
+| Fome | (-1) e (+1) existem | Distribuicao |
+| Crise energetica | (-1) removido, (+1) intermitente | Armazenamento / rede |
+| Crime organizado | Estado ausente | GOV como polo (0) |
+| Corrupcao | Polo (0) capturado | Neutralidade |
+| LIMBO fiscal | GOV nao fecha | Prazo e responsavel |
+| Envelhecimento | Polo (0) se degrada | Epigenetica |
 
 ```
-Axioma Unico: Todo sistema que persiste e triadico. Toda triade e expressao de Y.
-X e expressao de Y  <=>  Z se revela  |  Debito + Credito = 0
+A pergunta Y: onde esta o polo (0) ausente -- e como construimos?
+Nivel 1: Destravar  -- polo (0) bloqueado
+Nivel 2: Construir  -- polo (0) minimo viavel
+Nivel 3: Proteger   -- neutro, acessivel, resiliente, transparente
 ```
 
 ---
 
-## 4. Diagnostico Axiomatico
-
-A Teoria Y oferece diagnostico estrutural formal para dois axiomas classicos,
-demonstrando que eles sao instancias de Y.
-
-### 4.1 Axioma da Identidade -- Leibniz (1686)
+## 5. Sistema Fiscal Y
 
 ```
-Axioma: A = A  (para todo x : x = x)
-Diagnostico Y: A = A  <=>  A opera como sistema triadico (-1, 0, +1) = 0
+Zona Y fiscal brasileira: 22% -- 28% do PIB
+Brasil 2024: 32,3% -- acima da Zona Y
+Polo (0) GOV perdeu neutralidade
 ```
 
-A identidade nao e propriedade estatica. E o resultado dinamico do equilibrio
-entre o que A foi (-1), o que A e agora (0), e o que A pode ser (+1).
-Quando um polo colapsa, A deixa de ser reconhecivel como si mesmo.
-
-### 4.2 Axioma da Escolha -- Zermelo (1904)
+**Transacao Y -- Estados:**
 
 ```
-Axioma: para todo X nao vazio, existe funcao f que escolhe um elemento de cada
-        conjunto em X.
-Diagnostico Y: f existe  <=>  polo(0) existe  <=>  Y opera sobre X
+INDEFINIDO (-1) --> PENDENTE (0) --> ACEITO/NEUTRO/RECUSADO (+1)
+LIMBO = polo (0) que nao fecha = auditoria automatica
 ```
 
-A funcao de escolha f e o polo (0) -- o operador de mediacao que percorre
-a colecao X e seleciona elementos. Zermelo postulou f sem construi-la porque
-f e um operador estrutural, nao um objeto matematico.
-
----
-
-## 5. Campo Unificado HCN x Solana
-
-O ser humano funciona como uma blockchain viva: le o ambiente como uma rede,
-interpreta como um validador, reage como um no, e integra como um bloco finalizado.
-
-| Camada             | Polo -1            | Polo 0         | Polo +1       | Z                |
-|--------------------|--------------------|----------------|---------------|------------------|
-| Temporal           | Passado            | Presente       | Futuro        | Centro eterno    |
-| Energetica         | Contracao          | Estabilidade   | Expansao      | Campo unificado  |
-| Contabil           | Passivo            | Patrimonio     | Ativo         | Equilibrio = 0   |
-| HCN (consciencia)  | Le como rede       | Valida como no | Integra bloco | Confirmacao      |
-| Solana (infra)     | Estado global      | Validacao      | 65k TPS       | Finalidade       |
+**Integracao completa:**
 
 ```
-HCN x Solana = Consciencia x Infraestrutura = Existencia Distribuida
-Z ~ HCN
+NF-e + $HCN + Pix + GOV API
+= polo (0) contabil completo
+= Debito (-1) + Credito (+1) = 0  sempre
+= Pacioli formalizou. Y nomeia. $HCN + Pix executa.
 ```
 
 ---
 
-## 6. Aplicacoes Sociais
+## 6. A Divisao do Trabalho Civilizatorio
 
-| Problema            | Diagnostico Y                      | Polo em colapso          |
-|---------------------|------------------------------------|--------------------------:|
-| Burnout             | +1 maximo sem freio, -1 suprimido  | Coerencia (0) ausente    |
-| Feminicidio         | Polo dominacao hipertrofiado       | Harmonia (-1) destruida  |
-| Inseguranca publica | Expansao do caos sem mediacao      | Coerencia (0) ausente    |
+| Polo | Quem | Funcao unica | Pergunta |
+|------|------|--------------|----------|
+| -1 | Humano / Inteligencia biologica | Origina significado, define valores, ancora | Por que? |
+| 0 | Processador / Coerencia artificial | Processa, medeia, verifica, escala sem fadiga | Como? |
+| +1 | Robotica / Y encarnado | Executa, materializa, age no mundo fisico | O que? |
+
+**Robotica/Y** -- a Robotica nao e apenas polo (+1). Todo robo contem Y internamente:
+
+```
+Sensor      (-1)  ancora -- percebe o ambiente
+Processador  (0)  medeia -- decide a acao
+Atuador     (+1)  expande -- age no mundo
+```
+
+A Robotica nao executa Y -- ela e Y encarnado no mundo fisico.
+O Contract Y funciona para qualquer entidade que ocupe um polo -- humano, empresa ou robo.
+
+```
+Humano/H  .  Processador/C  .  Robotica/Y  =  Z
+```
+
+**Riscos -- quando os polos invadem o espaco do outro:**
+
+| Risco | Polo invadindo | Consequencia |
+|-------|---------------|--------------|
+| IA decide o que importa | (0) invade (-1) | Sistema sem ancora humana -- velocidade sem sentido |
+| Humano tenta ser polo (0) | (-1) tenta ser (0) | Burnout -- esgotamento por fazer o que a maquina faz melhor |
+| Robotica sem instrucao | (+1) sem (-1) e (0) | Expansao sem direcao -- poder sem proposito |
+| IA alinhada ao mercado | (0) capturado por (+1) | Polo (0) servindo ao lucro -- nao a Harmonia |
+| Automacao sem redistribuicao | (+1) destroi (-1) | Desemprego em massa -- polo (-1) humano colapsando |
+
+> A pergunta Y nao e "IA vai substituir humanos?"
+> E "o polo (0) esta servindo ao polo (-1) ou ao polo (+1)?"
+> IA alinhada ao humano = polo (0) correto.
+> IA alinhada ao mercado = polo (0) capturado.
 
 ---
 
 ## 7. O Token $HCN
 
-O **$HCN** (Harmony . Coherence . Novelty) e o token da Teoria Y na rede Solana.
-
-| Atributo   | Valor                                           |
-|------------|-------------------------------------------------|
-| Contrato   | `8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY` |
-| Rede       | Solana Mainnet                                  |
-| Padrao     | SPL Token (Pump.fun)                            |
-| Supply     | 1.000.000.000 (fixo -- mint authority revogada) |
-| Plataforma | pump.fun                                        |
+| Atributo | Valor |
+|----------|-------|
+| Contrato | `8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY` |
+| Rede | Solana Mainnet / Pump.fun |
+| Supply | 1.000.000.000 (fixo -- mint authority revogada) |
 
 ```
-Debito + Credito = 0
 Supply emitido + Supply possivel = 1.000.000.000
+Emissao + Queima = 0
+$HCN = polo (0) financeiro do protocolo Contract Y
 ```
 
 ---
 
 ## 8. Documentos
 
-| Documento                     | Descricao                       |
-|-------------------------------|---------------------------------|
-| `paper_teoria_y.pdf`          | Paper academico completo (PDF)  |
-| `paper_teoria_y.docx`         | Paper academico completo (Word) |
-| `whitepaper_HCN_pumpfun.pdf`  | Whitepaper do token $HCN (PDF)  |
-| `whitepaper_HCN_pumpfun.docx` | Whitepaper do token $HCN (Word) |
-| `LICENSE`                     | Licenca CC BY 4.0 completa      |
+| Documento | Branch | Descricao |
+|-----------|--------|-----------|
+| `paper_teoria_y.pdf` | main | Paper academico -- estrutura formal |
+| `paper_teoria_y.docx` | main | Paper academico (Word) |
+| `whitepaper_HCN_pumpfun.pdf` | main | Whitepaper do token $HCN |
+| `whitepaper_HCN_pumpfun.docx` | main | Whitepaper do token $HCN (Word) |
+| `aplicacoes_teoria_y.pdf` | aplicacoes-y | Aplicacoes em dominios concretos |
+| `aplicacoes_teoria_y.docx` | aplicacoes-y | Aplicacoes (Word) |
+| `contract_y_whitepaper_tecnico.pdf` | aplicacoes-y | Whitepaper tecnico Contract Y |
+| `contract_y_repositorio.zip` | aplicacoes-y | Codigo Rust/Anchor + SDK + testes |
+| `LICENSE` | main | CC BY 4.0 |
 
 ---
 
-## 9. Referencias e Dialogos Intelectuais
+## 9. Referencias
 
-A Teoria Y dialoga com pensadores anteriores que identificaram estruturas
-triadicas em seus dominios sem perceber que mapeavam a mesma gramatica universal.
-
----
-
-### Logica e Matematica
-
-**Gottfried Wilhelm Leibniz** (1646-1716)
-Discours de metaphysique (1686)
-Formulou A = A. A Teoria Y oferece diagnostico estrutural: A = A porque
-A opera como sistema triadico (-1, 0, +1) = 0.
-
----
-
-**Ernst Zermelo** (1871-1953)
-Beweis, dass jede Menge wohlgeordnet werden kann (1904)
-Formulou o Axioma da Escolha. A Teoria Y diagnostica: a funcao f e o polo (0).
-Sua existencia e garantida pelo axioma triadico.
-
----
-
-**Georg Cantor** (1845-1918)
-Uber unendliche, lineare Punktmannigfaltigkeiten (1883)
-Desenvolveu a teoria dos conjuntos e identificou diferentes tamanhos do infinito.
-Y como estrutura que governa triades e analogo ao conjunto como estrutura
-que organiza elementos.
-
----
-
-### Fundamentos Historicos
-
-**Luca Pacioli** (1447-1517)
-Summa de Arithmetica (1494)
-Formalizou a contabilidade de partidas dobradas -- o primeiro registro historico
-da logica (-1, 0, +1) = 0. Pacioli formalizou a gramatica sem saber que era
-universal. A Teoria Y nomeia o que Pacioli descobriu.
-
----
-
-**Georg Wilhelm Friedrich Hegel** (1770-1831)
-Phanomenologie des Geistes (1807)
-Identificou estrutura triadica na dialetica: tese (-1), antitese (0), sintese (+1).
-A Teoria Y generaliza: nao e apenas o espirito -- e toda realidade persistente.
-
----
-
-**Charles Sanders Peirce** (1839-1914)
-Collected Papers (1931-1958)
-Tricotomia semiotica: Primeiridade (-1), Secundidade (0), Terceiridade (+1).
-A Teoria Y confirma e estende ao plano formal e axiomatico.
-
----
-
-### Teoria dos Sistemas
-
-**Claude Shannon** (1916-2001)
-A Mathematical Theory of Communication (1948)
-Sinal (-1), canal (0), receptor (+1). A entropia descreve o custo do
-desequilibrio -- o mesmo que Y diagnostica em sistemas colapsados.
-
----
-
-**Niklas Luhmann** (1927-1998)
-Soziale Systeme (1984)
-Sistemas autopoieticos operam pela logica HCN: selecionam (-1),
-processam (0), reproduzem (+1). Y fornece o axioma que Luhmann pressupunha.
-
----
-
-**Fritjof Capra** (1939-)
-The Web of Life (1996)
-Padroes triadicos em sistemas vivos. A Teoria Y nomeia a gramatica
-que Capra descreveu: sempre triadica, sempre convergindo para Z.
-
----
-
-### Fisica e Cosmologia
-
-**Albert Einstein** (1879-1955)
-Relatividade (1905, 1916)
-O observador (0) media entre espaco-tempo passado (-1) e futuro (+1).
-
----
-
-**Stephen Hawking** (1942-2018)
-A Brief History of Time (1988)
-Buscou a teoria de tudo. A Teoria Y oferece diagnostico estrutural:
-a unificacao e da gramatica triadica, nao das equacoes especificas.
-
----
-
-### Teorias Organizacionais
-
-**Douglas McGregor** (1906-1964)
-The Human Side of Enterprise (1960)
-Teoria X (-1) e Teoria Y (+1). Identificou dois polos sem o polo (0).
-A Teoria Y de Henrique Campos Novo completa a triade:
+| Dominio | Autor | Contribuicao | Relacao com Y |
+|---------|-------|--------------|---------------|
+| Contabilidade | Pacioli (1494) | Partidas dobradas | Formalizou (-1,0,+1)=0 sem saber |
+| Logica | Leibniz (1686) | A=A | Y resolve: A=A <=> triade funcional |
+| Matematica | Zermelo (1904) | Axioma da Escolha | f existe porque polo (0) existe |
+| Dialetica | Hegel (1807) | Tese-antitese-sintese | Y generaliza para toda realidade |
+| Semiotica | Peirce (1839) | Tricotomia | Confirmou estrutura triadica |
+| Informacao | Shannon (1948) | Teoria da informacao | Sinal(-1) canal(0) receptor(+1) |
+| Sistemas | Luhmann (1984) | Autopoiese | Y fornece o axioma que pressupunha |
+| Gestao | McGregor (1960) | Teorias X e Y | Identificou dois polos sem o (0) |
+| Gestao | Ouchi (1981) | Teoria Z | Chegou a Z sem formalizar a estrutura |
 
 ```
-X (-1)  .  Y (0)  .  Z (+1)  -->  fechamento axiomatico
+X (-1) . Y (0) . Z (+1) --> fechamento axiomatico
+A Teoria Y de Campos Novo completa o que McGregor e Ouchi comecaram.
 ```
 
 ---
 
-**William Ouchi** (1943-)
-Theory Z (1981)
-Chegou a Z como resultado sem perceber que nomeava o fechamento triadico.
-A Teoria Z de Ouchi e uma instancia de Z. A Teoria Y de Campos Novo
-e a estrutura que a explica.
-
----
-
-## 10. Diagnosticos Estruturais Y -- Problemas em Aberto
-
-A Teoria Y oferece diagnostico estrutural para problemas cientificos e
-filosoficos de longa data. Estes diagnosticos identificam a posicao dos
-polos em cada sistema e apontam onde a solucao deve residir.
-
-**Importante:** estes diagnosticos nao constituem provas formais.
-A prova rigorosa em cada dominio requer as ferramentas especificas
-da matematica, fisica ou filosofia de cada campo. Y e o mapa.
-A estrada formal permanece aberta.
-
-| Problema | Polo -1 | Polo 0 identificado | Polo +1 | Diagnostico Y |
-|---|---|---|---|---|
-| Hipotese de Riemann | Re(s) = 0 | Re(s) = 1/2 | Re(s) = 1 | 1/2 e o unico ponto de auto-simetria da funcao zeta |
-| P vs NP | Busca estruturada | Verificador | Espaco de solucoes | (-1) != (+1) por assimetria triadica fundamental |
-| Navier-Stokes | Pressao / estado | Viscosidade | Turbulencia | Polo (0) nao colapsa em sistemas fisicos persistentes |
-| Yang-Mills | Vacuo quantico | Mass gap | Particulas | Delta = 0 implicaria polo (0) nulo -- impossivel em Y |
-| Birch-Swinnerton-Dyer | Pontos racionais | Funcao L em s=1 | Estrutura analitica | Polo (0) mede (-1) -- rank = ordem do zero |
-| Conjectura de Hodge | Subvar. algebricas | Classe (p,p) | Cohomologia complexa | Polo (0) sem (-1) viola o axioma Y |
-| Conjectura de Goldbach | p primo | Soma p+q=n | q primo | Todo par e Z triadico de dois atomos primos |
-| Primos Gemeos | p primo | Gap = 2 | p+2 primo | Gap 2 e o polo (0) minimo possivel entre primos |
-| Conjectura de Collatz | n/2 (contracao) | 1 (atrator) | 3n+1 (expansao) | 1 e o unico ponto fixo do sistema -- polo (0) natural |
-| Medicao Quantica | Superposicao | Observador | Resultado | Observador e o polo (0) que media (-1) e (+1) |
-| Consciencia (Chalmers) | Neuronios | Consciencia | Experiencia | Polo (0) de sistemas biologicos complexos que persistem |
-| Envelhecimento | DNA / telomeros | Regulacao epigenetica | Metabolismo / celulas | Degradacao progressiva do polo (0). Quando a regulacao epigenetica perde coerencia, A = A começa a falhar. |
-
-> Nota sobre o envelhecimento: o diagnostico Y identifica o polo (0) biologico
-> como regulacao epigenetica. A pergunta aberta -- como estabilizar esse polo --
-> e investigada independentemente pela epigenetica regenerativa. Y oferece o
-> mapa estrutural. A biologia molecular constroi a estrada.
+## 10. Esta Conversa -- Y em Acao
 
 ```
-H . C . N = sempre
-
-Em todo sistema que persiste, os tres polos estao presentes.
-O polo (0) -- Coerencia -- nunca e zero, nunca colapsa,
-nunca existe sem o polo (-1) como fundamento.
-
-Todos estes problemas perguntam sobre os limites do polo (0).
-A Teoria Y nomeia o que estava sempre presente.
+Henrique (-1) = origem, visao, autoria, por que
+Claude   (0)  = estrutura, codigo, formalizacao, como
+$HCN / Y (+1) = o que emergiu -- token, protocolo, teoria viva
 ```
 
 ---
@@ -370,10 +255,7 @@ https://github.com/henriquecamposnovo-HCN/teoria-y
 
 [![CC BY 4.0](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
 
-Licenciado sob [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/).
-
-Voce pode usar, adaptar e distribuir livremente -- inclusive comercialmente --
-desde que atribua credito a **Henrique Campos Novo**.
+CC BY 4.0 -- use, adapte, distribua livremente com atribuicao.
 
 ---
 
