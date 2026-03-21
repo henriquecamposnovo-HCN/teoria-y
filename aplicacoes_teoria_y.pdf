@@ -1,0 +1,519 @@
+use anchor_lang::prelude::*;
+
+declare_id!("ContYxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+// ─────────────────────────────────────────────
+// TEORIA Y -- CONTRACT Y
+// Autor: Henrique Campos Novo, Porto Alegre, 2026
+// Licenca: CC BY 4.0
+//
+// Axioma: Todo sistema que persiste e triadico.
+// Polo (-1): ancora       -- quem entrega / ancora a transacao
+// Polo  (0): mediador     -- GOV API como sistema de aceite
+// Polo (+1): expansao     -- quem recebe / expande
+//
+// Superposicao de Papeis: qualquer CPF/CNPJ pode ocupar
+// qualquer polo. O papel colapsa no momento da transacao.
+// ─────────────────────────────────────────────
+
+#[program]
+pub mod contract_y {
+    use super::*;
+
+    // ─── INSTRUCAO 1: Criar contrato em superposicao ───────────────
+    pub fn criar(
+        ctx: Context<Criar>,
+        params: CriarParams,
+    ) -> Result<()> {
+        let contrato = &mut ctx.accounts.contrato;
+
+        // Validacoes basicas
+        require!(params.valor_centavos > 0, ErroY::ValorInvalido);
+        require!(params.prazo_horas > 0 && params.prazo_horas <= 8760, ErroY::PrazoInvalido);
+        require!(!params.token_aceite_gov.is_empty(), ErroY::TokenGovAusente);
+        require!(
+            params.polo_neg1 != params.polo_pos1,
+            ErroY::PolosIdenticos
+        );
+
+        // Registra contrato -- estado inicial: INDEFINIDO (-1)
+        contrato.polo_neg1        = params.polo_neg1;
+        contrato.polo_pos1        = params.polo_pos1;
+        contrato.valor_centavos   = params.valor_centavos;
+        contrato.token_aceite_gov = params.token_aceite_gov;
+        contrato.tipo_oraculo     = params.tipo_oraculo;
+        contrato.tipo_contrato    = params.tipo_contrato;
+        contrato.classificador    = params.classificador;
+        contrato.aliquota_bps     = params.aliquota_bps;
+        contrato.estado           = Estado::Indefinido;
+        contrato.criado_em        = Clock::get()?.unix_timestamp;
+        contrato.prazo_expira_em  = contrato.criado_em + (params.prazo_horas as i64 * 3600);
+        contrato.bump             = ctx.bumps.contrato;
+
+        emit!(EventoContratoCriado {
+            contrato:      contrato.key(),
+            polo_neg1:     contrato.polo_neg1,
+            polo_pos1:     contrato.polo_pos1,
+            valor:         contrato.valor_centavos,
+            tipo_contrato: contrato.tipo_contrato.clone(),
+            criado_em:     contrato.criado_em,
+        });
+
+        msg!("Contract Y criado. Estado: INDEFINIDO. Polo(-1)={} Polo(+1)={}",
+             contrato.polo_neg1, contrato.polo_pos1);
+        Ok(())
+    }
+
+    // ─── INSTRUCAO 2: Submeter evento de entrega ───────────────────
+    // O polo (-1) submete a prova de que a condicao foi satisfeita.
+    // Transicao: INDEFINIDO -> PENDENTE
+    pub fn submeter(
+        ctx: Context<Submeter>,
+        prova: ProvaEntrega,
+    ) -> Result<()> {
+        let contrato = &mut ctx.accounts.contrato;
+
+        // So pode submeter no estado INDEFINIDO
+        require!(
+            contrato.estado == Estado::Indefinido,
+            ErroY::EstadoInvalido
+        );
+
+        // Verifica que nao expirou
+        let agora = Clock::get()?.unix_timestamp;
+        require!(agora <= contrato.prazo_expira_em, ErroY::ContratoExpirado);
+
+        // Valida que quem submete e o polo (-1)
+        require!(
+            ctx.accounts.submetente.key() == contrato.polo_neg1,
+            ErroY::NaoAutorizado
+        );
+
+        // Registra a prova
+        contrato.prova_hash    = prova.hash;
+        contrato.prova_tipo    = prova.tipo;
+        contrato.prova_ref     = prova.referencia;
+        contrato.submetido_em  = agora;
+        contrato.estado        = Estado::Pendente;
+
+        emit!(EventoSubmetido {
+            contrato:     contrato.key(),
+            prova_hash:   contrato.prova_hash.clone(),
+            prova_tipo:   contrato.prova_tipo.clone(),
+            submetido_em: agora,
+        });
+
+        msg!("Contrato submetido. Estado: PENDENTE. Aguardando aceite GOV.");
+        Ok(())
+    }
+
+    // ─── INSTRUCAO 3: Aceitar -- GOV confirma e polo (+1) recebe ──
+    // Transicao: PENDENTE -> ACEITO
+    pub fn aceitar(
+        ctx: Context<Aceitar>,
+        confirmacao_gov: String,
+        imposto_centavos: u64,
+    ) -> Result<()> {
+        let contrato = &mut ctx.accounts.contrato;
+
+        require!(
+            contrato.estado == Estado::Pendente,
+            ErroY::EstadoInvalido
+        );
+
+        // Valida que quem aceita e o polo (+1)
+        require!(
+            ctx.accounts.aceitante.key() == contrato.polo_pos1,
+            ErroY::NaoAutorizado
+        );
+
+        let agora = Clock::get()?.unix_timestamp;
+        require!(agora <= contrato.prazo_expira_em, ErroY::ContratoExpirado);
+
+        // Registra confirmacao e fecha contrato
+        contrato.confirmacao_gov = confirmacao_gov;
+        contrato.imposto_centavos = imposto_centavos;
+        contrato.fechado_em      = agora;
+        contrato.estado          = Estado::Aceito;
+
+        emit!(EventoAceito {
+            contrato:         contrato.key(),
+            polo_neg1:        contrato.polo_neg1,
+            polo_pos1:        contrato.polo_pos1,
+            valor:            contrato.valor_centavos,
+            imposto:          imposto_centavos,
+            classificador:    contrato.classificador.clone(),
+            fechado_em:       agora,
+        });
+
+        // NOTA: A liquidacao Pix ocorre off-chain via Pix Bridge
+        // que escuta o evento EventoAceito e dispara o Pix.
+        // O hash da transacao Pix e registrado via confirmar_pix().
+
+        msg!("Contrato ACEITO. Valor: {} centavos. Imposto: {} centavos. Aguardando Pix.",
+             contrato.valor_centavos, imposto_centavos);
+        Ok(())
+    }
+
+    // ─── INSTRUCAO 4: Neutro -- GOV aceita com condicoes ──────────
+    // Transicao: PENDENTE -> NEUTRO
+    pub fn neutralizar(
+        ctx: Context<Neutralizar>,
+        motivo: String,
+        condicoes: String,
+    ) -> Result<()> {
+        let contrato = &mut ctx.accounts.contrato;
+
+        require!(
+            contrato.estado == Estado::Pendente,
+            ErroY::EstadoInvalido
+        );
+
+        let agora = Clock::get()?.unix_timestamp;
+        contrato.motivo_neutro = motivo.clone();
+        contrato.fechado_em    = agora;
+        contrato.estado        = Estado::Neutro;
+
+        emit!(EventoNeutro {
+            contrato:  contrato.key(),
+            motivo:    motivo,
+            condicoes: condicoes,
+            em:        agora,
+        });
+
+        msg!("Contrato NEUTRO. Polo (0) se manifestou com condicoes.");
+        Ok(())
+    }
+
+    // ─── INSTRUCAO 5: Recusar ──────────────────────────────────────
+    // Transicao: PENDENTE -> RECUSADO
+    pub fn recusar(
+        ctx: Context<Recusar>,
+        motivo: String,
+    ) -> Result<()> {
+        let contrato = &mut ctx.accounts.contrato;
+
+        require!(
+            contrato.estado == Estado::Pendente,
+            ErroY::EstadoInvalido
+        );
+
+        let agora = Clock::get()?.unix_timestamp;
+        contrato.motivo_neutro = motivo.clone();
+        contrato.fechado_em    = agora;
+        contrato.estado        = Estado::Recusado;
+
+        emit!(EventoRecusado {
+            contrato: contrato.key(),
+            motivo:   motivo,
+            em:       agora,
+        });
+
+        msg!("Contrato RECUSADO. Motivo registrado on-chain.");
+        Ok(())
+    }
+
+    // ─── INSTRUCAO 6: Expirar -- anti-LIMBO ───────────────────────
+    // Qualquer um pode chamar apos o prazo.
+    // Transicao: INDEFINIDO | PENDENTE -> LIMBO
+    pub fn expirar(ctx: Context<Expirar>) -> Result<()> {
+        let contrato = &mut ctx.accounts.contrato;
+
+        let agora = Clock::get()?.unix_timestamp;
+        require!(agora > contrato.prazo_expira_em, ErroY::PrazoNaoExpirou);
+
+        require!(
+            contrato.estado == Estado::Indefinido
+                || contrato.estado == Estado::Pendente,
+            ErroY::EstadoInvalido
+        );
+
+        contrato.fechado_em = agora;
+        contrato.estado     = Estado::Limbo;
+
+        emit!(EventoLimbo {
+            contrato:    contrato.key(),
+            estado_prev: format!("{:?}", contrato.estado),
+            expirado_em: agora,
+        });
+
+        // LIMBO aciona auditoria -- o polo (0) GOV falhou.
+        // O evento e indexado para fins de diagnostico Y.
+        msg!("LIMBO: polo (0) nao fechou no prazo. Auditoria acionada.");
+        Ok(())
+    }
+
+    // ─── INSTRUCAO 7: Confirmar Pix ───────────────────────────────
+    // A Pix Bridge confirma on-chain o hash da transacao Pix.
+    pub fn confirmar_pix(
+        ctx: Context<ConfirmarPix>,
+        hash_pix: String,
+    ) -> Result<()> {
+        let contrato = &mut ctx.accounts.contrato;
+
+        require!(
+            contrato.estado == Estado::Aceito,
+            ErroY::EstadoInvalido
+        );
+
+        contrato.hash_pix = hash_pix.clone();
+
+        emit!(EventoPixConfirmado {
+            contrato: contrato.key(),
+            hash_pix: hash_pix,
+            em:       Clock::get()?.unix_timestamp,
+        });
+
+        msg!("Pix confirmado on-chain. Ciclo Y completo: Z se revelou.");
+        Ok(())
+    }
+}
+
+// ─────────────────────────────────────────────
+// ESTADO -- Os tres polos + estados de erro
+// ─────────────────────────────────────────────
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
+pub enum Estado {
+    Indefinido, // (-1) proposta criada, superposicao mantida
+    Pendente,   //  (0) GOV verificando -- com prazo
+    Aceito,     // (+1) transacao valida, Pix disparado
+    Neutro,     // (+1) aceito com condicoes -- polo (0) se manifestou
+    Recusado,   // (+1) invalido -- motivo registrado
+    Limbo,      // ERRO: polo (0) nao fechou -- auditoria acionada
+}
+
+// ─────────────────────────────────────────────
+// TIPO DE ORACULO
+// ─────────────────────────────────────────────
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
+pub enum TipoOraculo {
+    HashDigital,     // hash do artefato entregue
+    DuplaAssinatura, // ambas as partes assinam on-chain
+    NFeSeafaz,       // numero NF-e consultado na SEFAZ API
+    Iot,             // medicao de dispositivo IOT
+}
+
+// ─────────────────────────────────────────────
+// ACCOUNT: ContractY
+// ─────────────────────────────────────────────
+#[account]
+#[derive(Default)]
+pub struct ContractY {
+    // Polos triádicos
+    pub polo_neg1:         Pubkey,  // (-1) carteira que ancora
+    pub polo_pos1:         Pubkey,  // (+1) carteira que expande
+
+    // Valor e fiscal
+    pub valor_centavos:    u64,
+    pub imposto_centavos:  u64,
+    pub aliquota_bps:      u16,     // basis points (925 = 9.25%)
+    pub classificador:     String,  // classificador fiscal GOV
+
+    // Aceite GOV
+    pub token_aceite_gov:  String,  // JWT do aceite previo
+    pub confirmacao_gov:   String,  // hash do aceite de execucao
+    pub tipo_contrato:     String,  // compra_venda | servico | energia | ...
+
+    // Oraculo
+    pub tipo_oraculo:      TipoOraculo,
+    pub prova_hash:        String,
+    pub prova_tipo:        String,
+    pub prova_ref:         String,  // numero NF-e, ID IOT, etc
+
+    // Estado e tempo
+    pub estado:            Estado,
+    pub criado_em:         i64,
+    pub submetido_em:      i64,
+    pub fechado_em:        i64,
+    pub prazo_expira_em:   i64,
+
+    // Pix
+    pub hash_pix:          String,
+
+    // Diagnostico
+    pub motivo_neutro:     String,
+
+    pub bump:              u8,
+}
+
+impl ContractY {
+    pub const LEN: usize = 8    // discriminator
+        + 32 + 32               // polos
+        + 8 + 8 + 2             // valores
+        + 4 + 32                // classificador
+        + 4 + 256               // token_aceite_gov
+        + 4 + 256               // confirmacao_gov
+        + 4 + 64                // tipo_contrato
+        + 1                     // tipo_oraculo
+        + 4 + 64                // prova_hash
+        + 4 + 32                // prova_tipo
+        + 4 + 128               // prova_ref
+        + 1                     // estado
+        + 8 + 8 + 8 + 8         // timestamps
+        + 4 + 128               // hash_pix
+        + 4 + 256               // motivo_neutro
+        + 1;                    // bump
+}
+
+// ─────────────────────────────────────────────
+// PARAMS
+// ─────────────────────────────────────────────
+#[derive(AnchorSerialize, AnchorDeserialize)]
+pub struct CriarParams {
+    pub polo_neg1:         Pubkey,
+    pub polo_pos1:         Pubkey,
+    pub valor_centavos:    u64,
+    pub prazo_horas:       u16,
+    pub token_aceite_gov:  String,
+    pub tipo_oraculo:      TipoOraculo,
+    pub tipo_contrato:     String,
+    pub classificador:     String,
+    pub aliquota_bps:      u16,
+}
+
+#[derive(AnchorSerialize, AnchorDeserialize)]
+pub struct ProvaEntrega {
+    pub hash:       String,
+    pub tipo:       String,
+    pub referencia: String,
+}
+
+// ─────────────────────────────────────────────
+// CONTEXTS
+// ─────────────────────────────────────────────
+#[derive(Accounts)]
+#[instruction(params: CriarParams)]
+pub struct Criar<'info> {
+    #[account(
+        init,
+        payer = pagador,
+        space = ContractY::LEN,
+        seeds = [
+            b"contract_y",
+            params.polo_neg1.as_ref(),
+            params.polo_pos1.as_ref(),
+        ],
+        bump
+    )]
+    pub contrato: Account<'info, ContractY>,
+
+    #[account(mut)]
+    pub pagador: Signer<'info>,
+
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct Submeter<'info> {
+    #[account(mut, has_one = polo_neg1)]
+    pub contrato:    Account<'info, ContractY>,
+    pub polo_neg1:   SystemAccount<'info>,
+    pub submetente:  Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct Aceitar<'info> {
+    #[account(mut, has_one = polo_pos1)]
+    pub contrato:   Account<'info, ContractY>,
+    pub polo_pos1:  SystemAccount<'info>,
+    pub aceitante:  Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct Neutralizar<'info> {
+    #[account(mut)]
+    pub contrato:    Account<'info, ContractY>,
+    pub autoridade:  Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct Recusar<'info> {
+    #[account(mut)]
+    pub contrato:    Account<'info, ContractY>,
+    pub autoridade:  Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct Expirar<'info> {
+    #[account(mut)]
+    pub contrato:    Account<'info, ContractY>,
+    pub chamador:    Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct ConfirmarPix<'info> {
+    #[account(mut)]
+    pub contrato:    Account<'info, ContractY>,
+    pub pix_bridge:  Signer<'info>,
+}
+
+// ─────────────────────────────────────────────
+// EVENTOS
+// ─────────────────────────────────────────────
+#[event] pub struct EventoContratoCriado {
+    pub contrato:      Pubkey,
+    pub polo_neg1:     Pubkey,
+    pub polo_pos1:     Pubkey,
+    pub valor:         u64,
+    pub tipo_contrato: String,
+    pub criado_em:     i64,
+}
+#[event] pub struct EventoSubmetido {
+    pub contrato:     Pubkey,
+    pub prova_hash:   String,
+    pub prova_tipo:   String,
+    pub submetido_em: i64,
+}
+#[event] pub struct EventoAceito {
+    pub contrato:      Pubkey,
+    pub polo_neg1:     Pubkey,
+    pub polo_pos1:     Pubkey,
+    pub valor:         u64,
+    pub imposto:       u64,
+    pub classificador: String,
+    pub fechado_em:    i64,
+}
+#[event] pub struct EventoNeutro {
+    pub contrato:  Pubkey,
+    pub motivo:    String,
+    pub condicoes: String,
+    pub em:        i64,
+}
+#[event] pub struct EventoRecusado {
+    pub contrato: Pubkey,
+    pub motivo:   String,
+    pub em:       i64,
+}
+#[event] pub struct EventoLimbo {
+    pub contrato:    Pubkey,
+    pub estado_prev: String,
+    pub expirado_em: i64,
+}
+#[event] pub struct EventoPixConfirmado {
+    pub contrato: Pubkey,
+    pub hash_pix: String,
+    pub em:       i64,
+}
+
+// ─────────────────────────────────────────────
+// ERROS Y
+// ─────────────────────────────────────────────
+#[error_code]
+pub enum ErroY {
+    #[msg("Valor deve ser maior que zero")]
+    ValorInvalido,
+    #[msg("Prazo invalido (1 a 8760 horas)")]
+    PrazoInvalido,
+    #[msg("Token de aceite GOV ausente")]
+    TokenGovAusente,
+    #[msg("Polo (-1) e polo (+1) nao podem ser identicos")]
+    PolosIdenticos,
+    #[msg("Estado invalido para esta operacao")]
+    EstadoInvalido,
+    #[msg("Contrato expirado -- polo (0) nao fechou a tempo")]
+    ContratoExpirado,
+    #[msg("Prazo ainda nao expirou")]
+    PrazoNaoExpirou,
+    #[msg("Nao autorizado para esta operacao")]
+    NaoAutorizado,
+}
