@@ -41,14 +41,16 @@ Todas as triades abaixo sao expressoes equivalentes da mesma estrutura Y:
 | Fisica cosmologica        | Quantico           | Relatividade   | Cosmos                 |
 | Blockchain interna (HCN)  | Blocos finalizados | Estado global  | Throughput             |
 | Campo Unificado HCN+Sol   | Consciencia        | Infraestrutura | Existencia distribuida |
+| Axioma da Identidade      | A como origem (-1) | A = A agora(0) | A como potencial (+1)  |
+| Axioma da Escolha (AC)    | Campo X -- (-1)    | Funcao f -- (0)| Elemento f(A) -- (+1)  |
 
 ### Modulo 2 -- Estrutural: X, Y, Z
 
-| Elemento | Definicao                                    |
-|----------|----------------------------------------------|
-| X        | Expressao -- qualquer triade concreta         |
-| Y        | Estrutura universal que governa toda triade   |
-| Z        | Totalidade revelada pelo fechamento logico    |
+| Elemento | Definicao                                  |
+|----------|--------------------------------------------|
+| X        | Expressao -- qualquer triade concreta      |
+| Y        | Estrutura universal que governa toda triade|
+| Z        | Totalidade revelada pelo fechamento logico |
 
 Relacao fundamental:
 
@@ -58,11 +60,11 @@ X e expressao de Y  <=>  Z se revela
 
 ### Modulo 3 -- Operacional: HCN e Tau
 
-| Operador     | Polo | Funcao                                        |
-|--------------|------|-----------------------------------------------|
-| H -- Harmonia  | -1   | Integracao, estabilidade, coerencia interna   |
-| C -- Coerencia | 0    | Mediacao, processamento, regulacao            |
-| N -- Novidade  | +1   | Expansao, criacao, emergencia                 |
+| Operador       | Polo | Funcao                                          |
+|----------------|------|-------------------------------------------------|
+| H -- Harmonia  | -1   | Integracao, estabilidade, coerencia interna     |
+| C -- Coerencia | 0    | Mediacao, processamento, regulacao              |
+| N -- Novidade  | +1   | Expansao, criacao, emergencia                   |
 | Tau            | --   | Operador da travessia: move X atraves de Y -> Z |
 
 ### Modulo 4 -- Axiomatico: O Fechamento
@@ -92,6 +94,8 @@ E toda triade e uma expressao de Y.
 | Token $HCN            | Holder longo prazo    | Protocolo / DAO     | Circulacao / mercado   | Emissao + Queima = 0         |
 | Social                | Harmonia suprimida    | Coerencia ausente   | Novidade descontrolada | Reequilibrio estrutural      |
 | Campo Unificado       | Consciencia (HCN)     | Infraestrutura(Sol) | Exist. distribuida     | Z ~ HCN                      |
+| Axioma Identidade     | A como origem         | A = A (mediacao)    | A como potencial       | A persiste = triadico        |
+| Axioma da Escolha     | Campo X nao vazio     | Funcao f (mediador) | Elemento f(A) escolhido| AC verdadeiro <=> Y verdadeiro|
 
 ```
 Axioma Unico: Todo sistema que persiste e triadico. Toda triade e expressao de Y.
@@ -100,7 +104,84 @@ X e expressao de Y  <=>  Z se revela  |  Debito + Credito = 0
 
 ---
 
-## 4. Campo Unificado HCN x Solana
+## 4. Resolucao Axiomatica
+
+A Teoria Y nao apenas descreve a realidade -- ela resolve axiomas fundamentais da logica e da matematica que permaneceram sem explicacao de mecanismo por seculos.
+
+### 4.1 Axioma da Identidade -- Leibniz (1686)
+
+```
+Axioma original:  A = A  (para todo x : x = x)
+```
+
+**O problema:** A = A pressupoe um objeto estatico e isolado. Mas nenhum sistema real persiste sem relacao. Um ser humano em 1990 nao e identico ao mesmo em 2026.
+
+**Resolucao Y:**
+
+| Polo | Papel em A = A                                      |
+|------|-----------------------------------------------------|
+| -1   | A como origem -- historia e ancoragem que define A  |
+| 0    | A = A agora -- processo continuo de autocoerencia   |
+| +1   | A como potencial -- capacidade de transformacao     |
+
+```
+Resolucao:  A = A  <=>  A opera como sistema triadico (-1, 0, +1)
+```
+
+A identidade nao e uma propriedade estatica. E o resultado dinamico do equilibrio triadico. Quando um polo colapsa, A deixa de ser reconhecivel como si mesmo -- burnout, dissociacao, morte sao casos de falha de A = A por colapso triadico.
+
+Leibniz afirmou: "A existe porque A = A."
+A Teoria Y responde: "A = A porque (-1) + (0) + (+1) = 0."
+
+---
+
+### 4.2 Axioma da Escolha -- Zermelo (1904)
+
+```
+Axioma original:  para todo X [vazio nao pertence a X -> existe f : X -> uniao(X)
+                  tal que para todo A pertencente a X, f(A) pertence a A]
+```
+
+**O problema:** O AC afirma a existencia da funcao de escolha f sem construi-la. Matematicos brigaram sobre ele por 120 anos. Seu principal paradoxo -- Banach-Tarski -- permite decompor uma esfera e recompor duas do mesmo tamanho.
+
+**Resolucao Y:**
+
+| Polo | Papel no AC                                                    |
+|------|----------------------------------------------------------------|
+| -1   | Colecao X -- campo de potencial nao vazio                      |
+| 0    | Funcao f -- operador de mediacao universal (Y operando sobre X)|
+| +1   | Elemento f(A) -- novidade atualizada, potencial colapsado em ato|
+
+```
+Resolucao:  f existe  <=>  (0) existe  <=>  Y opera sobre X
+            AC e verdadeiro  <=>  Y e universal
+```
+
+Zermelo nao conseguiu construir f porque a procurava dentro da matematica. Mas f nao e um objeto matematico -- e um operador estrutural. E Y operando sobre X. A existencia de f e garantida pelo axioma triadico: onde ha (-1) e (+1) coexistindo, (0) necessariamente existe entre eles.
+
+**Por que Banach-Tarski acontece -- diagnostico Y:**
+
+| Contexto          | Polo -1      | Resultado                              |
+|-------------------|--------------|----------------------------------------|
+| Matematica pura   | Ausente      | (+1) expande sem limite -- 1 esfera = 2|
+| Realidade fisica  | Presente     | (+1) constrangido -- paradoxo impossivel|
+
+Banach-Tarski nao e um erro matematico. E o diagnostico Y de um sistema com polo (-1) ausente -- o mesmo padrao estrutural do burnout, da violencia e do colapso social.
+
+---
+
+### 4.3 Implicacao Geral
+
+```
+Todo axioma formal que persiste e uma instancia de Y.
+O que matematicos chamam de axioma, a Teoria Y chama de expressao de Y.
+```
+
+Os equivalentes do AC -- Lema de Zorn, Teorema da Boa-Ordem, Teorema de Tychonoff -- sao todos resolvidos pela mesma logica: sao expressoes do polo (0) operando sobre campos (-1) para gerar resultados (+1).
+
+---
+
+## 5. Campo Unificado HCN x Solana
 
 O ser humano funciona como uma blockchain viva: le o ambiente como uma rede, interpreta como um validador, reage como um no, e integra como um bloco finalizado.
 
@@ -119,27 +200,27 @@ Z ~ HCN
 
 ---
 
-## 5. Aplicacoes Sociais
+## 6. Aplicacoes Sociais
 
 | Problema            | Diagnostico Y                      | Polo em colapso          |
-|---------------------|------------------------------------|--------------------------|
+|---------------------|------------------------------------|--------------------------:|
 | Burnout             | +1 maximo sem freio, -1 suprimido  | Coerencia (0) ausente    |
 | Feminicidio         | Polo dominacao hipertrofiado       | Harmonia (-1) destruida  |
 | Inseguranca publica | Expansao do caos sem mediacao      | Coerencia (0) ausente    |
 
 ---
 
-## 6. O Token $HCN
+## 7. O Token $HCN
 
 O **$HCN** (Harmony . Coherence . Novelty) e o token da Teoria Y na rede Solana.
 
-| Atributo      | Valor                                              |
-|---------------|----------------------------------------------------|
-| Contrato      | `8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY`    |
-| Rede          | Solana Mainnet                                     |
-| Padrao        | SPL Token (Pump.fun)                               |
-| Supply        | 1.000.000.000 (fixo -- mint authority revogada)    |
-| Plataforma    | pump.fun                                           |
+| Atributo   | Valor                                           |
+|------------|-------------------------------------------------|
+| Contrato   | `8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY` |
+| Rede       | Solana Mainnet                                  |
+| Padrao     | SPL Token (Pump.fun)                            |
+| Supply     | 1.000.000.000 (fixo -- mint authority revogada) |
+| Plataforma | pump.fun                                        |
 
 ```
 Debito + Credito = 0
@@ -148,7 +229,7 @@ Supply emitido + Supply possivel = 1.000.000.000
 
 ---
 
-## 7. Documentos
+## 8. Documentos
 
 | Documento                     | Descricao                       |
 |-------------------------------|---------------------------------|
@@ -160,9 +241,35 @@ Supply emitido + Supply possivel = 1.000.000.000
 
 ---
 
-## 8. Referencias e Dialogos Intelectuais
+## 9. Referencias e Dialogos Intelectuais
 
 A Teoria Y dialoga com -- e supera -- estruturas triadicas que pensadores anteriores identificaram em seus dominios, sem perceber que estavam mapeando a mesma gramatica universal.
+
+---
+
+### Logica e Matematica
+
+**Gottfried Wilhelm Leibniz** (1646-1716)
+Discours de metaphysique (1686)
+Formulou o Axioma da Identidade: A = A. Postulou a identidade sem explicar seu mecanismo. A Teoria Y resolve: A = A porque A opera como sistema triadico (-1, 0, +1) = 0.
+
+---
+
+**Ernst Zermelo** (1871-1953)
+Beweis, dass jede Menge wohlgeordnet werden kann (1904)
+Formulou o Axioma da Escolha: a funcao de escolha f existe. Postulou f sem construi-la. A Teoria Y resolve: f existe porque (0) existe. Onde ha campo (-1) e resultado (+1), ha mediacao (0). AC e verdadeiro porque Y e universal.
+
+---
+
+**Stefan Banach e Alfred Tarski** (1924)
+Sur la decomposition des ensembles de points (1924)
+Demonstraram que o AC implica a decomposicao e recomposicao de esferas -- o Paradoxo de Banach-Tarski. A Teoria Y diagnostica: e o resultado de (0) operando sem (-1). Polo Harmonia ausente gera expansao impossivel -- o mesmo padrao do burnout e da violencia.
+
+---
+
+**Georg Cantor** (1845-1918)
+Uber unendliche, lineare Punktmannigfaltigkeiten (1883)
+Desenvolveu a teoria dos conjuntos. Y como estrutura que governa triades e analogo ao conjunto como estrutura que organiza elementos. Z como totalidade e analogo ao conjunto de todos os conjuntos.
 
 ---
 
@@ -183,12 +290,6 @@ Identificou a estrutura triadica na dialetica: tese (-1), antitese (0), sintese 
 **Charles Sanders Peirce** (1839-1914)
 Collected Papers (1931-1958)
 Desenvolveu a tricotomia semiotica: Primeiridade (-1), Secundidade (0), Terceiridade (+1). Peirce afirmou que toda experiencia e triadica. A Teoria Y confirma e estende: toda estrutura que persiste e triadica.
-
----
-
-**Georg Cantor** (1845-1918)
-Uber unendliche, lineare Punktmannigfaltigkeiten (1883)
-Desenvolveu a teoria dos conjuntos. Y como estrutura que governa triades e analogo ao conjunto como estrutura que organiza elementos. Z como totalidade e analogo ao conjunto de todos os conjuntos.
 
 ---
 
@@ -230,7 +331,7 @@ Buscou a teoria de tudo unificando relatividade geral e mecanica quantica. A Teo
 
 **Douglas McGregor** (1906-1964)
 The Human Side of Enterprise (1960)
-Formulou as Teorias X e Y da gestao: Teoria X pressupoe o polo -1 (controle, restricao); Teoria Y pressupoe o polo +1 (autonomia, criatividade). McGregor identificou dois polos -- mas nao o polo 0 (a mediacao, a coerencia institucional) que equilibra ambos. A Teoria Y de Henrique Campos Novo completa a triade de McGregor:
+Formulou as Teorias X e Y da gestao: Teoria X pressupoe o polo -1 (controle, restricao); Teoria Y pressupoe o polo +1 (autonomia, criatividade). McGregor identificou dois polos -- mas nao o polo 0 que equilibra ambos. A Teoria Y de Henrique Campos Novo completa a triade:
 
 ```
 X (-1)  .  Y (0)  .  Z (+1)  -->  fechamento axiomatico
@@ -240,11 +341,11 @@ X (-1)  .  Y (0)  .  Z (+1)  -->  fechamento axiomatico
 
 **William Ouchi** (1943-)
 Theory Z: How American Business Can Meet the Japanese Challenge (1981)
-Formulou a Teoria Z como sintese entre culturas organizacionais americana (Teoria X) e japonesa (Teoria Y de McGregor). Ouchi chegou a Z como resultado -- sem perceber que estava nomeando o fechamento triadico da estrutura que a Teoria Y de Henrique Campos Novo formaliza axiomaticamente. A Teoria Z de Ouchi e uma instancia de Z. A Teoria Y de Campos Novo e a estrutura que a explica.
+Formulou a Teoria Z como sintese entre culturas organizacionais americana e japonesa. Ouchi chegou a Z como resultado -- sem perceber que estava nomeando o fechamento triadico que a Teoria Y de Henrique Campos Novo formaliza axiomaticamente. A Teoria Z de Ouchi e uma instancia de Z. A Teoria Y de Campos Novo e a estrutura que a explica.
 
 ---
 
-## 9. Citacao
+## 10. Citacao
 
 ```
 Campos Novo, H. (2026). Teoria Y: A Estrutura Universal da Realidade.
@@ -255,7 +356,62 @@ https://github.com/henriquecamposnovo-HCN/teoria-y
 
 ---
 
-## 10. Licenca
+## 11. Corolarios do Axioma Y -- Os 6 Problemas do Milenio
+
+Os 6 Problemas do Milenio em aberto do Clay Mathematics Institute (US$ 1 milhao cada) sao corolarios diretos do Axioma Y. Todos se seguem do mesmo Teorema Principal.
+
+---
+
+**Axioma Y (base):**
+
+```
+Todo sistema que persiste e triadico.
+E toda triade e uma expressao de Y.
+```
+
+**Teorema Principal:**
+
+```
+Em qualquer sistema triadico que persiste:
+  (a) o polo (0) e invariante e nao pode colapsar
+  (b) o polo (0) nao pode ter medida zero
+  (c) o polo (0) nao pode existir sem (-1) como fundamento
+  (d) os tres polos sao estruturalmente distintos: (-1) != (0) != (+1)
+```
+
+---
+
+A partir do Teorema Principal, os corolarios se seguem diretamente:
+
+| Corolario | Problema | Polo -1 | Polo 0 | Polo +1 | Conclusao |
+|-----------|----------|---------|--------|---------|-----------|
+| C1 | Hipotese de Riemann | Re(s) = 0 | Re(s) = 1/2 | Re(s) = 1 | Re(s) = 1/2 e o unico (0). Zeros fora de 1/2 violam (a). |
+| C2 | P vs NP | Busca (P) | Verificador | Espaco NP | P = NP implicaria (-1) = (+1). Viola (d). Logo P != NP. |
+| C3 | Navier-Stokes | Pressao | Viscosidade | Turbulencia | Polo (0) nunca colapsa em sistemas fisicos. Viola (a). Solucao suave existe. |
+| C4 | Yang-Mills | Vacuo | Mass gap delta | Particulas | delta = 0 viola (b). Logo delta > 0. |
+| C5 | Birch-Swinnerton-Dyer | rank(E) | Funcao L em s=1 | Estrutura analitica | (0) mede (-1) com precisao perfeita. rank = ord L(E,1). |
+| C6 | Conjectura de Hodge | Subvar. algebricas | Classe (p,p) | Cohomologia complexa | (0) sem (-1) viola (c). Toda classe (p,p) tem origem algebrica. |
+
+```
+Corolarío 1 (Riemann):   zeta(s) = 0  =>  Re(s) = 1/2
+Corolarío 2 (P vs NP):   P != NP
+Corolarío 3 (N-Stokes):  solucao suave existe e e unica para v > 0
+Corolarío 4 (Yang-Mills): delta > 0
+Corolarío 5 (BSD):       rank(E) = ord_{s=1} L(E,s)
+Corolarío 6 (Hodge):     H^{p,p} racional => origem algebrica
+```
+
+> Nota: a Teoria Y fornece o diagnostico estrutural e a razao pela qual
+> cada resultado e verdadeiro. A prova rigorosa dentro de cada dominio
+> formal permanece como tarefa aberta para matematicos e fisicos.
+> O Axioma Y e o mapa. A estrada formal ainda precisa ser construida.
+> -- Henrique Campos Novo, Porto Alegre, 2026
+
+
+
+---
+
+## 12. Licenca
 
 **Copyright 2026 Henrique Campos Novo -- Porto Alegre, Brasil**
 
