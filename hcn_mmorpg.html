@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>H · C · N — O Operador Define</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#03030f;--H:#1D9E75;--Hl:#9FE1CB;
+  --C:#7F77DD;--Cl:#CECBF6;
+  --N:#D85A30;--Nl:#F0997B;
+  --Z:#AFA9EC;--Zl:#EEEDFE;
+  --L:#E24B4A;--A:#EF9F27;
+  --t1:#F1EFE8;--t2:#B4B2A9;--t3:#5F5E5A;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:system-ui,sans-serif;touch-action:none;}
+#cvs{position:absolute;top:0;left:0;}
+
+/* ─ HUD ─ */
+#hud{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;padding:7px 10px;pointer-events:none;background:linear-gradient(rgba(3,3,15,.93),transparent);}
+.hp{background:rgba(7,7,26,.82);border:.5px solid rgba(127,119,221,.18);border-radius:6px;padding:5px 9px;}
+.hl{font-size:9px;font-family:monospace;color:var(--t3);letter-spacing:.06em;}
+.hv{font-size:13px;font-weight:600;font-family:monospace;}
+
+/* ─ VARS DINÂMICAS ─ */
+#dynvars{position:absolute;top:54px;left:10px;z-index:20;pointer-events:none;min-width:120px;}
+.vrow{display:flex;align-items:center;gap:4px;margin-bottom:3px;}
+.vlbl{font-size:8px;font-family:monospace;width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.vbg{width:48px;height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;}
+.vfill{height:100%;border-radius:2px;transition:width .35s;}
+.vnum{font-size:8px;font-family:monospace;width:18px;text-align:right;}
+
+/* ─ Z BAR ─ */
+#zb{position:absolute;top:54px;left:50%;transform:translateX(-50%);z-index:20;width:160px;pointer-events:none;text-align:center;}
+.zblab{font-size:9px;font-family:monospace;color:var(--Z);letter-spacing:.1em;}
+.zbbg{height:5px;background:rgba(127,119,221,.1);border-radius:3px;border:.5px solid rgba(127,119,221,.2);overflow:hidden;margin-top:2px;}
+.zbf{height:100%;background:linear-gradient(90deg,var(--H),var(--C),var(--N));border-radius:3px;transition:width .5s;}
+
+/* ─ SUPERPOSIÇÃO ─ */
+#spanel{position:absolute;top:54px;right:10px;z-index:20;pointer-events:none;text-align:right;max-width:130px;display:none;}
+.splab{font-size:8px;font-family:monospace;color:var(--t3);}
+.spval{font-size:9px;font-family:monospace;color:var(--Cl);line-height:1.65;word-break:break-all;}
+
+/* ─ CONTROLES ─ */
+#pad{position:absolute;bottom:96px;left:14px;z-index:20;}
+#btns{position:absolute;bottom:96px;right:10px;z-index:20;display:flex;flex-direction:column;gap:5px;}
+.gb{width:50px;height:50px;border-radius:50%;border:1.5px solid;font-size:9px;font-weight:700;font-family:monospace;cursor:pointer;background:rgba(3,3,15,.72);display:flex;align-items:center;justify-content:center;flex-direction:column;line-height:1.3;user-select:none;-webkit-user-select:none;transition:transform .1s,border-color .2s,color .2s;}
+.gb:active{transform:scale(.87);}
+.gb-act{background:rgba(127,119,221,.18)!important;}
+#btn-edit{position:absolute;bottom:96px;left:50%;transform:translateX(-50%);z-index:20;padding:7px 14px;border-radius:6px;border:.5px solid rgba(127,119,221,.35);background:rgba(7,7,26,.85);color:var(--Cl);font-size:10px;font-family:monospace;cursor:pointer;}
+
+/* ─ HINT ─ */
+#hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-170%);z-index:20;pointer-events:none;opacity:0;transition:opacity .3s;}
+.hbox{font-size:10px;font-family:monospace;background:rgba(60,52,137,.7);border:.5px solid var(--C);border-radius:5px;padding:4px 10px;color:var(--Cl);white-space:nowrap;}
+
+/* ─ CHAT ─ */
+#chat{position:absolute;bottom:88px;left:10px;z-index:20;pointer-events:none;width:175px;}
+.cm{font-size:10px;font-family:monospace;line-height:1.55;margin-bottom:2px;opacity:.85;}
+
+/* ─ DIÁLOGO ─ */
+#dlg{position:absolute;bottom:0;left:0;right:0;z-index:30;display:none;padding-bottom:70px;}
+.din{max-width:500px;margin:0 auto;background:rgba(3,3,15,.96);border-top:1px solid rgba(175,169,236,.2);padding:14px 16px;}
+.dw{font-size:10px;font-family:monospace;color:var(--Z);letter-spacing:.1em;margin-bottom:4px;}
+.dt{font-size:13px;line-height:1.75;color:var(--t2);}
+.dt em{color:var(--Zl);font-style:normal;}.dt strong{color:var(--t1);}
+.dcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.dc{font-size:11px;padding:6px 12px;border-radius:5px;border:.5px solid rgba(175,169,236,.3);background:rgba(60,52,137,.1);color:var(--Cl);cursor:pointer;font-family:monospace;}
+.dc:active{background:rgba(60,52,137,.45);}
+
+/* ─ MINIMAP ─ */
+#mm{position:absolute;top:54px;right:10px;z-index:19;border:.5px solid rgba(127,119,221,.18);border-radius:4px;}
+
+/* ─ FLASH ─ */
+#fl{position:absolute;inset:0;z-index:40;pointer-events:none;opacity:0;transition:opacity .28s;}
+
+/* ════════════════════ EDITOR DE SISTEMA ════════════════════ */
+#editor{position:absolute;inset:0;z-index:55;display:none;background:rgba(3,3,15,.97);overflow-y:auto;padding:18px 16px 90px;}
+.ed-title{font-size:18px;font-weight:700;font-family:monospace;color:var(--Z);margin-bottom:4px;letter-spacing:.08em;}
+.ed-sub{font-size:11px;color:var(--t2);line-height:1.7;margin-bottom:18px;}
+.ed-section{margin-bottom:20px;}
+.ed-shead{font-size:11px;font-family:monospace;color:var(--Z);letter-spacing:.1em;margin-bottom:8px;border-bottom:.5px solid rgba(127,119,221,.2);padding-bottom:4px;}
+.ed-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap;}
+.ed-lbl{font-size:10px;font-family:monospace;color:var(--t3);min-width:80px;}
+.ed-inp{flex:1;min-width:100px;padding:6px 10px;border-radius:6px;border:.5px solid rgba(127,119,221,.3);background:rgba(7,7,26,.9);color:var(--t1);font-family:monospace;font-size:11px;}
+.ed-inp:focus{outline:none;border-color:var(--C);}
+.ed-color{width:36px;height:30px;border-radius:5px;border:.5px solid rgba(127,119,221,.3);cursor:pointer;background:transparent;}
+/* variáveis dinâmicas */
+.dynvar-row{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.dynvar-row .ed-inp{min-width:80px;}
+.rm-btn{padding:4px 9px;border-radius:4px;border:.5px solid rgba(226,75,74,.4);background:rgba(226,75,74,.08);color:#f09595;font-family:monospace;font-size:10px;cursor:pointer;}
+.add-btn{padding:6px 14px;border-radius:6px;border:.5px solid rgba(127,119,221,.35);background:rgba(60,52,137,.12);color:var(--Cl);font-family:monospace;font-size:10px;cursor:pointer;margin-top:4px;}
+/* win condition */
+.wc-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.wc-row select{flex:1;min-width:80px;padding:6px 10px;border-radius:6px;border:.5px solid rgba(127,119,221,.3);background:rgba(7,7,26,.9);color:var(--t1);font-family:monospace;font-size:11px;}
+.wc-row select:focus{outline:none;border-color:var(--C);}
+/* dinâmica */
+.dyn-row{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.dyn-row .ed-inp{min-width:70px;}
+.dyn-row select{padding:6px 8px;border-radius:5px;border:.5px solid rgba(127,119,221,.3);background:rgba(7,7,26,.9);color:var(--t1);font-family:monospace;font-size:10px;}
+/* botões do editor */
+.ed-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+.ed-apply{padding:10px 22px;border-radius:8px;border:1px solid var(--C);background:rgba(60,52,137,.2);color:var(--Cl);font-family:monospace;font-size:13px;cursor:pointer;}
+.ed-cancel{padding:10px 22px;border-radius:8px;border:1px solid rgba(127,119,221,.25);background:rgba(7,7,26,.7);color:var(--t2);font-family:monospace;font-size:13px;cursor:pointer;}
+
+/* ════════════════════ INTRO ════════════════════ */
+#intro{position:absolute;inset:0;z-index:70;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);padding:22px;text-align:center;}
+.ig{font-size:40px;font-weight:700;font-family:monospace;color:var(--C);letter-spacing:.14em;margin-bottom:7px;}
+.it{font-size:15px;color:var(--Zl);margin-bottom:5px;}
+.is{font-size:12px;color:var(--t2);line-height:1.8;max-width:330px;margin-bottom:12px;}
+.il{font-size:11px;color:var(--t3);line-height:1.9;max-width:330px;border-left:2px solid rgba(127,119,221,.3);padding-left:12px;text-align:left;font-style:italic;margin-bottom:16px;}
+.inp{width:188px;padding:8px 12px;border-radius:7px;border:.5px solid rgba(127,119,221,.32);background:rgba(7,7,26,.9);color:var(--t1);font-family:monospace;font-size:13px;text-align:center;margin-bottom:13px;}
+.ibs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.ib{padding:9px 16px;border-radius:8px;border:1px solid;font-size:11px;font-family:monospace;cursor:pointer;background:rgba(3,3,15,.7);}
+.ibH{border-color:var(--H);color:var(--H);}
+.ibC{border-color:var(--C);color:var(--C);}
+.ibN{border-color:var(--N);color:var(--N);}
+
+/* ════════════════════ FIM ════════════════════ */
+#fim{position:absolute;inset:0;z-index:70;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(3,3,15,.98);padding:22px;text-align:center;}
+.ft{font-size:22px;font-weight:700;font-family:monospace;color:var(--Z);letter-spacing:.08em;margin-bottom:6px;}
+.fs{font-size:36px;font-weight:700;font-family:monospace;color:var(--A);margin:10px 0;}
+.fb{font-size:13px;color:var(--t2);line-height:1.8;max-width:380px;white-space:pre-line;}
+.fax{font-size:11px;font-family:monospace;color:var(--Z);margin-top:14px;line-height:2;opacity:.65;}
+.tbtn{padding:10px 24px;border-radius:8px;border:1px solid var(--C);background:rgba(60,52,137,.17);color:var(--Cl);font-size:13px;font-family:monospace;cursor:pointer;margin-top:14px;}
+</style>
+</head>
+<body>
+<canvas id="cvs"></canvas>
+<canvas id="mm" width="80" height="80"></canvas>
+
+<!-- HUD -->
+<div id="hud">
+  <div class="hp">
+    <div class="hl">OPERADOR</div>
+    <div class="hv" id="hn" style="color:var(--C)">?</div>
+    <div style="font-size:9px;font-family:monospace;margin-top:1px" id="hpolo">(0)</div>
+  </div>
+  <div class="hp" style="text-align:center;min-width:72px;">
+    <div class="hl">ZONA</div>
+    <div style="font-size:9px;font-family:monospace;color:var(--t2)" id="hzona">—</div>
+    <div class="hl" style="margin-top:3px;">NÍVEL</div>
+    <div class="hv" style="color:var(--Z)" id="hnv">1</div>
+  </div>
+  <div class="hp" style="text-align:right;">
+    <div class="hl">RESSONÂNCIA</div>
+    <div class="hv" style="color:var(--A)" id="hres">0</div>
+    <div style="font-size:10px;font-family:monospace;margin-top:2px" id="hwc" style="color:var(--t3)">—</div>
+  </div>
+</div>
+
+<!-- Barra Z -->
+<div id="zb"><div class="zblab">Z · <span id="zpct">0</span>%</div><div class="zbbg"><div class="zbf" id="zfill" style="width:0%"></div></div></div>
+
+<!-- Variáveis dinâmicas -->
+<div id="dynvars"></div>
+
+<!-- Superposição panel -->
+<div id="spanel">
+  <div class="splab">SUPERPOSIÇÃO</div>
+  <div class="spval" id="spval">—</div>
+  <div style="font-size:8px;font-family:monospace;color:var(--t3)" id="spstate">—</div>
+</div>
+
+<!-- Pad + botões -->
+<div id="pad"><canvas id="dp" width="110" height="110"></canvas></div>
+<div id="btns" id="btns"></div>
+<button id="btn-edit" onclick="openEditor()">⚙ Sistema</button>
+
+<!-- Hint -->
+<div id="hint"><div class="hbox" id="htx">interagir</div></div>
+
+<!-- Chat -->
+<div id="chat"></div>
+
+<!-- Diálogo -->
+<div id="dlg"><div class="din"><div class="dw" id="dw"></div><div class="dt" id="dt"></div><div class="dcs" id="dcs"></div></div></div>
+
+<!-- Flash -->
+<div id="fl"></div>
+
+<!-- ════ EDITOR DE SISTEMA ════ -->
+<div id="editor">
+  <div class="ed-title">EDITOR DE SISTEMA</div>
+  <div class="ed-sub">O Operador define os parâmetros do mundo.<br>Estados, papeis, funções e dinâmica das variáveis determinam a condição de vitória.</div>
+
+  <!-- PAPEIS -->
+  <div class="ed-section">
+    <div class="ed-shead">PAPEIS — superposição ativa</div>
+    <div id="papeis-list"></div>
+    <button class="add-btn" onclick="addPapel()">+ papel</button>
+  </div>
+
+  <!-- ESTADOS -->
+  <div class="ed-section">
+    <div class="ed-shead">ESTADOS — colapso possível</div>
+    <div id="estados-list"></div>
+    <button class="add-btn" onclick="addEstado()">+ estado</button>
+  </div>
+
+  <!-- FUNÇÕES -->
+  <div class="ed-section">
+    <div class="ed-shead">FUNÇÕES — o que cada polo faz</div>
+    <div id="funcoes-list"></div>
+    <button class="add-btn" onclick="addFuncao()">+ função</button>
+  </div>
+
+  <!-- VARIÁVEIS DINÂMICAS -->
+  <div class="ed-section">
+    <div class="ed-shead">VARIÁVEIS DINÂMICAS — métricas do sistema</div>
+    <div id="dynvars-list"></div>
+    <button class="add-btn" onclick="addDynVar()">+ variável</button>
+  </div>
+
+  <!-- DINÂMICA — REGRAS -->
+  <div class="ed-section">
+    <div class="ed-shead">DINÂMICA — quando colapso (-1) ocorre:</div>
+    <div id="dyn-rules-list"></div>
+    <button class="add-btn" onclick="addDynRule()">+ regra</button>
+  </div>
+
+  <!-- CONDIÇÃO DE VITÓRIA -->
+  <div class="ed-section">
+    <div class="ed-shead">CONDIÇÃO DE VITÓRIA — quando Z se revela</div>
+    <div id="wc-list"></div>
+    <button class="add-btn" onclick="addWC()">+ condição</button>
+    <div style="margin-top:10px;">
+      <div class="ed-row">
+        <span class="ed-lbl">Mensagem Z:</span>
+        <input class="ed-inp" id="wc-msg" placeholder="ex: O sistema triádico fechou." value="Z emergiu. O sistema persiste.">
+      </div>
+      <div class="ed-row">
+        <span class="ed-lbl">Operador lógico:</span>
+        <select id="wc-op" style="padding:6px 10px;border-radius:6px;border:.5px solid rgba(127,119,221,.3);background:rgba(7,7,26,.9);color:var(--t1);font-family:monospace;font-size:11px;">
+          <option value="AND">TODAS as condições (AND)</option>
+          <option value="OR">QUALQUER condição (OR)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- AÇÃO Z -->
+  <div class="ed-section">
+    <div class="ed-shead">AÇÃO Z — o que Z faz quando ativado</div>
+    <div id="z-actions-list"></div>
+    <button class="add-btn" onclick="addZAction()">+ ação Z</button>
+  </div>
+
+  <div class="ed-btns">
+    <button class="ed-apply" onclick="applySystem()">Aplicar Sistema</button>
+    <button class="ed-cancel" onclick="closeEditor()">Cancelar</button>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="ig">H · C · N</div>
+  <div class="it">O Operador Define</div>
+  <div class="is">Você não apenas joga — você define as regras.<br>Estados, papeis, funções e dinâmica das variáveis são determinados por você.<br>O jogo termina quando <em>suas condições</em> forem satisfeitas.</div>
+  <div class="il">"O sistema é triádico por axioma — mas os polos têm os nomes que o Operador decide. Consciência, coerência, estrutura e ferramenta são suas. Z se revela quando você define o que é Z."</div>
+  <input class="inp" id="iname" placeholder="seu nome no mundo" maxlength="16">
+  <div class="ibs">
+    <button class="ib ibH" onclick="startGame('-1')">Polo Harmonia</button>
+    <button class="ib ibC" onclick="startGame('0')">Polo Coerência</button>
+    <button class="ib ibN" onclick="startGame('+1')">Polo Novidade</button>
+  </div>
+</div>
+
+<!-- FIM -->
+<div id="fim">
+  <div class="ft" id="ft">Z SE REVELOU</div>
+  <div class="fs" id="fsc">—</div>
+  <div class="fb" id="fsb"></div>
+  <div class="fax">H · C · N = sempre<br>X é expressão de Y ⟺ Z se revela<br>O sistema está vivo.</div>
+  <button class="tbtn" onclick="location.reload()">Jogar novamente</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+//  H · C · N — O OPERADOR DEFINE
+//  Teoria Y — Henrique Campos Novo 2026
+// ═══════════════════════════════════════════════════════════════════════
+const cv=document.getElementById('cvs'),ctx=cv.getContext('2d');
+const mc=document.getElementById('mm'),mctx=mc.getContext('2d');
+let W,H;
+function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+rsz();window.addEventListener('resize',rsz);
+
+const WS=3200,WC=1600;
+
+// ════════════════════════════════════════════════════════════════════════
+// SISTEMA — definido pelo operador (defaults inspirados em Y)
+// ════════════════════════════════════════════════════════════════════════
+let SYS={
+  papeis:[
+    {id:'p0',label:'ancora',   polo:'-1', col:'#1D9E75'},
+    {id:'p1',label:'medeia',   polo:'0',  col:'#7F77DD'},
+    {id:'p2',label:'expande',  polo:'+1', col:'#D85A30'},
+  ],
+  estados:[
+    {id:'e0',label:'aberto'},
+    {id:'e1',label:'mediando'},
+    {id:'e2',label:'fechado'},
+  ],
+  funcoes:[
+    {id:'f0',polo:'-1',desc:'ancora o passado'},
+    {id:'f1',polo:'0', desc:'medeia os extremos'},
+    {id:'f2',polo:'+1',desc:'expande o futuro'},
+  ],
+  dynvars:[
+    {id:'v0',label:'Harmonia',  polo:'-1',col:'#1D9E75',val:33,min:0,max:100},
+    {id:'v1',label:'Coerência', polo:'0', col:'#7F77DD',val:34,min:0,max:100},
+    {id:'v2',label:'Novidade',  polo:'+1',col:'#D85A30',val:33,min:0,max:100},
+  ],
+  // Regras de dinâmica: quando polo X age, variável V += delta
+  dynRules:[
+    {trigger:'-1',varId:'v0',op:'+=',val:7},
+    {trigger:'-1',varId:'v1',op:'-=',val:2},
+    {trigger:'-1',varId:'v2',op:'-=',val:2},
+    {trigger:'0', varId:'v1',op:'+=',val:7},
+    {trigger:'0', varId:'v0',op:'-=',val:2},
+    {trigger:'0', varId:'v2',op:'-=',val:2},
+    {trigger:'+1',varId:'v2',op:'+=',val:7},
+    {trigger:'+1',varId:'v0',op:'-=',val:2},
+    {trigger:'+1',varId:'v1',op:'-=',val:2},
+  ],
+  // Condições de vitória: variável op valor
+  winConditions:[
+    {varId:'v0',op:'>=',val:60},
+    {varId:'v1',op:'>=',val:60},
+    {varId:'v2',op:'>=',val:60},
+  ],
+  winOp:'AND', // AND | OR
+  winMsg:'Z emergiu. O sistema triádico fechou.',
+  // Ações de Z: setar variáveis
+  zActions:[
+    {varId:'v0',op:'=',val:33},
+    {varId:'v1',op:'=',val:34},
+    {varId:'v2',op:'=',val:33},
+  ],
+};
+
+// Copia de trabalho das dynvars (valores em runtime)
+let VARS={};
+
+function initVars(){
+  VARS={};
+  SYS.dynvars.forEach(v=>{ VARS[v.id]=v.val; });
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// JOGADOR
+// ════════════════════════════════════════════════════════════════════════
+const P={
+  x:WC,y:WC,vx:0,vy:0,angle:0,r:13,
+  name:'Operador',polo:'0',
+  super:{colapsado:null,tmr:null},
+  res:0,nv:1,
+  cryst:{h:false,c:false,n:false},
+  won:false
+};
+
+// NPCS
+const NPC=[
+  {n:'Inaê',p:'-1',x:WC-260,y:WC+190,vx:0,vy:0,msg:'',mt:0},
+  {n:'Kaio',p:'0', x:WC+210,y:WC-160,vx:0,vy:0,msg:'',mt:0},
+  {n:'Lara',p:'+1',x:WC-150,y:WC-250,vx:0,vy:0,msg:'',mt:0},
+  {n:'Davi',p:'0', x:WC+320,y:WC+230,vx:0,vy:0,msg:'',mt:0},
+  {n:'Sol', p:'-1',x:WC-400,y:WC-90, vx:0,vy:0,msg:'',mt:0},
+  {n:'Ryo', p:'+1',x:WC+440,y:WC+90, vx:0,vy:0,msg:'',mt:0},
+];
+
+function npcMsg(polo){
+  const msgs={
+    '-1':['Ancoro o sistema.','O passado é raiz.','Sem âncora o sistema dissolve.','Você definiu os papeis?'],
+    '0': ['Mediar é o mais difícil.','O polo (0) não tem captura.','Você viu o editor de sistema?','LIMBO = (0) ausente.'],
+    '+1':['Expanda antes de calcular.','Novidade sem âncora é caos.','O operador define a vitória.','Crie as condições que fazem sentido.'],
+  };
+  const m=msgs[polo]||msgs['0'];
+  return m[Math.floor(Math.random()*m.length)];
+}
+
+// Biomas
+const BIO=[
+  {x:WC,     y:WC,      r:240,t:'Z', n:'Campo Y — Centro'},
+  {x:WC-620, y:WC-490,  r:210,t:'-1',n:'Floresta da Harmonia'},
+  {x:WC+620, y:WC-490,  r:210,t:'+1',n:'Vulcão da Novidade'},
+  {x:WC-620, y:WC+490,  r:210,t:'0', n:'Lago da Coerência'},
+  {x:WC+620, y:WC+490,  r:210,t:'0', n:'Torre do Mediador'},
+  {x:WC-1000,y:WC,      r:195,t:'L', n:'Território do LIMBO'},
+  {x:WC+1000,y:WC,      r:195,t:'L', n:'Zona Colapsada'},
+];
+const COL_BIO={'-1':'#1D9E75','0':'#7F77DD','+1':'#D85A30','Z':'#AFA9EC','L':'#E24B4A'};
+
+// NÓS
+const NODES=[
+  {id:'pedra',x:WC,y:WC+80,r:22,p:'Z',i:'◈',nm:'Pedra Y',done:false,vis:false,
+   st:[
+    {w:'Pedra Y',
+     t:'A pedra registra as configurações do Operador.\n\nEstados, papeis, funções e dinâmica das variáveis são <em>seus</em>.\n\n<strong>⚙ Abra o Editor de Sistema</strong> (botão central) para definir:\n· Seus papeis e estados\n· Suas variáveis dinâmicas\n· As regras de dinâmica — o que cada ação afeta\n· A condição de vitória — quando Z se revela\n\nO jogo termina quando <em>suas condições</em> forem satisfeitas.',
+     c:[{l:'Entendi. Vou ao Editor.',n:-1},{l:'Como funcionam as variáveis?',n:1}]},
+    {w:'Pedra Y',
+     t:'Cada variável que você define tem um valor entre min e max. As regras de dinâmica determinam como as ações dos polos afetam cada variável.\n\nExemplo: ao agir no polo (-1), você pode querer que sua variável "Harmonia" suba +7 e "Novidade" caia -2.\n\nA <em>condição de vitória</em> é uma equação: "Harmonia >= 60 AND Novidade >= 60".\n\nQuando a condição for verdadeira — Z se revela.',
+     c:[{l:'Abrir o Editor agora.',n:-1,a:'open_editor'},{l:'Ok, entendi.',n:-1}]},
+   ]},
+  {id:'cx_h',x:WC-620,y:WC-465,r:20,p:'-1',i:'◆',nm:'Cristal Harmonia',done:false,vis:false,
+   st:[
+    {w:'Floresta',t:'Um cristal que ancora. Coletá-lo adiciona ressonância ao sistema.',
+     c:[{l:'Coletar.',n:-1,a:'col_h'},{l:'Deixar aqui.',n:-1}]},
+   ]},
+  {id:'cx_n',x:WC+620,y:WC-465,r:20,p:'+1',i:'◆',nm:'Cristal Novidade',done:false,vis:false,
+   st:[
+    {w:'Vulcão',t:'Um cristal que expande. Coletá-lo amplifica o polo (+1) nas variáveis.',
+     c:[{l:'Coletar.',n:-1,a:'col_n'},{l:'Deixar aqui.',n:-1}]},
+   ]},
+  {id:'cx_c',x:WC-620,y:WC+465,r:20,p:'0',i:'◆',nm:'Cristal Coerência',done:false,vis:false,
+   st:[
+    {w:'Lago',t:'Um cristal que medeia. Coletá-lo equilibra as variáveis do sistema.',
+     c:[{l:'Coletar.',n:-1,a:'col_c'},{l:'Deixar aqui.',n:-1}]},
+   ]},
+  {id:'torre',x:WC+620,y:WC+465,r:22,p:'0',i:'⊙',nm:'Torre do Mediador',done:false,vis:false,
+   st:[
+    {w:'Torre',
+     t:'Da torre, você vê o sistema que você definiu.\n\nOs papeis que você nomeou. Os estados que você escolheu. As variáveis que você criou. A condição de vitória que faz sentido para você.\n\n<em>"O operador que define as regras não joga o jogo de outro — joga o próprio jogo. Z se revela quando o sistema que você criou fecha."</em>',
+     c:[{l:'Meu sistema vai fechar.',n:-1}],
+     end:()=>{addRes(40);doFl('#7F77DD');}},
+   ]},
+  {id:'limbo',x:WC-1000,y:WC,r:30,p:'L',i:'⊗',nm:'Território do LIMBO',done:false,vis:false,
+   st:[
+    {w:'LIMBO',
+     t:'O LIMBO é o estado onde nenhuma condição de vitória é satisfeita — e nenhuma está sendo perseguida.\n\n<em>Um sistema sem regras definidas é LIMBO permanente.</em>\n\nO Operador que não definiu suas condições joga sem saber quando terminar.',
+     c:[{l:'Vou definir o sistema.',n:-1,a:'open_editor'},{l:'O LIMBO tem sua beleza.',n:1}]},
+    {w:'LIMBO',t:'"Sim. Há beleza no LIMBO — é a beleza de todas as possibilidades abertas. Mas o sistema não persiste no LIMBO. A superposição sem colapso não é sistema — é potencial puro."',
+     c:[{l:'Vou colapsar o sistema.',n:-1}]},
+   ]},
+];
+
+// Câmera, input, partículas
+const CAM={x:WC,y:WC,z:1};
+const K={};
+window.addEventListener('keydown',e=>{K[e.key]=true;if(e.key===' '||e.key==='e')actPolo('0');if(e.key==='1')actPolo('-1');if(e.key==='2')actPolo('0');if(e.key==='3')actPolo('+1');if(e.key==='z'||e.key==='Z')actZ();});
+window.addEventListener('keyup',e=>delete K[e.key]);
+const PAD={dx:0,dy:0,on:false};
+const PRT=[];
+function spPrt(wx,wy,col,n=6){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=1.2+Math.random()*2.5;PRT.push({x:wx,y:wy,vx:Math.cos(a)*s,vy:Math.sin(a)*s,col,r:2+Math.random()*2.5,l:1});}}
+
+// Chat
+const CH=[];
+function addCh(nm,msg,col){CH.push({nm,msg,col});if(CH.length>6)CH.shift();document.getElementById('chat').innerHTML=CH.map(m=>`<div class="cm" style="color:${m.col}">[${m.nm}] ${m.msg}</div>`).join('');}
+
+// ── UTILS ──────────────────────────────────────────────────────────────────
+function addRes(v){P.res=Math.min(400,P.res+v);upHUD();}
+function doFl(col,a=0.3){const e=document.getElementById('fl');e.style.background=col;e.style.opacity=a;setTimeout(()=>e.style.opacity=0,380);}
+function showH(t,c){document.getElementById('hint').style.opacity=1;const b=document.getElementById('htx');b.textContent=t;if(c)b.style.color=c;}
+function hideH(){document.getElementById('hint').style.opacity=0;}
+
+// ── HUD ────────────────────────────────────────────────────────────────────
+function upHUD(){
+  const pct=Math.round(P.res/4);
+  document.getElementById('zpct').textContent=pct;
+  document.getElementById('zfill').style.width=Math.min(100,pct)+'%';
+  document.getElementById('hpolo').textContent='('+P.polo+')';
+  const poloCfg=SYS.papeis.find(p=>p.polo===P.polo);
+  document.getElementById('hpolo').style.color=poloCfg?poloCfg.col:'#7F77DD';
+  P.nv=Math.max(1,Math.floor(P.res/50)+1);
+  document.getElementById('hnv').textContent=P.nv;
+  // condição de vitória progress
+  const progress=evalWCProgress();
+  document.getElementById('hwc').textContent='Z: '+progress+'%';
+  document.getElementById('hwc').style.color=progress>=100?'var(--Z)':'var(--t3)';
+  // superposição
+  const papeis=SYS.papeis.map(p=>p.label).join('|');
+  const estados=SYS.estados.map(e=>e.label).join('·');
+  const funcoes=SYS.funcoes.map(f=>f.desc).join('·');
+  document.getElementById('spval').textContent=papeis;
+  document.getElementById('spstate').textContent=estados;
+  // variáveis dinâmicas
+  renderDynVarsHUD();
+  // verifica vitória
+  if(!P.won)checkWin();
+}
+
+function renderDynVarsHUD(){
+  const el=document.getElementById('dynvars');
+  el.innerHTML=SYS.dynvars.map(v=>{
+    const val=VARS[v.id]??v.val;
+    const pct=Math.round((val-v.min)/(v.max-v.min)*100);
+    return `<div class="vrow">
+      <span class="vlbl" style="color:${v.col}">${v.label}</span>
+      <div class="vbg"><div class="vfill" style="width:${pct}%;background:${v.col}"></div></div>
+      <span class="vnum" style="color:${v.col}">${Math.round(val)}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderBtns(){
+  const el=document.getElementById('btns');
+  el.innerHTML='';
+  SYS.papeis.forEach(p=>{
+    const b=document.createElement('button');
+    b.className='gb';
+    b.style.borderColor=p.col;b.style.color=p.col;
+    b.innerHTML=`(${p.polo})<br>${p.label}`;
+    b.ontouchstart=ev=>{ev.preventDefault();actPolo(p.polo);};
+    b.onclick=()=>actPolo(p.polo);
+    el.appendChild(b);
+  });
+  // Z button
+  const bz=document.createElement('button');
+  bz.className='gb';bz.style.borderColor='#AFA9EC';bz.style.color='#AFA9EC';bz.style.fontSize='15px';
+  bz.innerHTML='Z';
+  bz.ontouchstart=ev=>{ev.preventDefault();actZ();};
+  bz.onclick=()=>actZ();
+  el.appendChild(bz);
+}
+
+// ── COLAPSO ────────────────────────────────────────────────────────────────
+function colapsar(polo){
+  P.polo=polo;P.super.colapsado=polo;
+  // aplicar regras de dinâmica
+  SYS.dynRules.forEach(r=>{
+    if(r.trigger!==polo)return;
+    const cur=VARS[r.varId]??0;
+    const v=SYS.dynvars.find(v=>v.id===r.varId);
+    if(!v)return;
+    let nv=cur;
+    if(r.op==='+=')nv=cur+r.val;
+    if(r.op==='-=')nv=cur-r.val;
+    if(r.op==='=') nv=r.val;
+    if(r.op==='*=')nv=cur*r.val;
+    VARS[r.varId]=Math.max(v.min,Math.min(v.max,nv));
+  });
+  if(P.super.tmr)clearTimeout(P.super.tmr);
+  P.super.tmr=setTimeout(()=>{P.super.colapsado=null;upHUD();},2200);
+  upHUD();
+}
+
+// ── AÇÕES ──────────────────────────────────────────────────────────────────
+let nearN=null,dlgNode=null,dlgPg=0,dlgOn=false;
+function actPolo(polo){
+  if(dlgOn)return;
+  if(polo==='0'&&nearN){openDlg(nearN,0);return;}
+  colapsar(polo);addRes(4);
+  const col=SYS.papeis.find(p=>p.polo===polo)?.col||'#7F77DD';
+  spPrt(P.x,P.y,col);doFl(col,.1);
+}
+function actZ(){
+  if(dlgOn)return;
+  if(P.res<80){showH('Precisa de 80 ressonância','#AFA9EC');return;}
+  P.res=Math.max(0,P.res-80);
+  doFl('#AFA9EC',.45);
+  // aplicar ações Z
+  SYS.zActions.forEach(a=>{
+    const v=SYS.dynvars.find(v=>v.id===a.varId);if(!v)return;
+    let nv=VARS[a.varId]??v.val;
+    if(a.op==='+=')nv+=a.val;if(a.op==='-=')nv-=a.val;if(a.op==='=')nv=a.val;if(a.op==='*=')nv*=a.val;
+    VARS[a.varId]=Math.max(v.min,Math.min(v.max,nv));
+  });
+  spPrt(P.x,P.y,'#AFA9EC',14);addCh('Z','Ação Z executada. Superposição restaurada.','#AFA9EC');
+  P.super.colapsado=null;addRes(8);upHUD();
+}
+
+// ── VITÓRIA ────────────────────────────────────────────────────────────────
+function evalWCProgress(){
+  if(SYS.winConditions.length===0)return 0;
+  const pcts=SYS.winConditions.map(wc=>{
+    const v=SYS.dynvars.find(v=>v.id===wc.varId);if(!v)return 0;
+    const cur=VARS[wc.varId]??v.val;
+    if(wc.op==='>=')return Math.min(100,Math.round(cur/wc.val*100));
+    if(wc.op==='<=')return cur<=wc.val?100:Math.max(0,Math.round((1-(cur-wc.val)/wc.val)*100));
+    if(wc.op==='=')return cur===wc.val?100:0;
+    return 0;
+  });
+  return SYS.winOp==='AND'?Math.min(...pcts):Math.max(...pcts);
+}
+
+function checkWin(){
+  if(SYS.winConditions.length===0)return;
+  const met=SYS.winConditions.map(wc=>{
+    const v=SYS.dynvars.find(v=>v.id===wc.varId);if(!v)return false;
+    const cur=VARS[wc.varId]??v.val;
+    if(wc.op==='>=')return cur>=wc.val;
+    if(wc.op==='<=')return cur<=wc.val;
+    if(wc.op==='=') return cur===wc.val;
+    return false;
+  });
+  const win=SYS.winOp==='AND'?met.every(Boolean):met.some(Boolean);
+  if(win){P.won=true;setTimeout(endGame,400);}
+}
+
+function endGame(){
+  RUN=false;
+  document.getElementById('fim').style.display='flex';
+  document.getElementById('ft').textContent='Z SE REVELOU';
+  document.getElementById('fsc').textContent=P.res+' ressonância';
+  const condStr=SYS.winConditions.map(wc=>{
+    const v=SYS.dynvars.find(v=>v.id===wc.varId);
+    return `${v?.label||wc.varId} ${wc.op} ${wc.val}: ${Math.round(VARS[wc.varId]??0)}`;
+  }).join('\n');
+  document.getElementById('fsb').textContent=
+    `${P.name} — ${SYS.winMsg}\n\nCondições satisfeitas:\n${condStr}\n\nNível: ${P.nv}`;
+  doFl('#AFA9EC',.7);
+}
+
+// ── DIÁLOGO ────────────────────────────────────────────────────────────────
+function openDlg(node,idx){
+  if(idx<0||idx>=node.st.length){closeDlg();return;}
+  dlgNode=node;dlgPg=idx;dlgOn=true;
+  const pg=node.st[idx];
+  document.getElementById('dlg').style.display='block';
+  document.getElementById('dw').textContent=pg.w;
+  document.getElementById('dt').innerHTML=pg.t.replace(/\n/g,'<br>');
+  const cc=document.getElementById('dcs');cc.innerHTML='';
+  pg.c.forEach(ch=>{
+    const b=document.createElement('button');b.className='dc';b.textContent=ch.l;
+    b.onclick=()=>pickDlg(ch);cc.appendChild(b);
+  });
+  if(!node.vis){node.vis=true;addRes(15);}
+}
+function pickDlg(ch){
+  if(ch.a)doNA(ch.a);
+  if(ch.n===-1){const pg=dlgNode.st[dlgPg];if(pg.end)pg.end();closeDlg();}
+  else openDlg(dlgNode,ch.n);
+}
+function doNA(a){
+  if(a==='col_h'){P.cryst.h=true;NODES.find(n=>n.id==='cx_h').done=true;addRes(50);doFl('#1D9E75');addCh(P.name,'Cristal da Harmonia!','#1D9E75');}
+  if(a==='col_n'){P.cryst.n=true;NODES.find(n=>n.id==='cx_n').done=true;addRes(50);doFl('#D85A30');addCh(P.name,'Cristal da Novidade!','#D85A30');}
+  if(a==='col_c'){P.cryst.c=true;NODES.find(n=>n.id==='cx_c').done=true;addRes(50);doFl('#7F77DD');addCh(P.name,'Cristal da Coerência!','#7F77DD');}
+  if(a==='open_editor')setTimeout(()=>openEditor(),200);
+  upHUD();
+}
+function closeDlg(){document.getElementById('dlg').style.display='none';dlgOn=false;}
+
+// ════════════════════════════════════════════════════════════════════════
+// EDITOR DE SISTEMA
+// ════════════════════════════════════════════════════════════════════════
+function openEditor(){
+  closeDlg();
+  renderEditor();
+  document.getElementById('editor').style.display='block';
+}
+function closeEditor(){document.getElementById('editor').style.display='none';}
+
+function mkInput(val,cls='ed-inp',placeholder=''){
+  return `<input class="${cls}" value="${val}" placeholder="${placeholder}" style="min-width:90px;">`;
+}
+function mkColorInput(col){
+  return `<input type="color" class="ed-color" value="${col}">`;
+}
+
+function renderEditor(){
+  // PAPEIS
+  document.getElementById('papeis-list').innerHTML=SYS.papeis.map((p,i)=>`
+    <div class="dynvar-row" id="papel-${i}">
+      <span class="ed-lbl" style="color:var(--t3)">polo</span>
+      <input class="ed-inp" value="${p.polo}" placeholder="-1/0/+1" style="width:48px;min-width:48px;">
+      <span class="ed-lbl" style="color:var(--t3)">label</span>
+      <input class="ed-inp" value="${p.label}" placeholder="ancora" style="min-width:80px;">
+      <span class="ed-lbl" style="color:var(--t3)">cor</span>
+      ${mkColorInput(p.col)}
+      <button class="rm-btn" onclick="removePapel(${i})">×</button>
+    </div>`).join('');
+
+  // ESTADOS
+  document.getElementById('estados-list').innerHTML=SYS.estados.map((e,i)=>`
+    <div class="dynvar-row" id="estado-${i}">
+      <span class="ed-lbl" style="color:var(--t3)">estado</span>
+      <input class="ed-inp" value="${e.label}" placeholder="aberto" style="min-width:120px;">
+      <button class="rm-btn" onclick="removeEstado(${i})">×</button>
+    </div>`).join('');
+
+  // FUNÇÕES
+  document.getElementById('funcoes-list').innerHTML=SYS.funcoes.map((f,i)=>`
+    <div class="dynvar-row" id="funcao-${i}">
+      <span class="ed-lbl" style="color:var(--t3)">polo</span>
+      <input class="ed-inp" value="${f.polo}" placeholder="-1" style="width:48px;min-width:48px;">
+      <span class="ed-lbl" style="color:var(--t3)">descrição</span>
+      <input class="ed-inp" value="${f.desc}" placeholder="ancora o passado" style="min-width:110px;">
+      <button class="rm-btn" onclick="removeFuncao(${i})">×</button>
+    </div>`).join('');
+
+  // VARIÁVEIS DINÂMICAS
+  document.getElementById('dynvars-list').innerHTML=SYS.dynvars.map((v,i)=>`
+    <div class="dynvar-row" id="dv-${i}">
+      <input class="ed-inp" value="${v.label}" placeholder="Harmonia" style="min-width:80px;" title="nome">
+      ${mkColorInput(v.col)}
+      <input class="ed-inp" value="${v.polo}" placeholder="-1" style="width:44px;min-width:44px;" title="polo">
+      <input class="ed-inp" value="${v.val}" placeholder="33" style="width:42px;min-width:42px;" title="valor inicial">
+      <input class="ed-inp" value="${v.min}" placeholder="0" style="width:40px;min-width:40px;" title="min">
+      <input class="ed-inp" value="${v.max}" placeholder="100" style="width:40px;min-width:40px;" title="max">
+      <button class="rm-btn" onclick="removeDynVar(${i})">×</button>
+    </div>`).join('');
+
+  // REGRAS DE DINÂMICA
+  const varOpts=SYS.dynvars.map(v=>`<option value="${v.id}">${v.label}</option>`).join('');
+  const opOpts=['+=','-=','=','*='].map(o=>`<option value="${o}">${o}</option>`).join('');
+  const poloOpts=['-1','0','+1'].map(o=>`<option value="${o}">${o}</option>`).join('');
+  document.getElementById('dyn-rules-list').innerHTML=SYS.dynRules.map((r,i)=>`
+    <div class="dyn-row" id="dr-${i}">
+      <span style="font-size:9px;font-family:monospace;color:var(--t3)">polo</span>
+      <select title="polo trigger">${['-1','0','+1'].map(o=>`<option value="${o}" ${r.trigger===o?'selected':''}>${o}</option>`).join('')}</select>
+      <span style="font-size:9px;font-family:monospace;color:var(--t3)">→</span>
+      <select title="variável">${SYS.dynvars.map(v=>`<option value="${v.id}" ${r.varId===v.id?'selected':''}>${v.label}</option>`).join('')}</select>
+      <select title="operador">${['+=','-=','=','*='].map(o=>`<option value="${o}" ${r.op===o?'selected':''}>${o}</option>`).join('')}</select>
+      <input class="ed-inp" value="${r.val}" style="width:48px;min-width:48px;">
+      <button class="rm-btn" onclick="removeDynRule(${i})">×</button>
+    </div>`).join('');
+
+  // CONDIÇÕES DE VITÓRIA
+  document.getElementById('wc-list').innerHTML=SYS.winConditions.map((wc,i)=>`
+    <div class="wc-row" id="wc-${i}">
+      <select>${SYS.dynvars.map(v=>`<option value="${v.id}" ${wc.varId===v.id?'selected':''}>${v.label}</option>`).join('')}</select>
+      <select>${['>=','<=','='].map(o=>`<option value="${o}" ${wc.op===o?'selected':''}>${o}</option>`).join('')}</select>
+      <input class="ed-inp" value="${wc.val}" style="width:55px;min-width:55px;">
+      <button class="rm-btn" onclick="removeWC(${i})">×</button>
+    </div>`).join('');
+  document.getElementById('wc-op').value=SYS.winOp;
+  document.getElementById('wc-msg').value=SYS.winMsg;
+
+  // AÇÕES Z
+  document.getElementById('z-actions-list').innerHTML=SYS.zActions.map((a,i)=>`
+    <div class="wc-row" id="za-${i}">
+      <select>${SYS.dynvars.map(v=>`<option value="${v.id}" ${a.varId===v.id?'selected':''}>${v.label}</option>`).join('')}</select>
+      <select>${['+=','-=','=','*='].map(o=>`<option value="${o}" ${a.op===o?'selected':''}>${o}</option>`).join('')}</select>
+      <input class="ed-inp" value="${a.val}" style="width:55px;min-width:55px;">
+      <button class="rm-btn" onclick="removeZAction(${i})">×</button>
+    </div>`).join('');
+}
+
+// add/remove helpers
+function addPapel(){SYS.papeis.push({id:'p'+Date.now(),label:'novo',polo:'0',col:'#7F77DD'});renderEditor();}
+function removePapel(i){if(SYS.papeis.length>1)SYS.papeis.splice(i,1);renderEditor();}
+function addEstado(){SYS.estados.push({id:'e'+Date.now(),label:'novo'});renderEditor();}
+function removeEstado(i){if(SYS.estados.length>1)SYS.estados.splice(i,1);renderEditor();}
+function addFuncao(){SYS.funcoes.push({id:'f'+Date.now(),polo:'0',desc:'nova função'});renderEditor();}
+function removeFuncao(i){SYS.funcoes.splice(i,1);renderEditor();}
+function addDynVar(){SYS.dynvars.push({id:'v'+Date.now(),label:'Nova Var',polo:'0',col:'#AFA9EC',val:50,min:0,max:100});renderEditor();}
+function removeDynVar(i){if(SYS.dynvars.length>0){SYS.dynvars.splice(i,1);renderEditor();}}
+function addDynRule(){SYS.dynRules.push({trigger:'0',varId:SYS.dynvars[0]?.id||'v0',op:'+=',val:5});renderEditor();}
+function removeDynRule(i){SYS.dynRules.splice(i,1);renderEditor();}
+function addWC(){SYS.winConditions.push({varId:SYS.dynvars[0]?.id||'v0',op:'>=',val:60});renderEditor();}
+function removeWC(i){SYS.winConditions.splice(i,1);renderEditor();}
+function addZAction(){SYS.zActions.push({varId:SYS.dynvars[0]?.id||'v0',op:'=',val:50});renderEditor();}
+function removeZAction(i){SYS.zActions.splice(i,1);renderEditor();}
+
+function applySystem(){
+  // Lê papeis
+  SYS.papeis=Array.from(document.querySelectorAll('[id^="papel-"]')).map((row,i)=>{
+    const ins=row.querySelectorAll('input');
+    return {id:SYS.papeis[i]?.id||'p'+i,polo:ins[0].value.trim(),label:ins[1].value.trim(),col:ins[2].value};
+  });
+  // Lê estados
+  SYS.estados=Array.from(document.querySelectorAll('[id^="estado-"]')).map((row,i)=>{
+    const ins=row.querySelectorAll('input');
+    return {id:SYS.estados[i]?.id||'e'+i,label:ins[0].value.trim()};
+  });
+  // Lê funções
+  SYS.funcoes=Array.from(document.querySelectorAll('[id^="funcao-"]')).map((row,i)=>{
+    const ins=row.querySelectorAll('input');
+    return {id:SYS.funcoes[i]?.id||'f'+i,polo:ins[0].value.trim(),desc:ins[1].value.trim()};
+  });
+  // Lê dynvars
+  SYS.dynvars=Array.from(document.querySelectorAll('[id^="dv-"]')).map((row,i)=>{
+    const ins=row.querySelectorAll('input');
+    const id=SYS.dynvars[i]?.id||'v'+i;
+    const v={id,label:ins[0].value.trim(),col:ins[1].value,polo:ins[2].value.trim(),
+      val:parseFloat(ins[3].value)||0,min:parseFloat(ins[4].value)||0,max:parseFloat(ins[5].value)||100};
+    if(!(id in VARS))VARS[id]=v.val;
+    return v;
+  });
+  // Lê regras dinâmica
+  SYS.dynRules=Array.from(document.querySelectorAll('[id^="dr-"]')).map(row=>{
+    const sels=row.querySelectorAll('select');const inp=row.querySelector('input');
+    return {trigger:sels[0].value,varId:sels[1].value,op:sels[2].value,val:parseFloat(inp.value)||0};
+  });
+  // Lê win conditions
+  SYS.winConditions=Array.from(document.querySelectorAll('[id^="wc-"]:not([id="wc-op"]):not([id="wc-msg"]):not([id="wc-list"])')).map(row=>{
+    const sels=row.querySelectorAll('select');const inp=row.querySelector('input');
+    return {varId:sels[0].value,op:sels[1].value,val:parseFloat(inp.value)||0};
+  });
+  SYS.winOp=document.getElementById('wc-op').value;
+  SYS.winMsg=document.getElementById('wc-msg').value;
+  // Lê ações Z
+  SYS.zActions=Array.from(document.querySelectorAll('[id^="za-"]')).map(row=>{
+    const sels=row.querySelectorAll('select');const inp=row.querySelector('input');
+    return {varId:sels[0].value,op:sels[1].value,val:parseFloat(inp.value)||0};
+  });
+  // Reinicializa vars novas
+  SYS.dynvars.forEach(v=>{if(!(v.id in VARS))VARS[v.id]=v.val;});
+  renderBtns();upHUD();closeEditor();
+  P.won=false;
+  addCh(P.name,'Sistema atualizado. Novas condições ativas.','#AFA9EC');
+}
+
+// ── FÍSICA ─────────────────────────────────────────────────────────────────
+function phys(){
+  let dx=0,dy=0;
+  if(K['ArrowLeft']||K['a'])dx-=1;if(K['ArrowRight']||K['d'])dx+=1;
+  if(K['ArrowUp']||K['w'])dy-=1;if(K['ArrowDown']||K['s'])dy+=1;
+  if(dx||dy){const l=Math.hypot(dx,dy);PAD.dx=dx/l;PAD.dy=dy/l;}
+  else if(!PAD.on){PAD.dx=0;PAD.dy=0;}
+  const spd=3.5;
+  if(PAD.dx||PAD.dy){P.vx=PAD.dx*spd;P.vy=PAD.dy*spd;P.angle=Math.atan2(PAD.dy,PAD.dx)+Math.PI/2;}
+  else{P.vx*=.79;P.vy*=.79;}
+  P.x=Math.max(50,Math.min(WS-50,P.x+P.vx));P.y=Math.max(50,Math.min(WS-50,P.y+P.vy));
+  CAM.x+=(P.x-CAM.x)*.09;CAM.y+=(P.y-CAM.y)*.09;
+  let cb=null,cd=Infinity;
+  BIO.forEach(b=>{const d=Math.hypot(P.x-b.x,P.y-b.y);if(d<b.r&&d<cd){cd=d;cb=b;}});
+  if(cb)document.getElementById('hzona').textContent=cb.n;
+  nearN=null;let mn=Infinity;
+  NODES.forEach(n=>{if(n.done)return;const d=Math.hypot(P.x-n.x,P.y-n.y);if(d<n.r+55&&d<mn){mn=d;nearN=n;}});
+  if(nearN&&!dlgOn)showH('(0) — '+nearN.nm,COL_BIO[nearN.p]||'#7F77DD');
+  else if(!dlgOn)hideH();
+  for(let i=PRT.length-1;i>=0;i--){const p=PRT[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.91;p.vy*=.91;p.l-=.038;if(p.l<=0)PRT.splice(i,1);}
+  NPC.forEach((op,i)=>{
+    op.vx+=(Math.random()-.5)*.38;op.vy+=(Math.random()-.5)*.38;op.vx*=.94;op.vy*=.94;
+    const d=Math.hypot(P.x-op.x,P.y-op.y);
+    if(d>500){op.vx+=(P.x-op.x)/d*.55;op.vy+=(P.y-op.y)/d*.55;}
+    if(d<85){op.vx-=(P.x-op.x)/d*.35;op.vy-=(P.y-op.y)/d*.35;}
+    op.x=Math.max(50,Math.min(WS-50,op.x+op.vx));op.y=Math.max(50,Math.min(WS-50,op.y+op.vy));
+    if(op.mt>0)op.mt--;
+    if(FR%(290+i*55)===0){op.msg=npcMsg(op.p);op.mt=160;addCh(op.n,op.msg,COL_BIO[op.p]||'#7F77DD');}
+  });
+  upHUD();
+}
+
+// ── W2S ────────────────────────────────────────────────────────────────────
+function w2s(wx,wy){return[(wx-CAM.x)*CAM.z+W/2,(wy-CAM.y)*CAM.z+H/2];}
+
+// ── RENDER ─────────────────────────────────────────────────────────────────
+function draw(){
+  ctx.fillStyle='#03030f';ctx.fillRect(0,0,W,H);
+  BIO.forEach(b=>{
+    const[bx,by]=w2s(b.x,b.y),br=b.r*CAM.z;const c=COL_BIO[b.t]||'#444';
+    const g=ctx.createRadialGradient(bx,by,0,bx,by,br);
+    g.addColorStop(0,c+'1c');g.addColorStop(.65,c+'09');g.addColorStop(1,c+'00');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(bx,by,br,0,Math.PI*2);ctx.fill();
+  });
+  ctx.strokeStyle='rgba(127,119,221,.03)';ctx.lineWidth=.5;
+  const gs=200,sx0=Math.floor((CAM.x-W/(2*CAM.z))/gs)*gs,sy0=Math.floor((CAM.y-H/(2*CAM.z))/gs)*gs;
+  for(let gx=sx0;gx<sx0+W/CAM.z+gs;gx+=gs){const[x]=w2s(gx,0);ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let gy=sy0;gy<sy0+H/CAM.z+gs;gy+=gs){const[,y]=w2s(0,gy);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  // Z central
+  const[zx,zy]=w2s(WC,WC);const zr=(24+7*Math.sin(FR*.045))*CAM.z*(1+P.res/500);
+  const zg=ctx.createRadialGradient(zx,zy,0,zx,zy,zr*3.5);
+  zg.addColorStop(0,`rgba(127,119,221,${.06+P.res/1800})`);zg.addColorStop(1,'rgba(127,119,221,0)');
+  ctx.fillStyle=zg;ctx.beginPath();ctx.arc(zx,zy,zr*3.5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(zx,zy,zr,0,Math.PI*2);ctx.fillStyle=`rgba(60,52,137,${.55+P.res/500})`;ctx.fill();
+  ctx.strokeStyle='rgba(175,169,236,.55)';ctx.lineWidth=1.4;ctx.stroke();
+  ctx.font=`700 ${Math.round(zr*.62)}px monospace`;ctx.fillStyle='#EEEDFE';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('Z',zx,zy);ctx.textBaseline='alphabetic';
+  // nós
+  NODES.forEach(n=>{
+    if(n.done)return;const[nx,ny]=w2s(n.x,n.y);if(nx<-80||nx>W+80||ny<-80||ny>H+80)return;
+    const c=COL_BIO[n.p]||'#7F77DD';const pulse=1+.16*Math.sin(FR*.04+n.x*.01);const nr=n.r*CAM.z*pulse;
+    const ng=ctx.createRadialGradient(nx,ny,0,nx,ny,nr*3.2);ng.addColorStop(0,c+'22');ng.addColorStop(1,c+'00');
+    ctx.fillStyle=ng;ctx.beginPath();ctx.arc(nx,ny,nr*3.2,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(nx,ny,nr,0,Math.PI*2);ctx.fillStyle=c+'24';ctx.fill();ctx.strokeStyle=c;ctx.lineWidth=nearN===n?2:1;ctx.stroke();
+    ctx.font=`600 ${Math.round(nr*.9)}px monospace`;ctx.fillStyle=c;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(n.i,nx,ny);ctx.textBaseline='alphabetic';
+    if(CAM.z>.5){ctx.font=`400 ${Math.round(9*CAM.z)}px monospace`;ctx.fillStyle=c+'cc';ctx.fillText(n.nm,nx,ny+nr+10*CAM.z);}
+  });
+  // NPCs
+  NPC.forEach(op=>{
+    const[ox,oy]=w2s(op.x,op.y);if(ox<-50||ox>W+50||oy<-50||oy>H+50)return;
+    const c=COL_BIO[op.p]||'#7F77DD';
+    const ng2=ctx.createRadialGradient(ox,oy,0,ox,oy,15*CAM.z);ng2.addColorStop(0,c+'22');ng2.addColorStop(1,c+'00');
+    ctx.fillStyle=ng2;ctx.beginPath();ctx.arc(ox,oy,15*CAM.z,0,Math.PI*2);ctx.fill();
+    const hr=10*CAM.z;ctx.beginPath();
+    for(let i=0;i<6;i++){const a=i/6*Math.PI*2-Math.PI/6;i===0?ctx.moveTo(ox+Math.cos(a)*hr,oy+Math.sin(a)*hr):ctx.lineTo(ox+Math.cos(a)*hr,oy+Math.sin(a)*hr);}
+    ctx.closePath();ctx.fillStyle=c+'22';ctx.fill();ctx.strokeStyle=c;ctx.lineWidth=.9;ctx.stroke();
+    if(CAM.z>.5){ctx.font=`400 ${Math.round(9*CAM.z)}px monospace`;ctx.fillStyle=c+'cc';ctx.textAlign='center';ctx.fillText(op.n,ox,oy-hr-4);}
+    if(op.mt>0&&CAM.z>.7){const al=Math.min(1,op.mt/40);ctx.font=`300 ${Math.round(8*CAM.z)}px monospace`;ctx.fillStyle=c+Math.round(al*120).toString(16).padStart(2,'0');ctx.fillText(op.msg.substring(0,22),ox,oy-hr-16);}
+  });
+  // partículas
+  PRT.forEach(p=>{const[px2,py2]=w2s(p.x,p.y);ctx.beginPath();ctx.arc(px2,py2,p.r*p.l*CAM.z,0,Math.PI*2);ctx.fillStyle=p.col+Math.round(p.l*160).toString(16).padStart(2,'0');ctx.fill();});
+  // JOGADOR
+  const[px,py]=w2s(P.x,P.y);
+  const poloCfg=SYS.papeis.find(pp=>pp.polo===P.polo);const pc=poloCfg?.col||'#7F77DD';
+  if(!P.super.colapsado){
+    SYS.papeis.slice(0,3).forEach((pp,i)=>{
+      const a=i/SYS.papeis.length*Math.PI*2+FR*.022;
+      ctx.beginPath();ctx.arc(px+Math.cos(a)*4,py+Math.sin(a)*4,P.r*CAM.z*(1.7+.2*Math.sin(FR*.05+i))*.5,0,Math.PI*2);
+      ctx.fillStyle=pp.col+'14';ctx.fill();
+    });
+  }
+  const pg2=ctx.createRadialGradient(px,py,0,px,py,P.r*CAM.z*3.2);pg2.addColorStop(0,pc+'2e');pg2.addColorStop(1,pc+'00');
+  ctx.fillStyle=pg2;ctx.beginPath();ctx.arc(px,py,P.r*CAM.z*3.2,0,Math.PI*2);ctx.fill();
+  ctx.save();ctx.translate(px,py);ctx.rotate(P.angle);const pr=P.r*CAM.z;
+  ctx.beginPath();ctx.moveTo(0,-pr*1.45);ctx.lineTo(-pr*.92,pr);ctx.lineTo(pr*.92,pr);ctx.closePath();
+  ctx.fillStyle=pc+'bb';ctx.fill();ctx.strokeStyle=pc;ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
+  let ci=0;
+  [[P.cryst.h,'#1D9E75'],[P.cryst.c,'#7F77DD'],[P.cryst.n,'#D85A30']].forEach(([has,cc])=>{
+    if(!has)return;const a=ci/3*Math.PI*2+FR*.028;const cr=28*CAM.z;
+    ctx.beginPath();ctx.arc(px+Math.cos(a)*cr,py+Math.sin(a)*cr,4*CAM.z,0,Math.PI*2);ctx.fillStyle=cc;ctx.fill();ci++;
+  });
+  ctx.font=`600 ${Math.round(10*CAM.z)}px monospace`;ctx.fillStyle='#F1EFE8cc';ctx.textAlign='center';ctx.fillText(P.name,px,py-P.r*CAM.z-8);
+  // minimap
+  mctx.clearRect(0,0,80,80);mctx.fillStyle='rgba(3,3,15,.9)';mctx.fillRect(0,0,80,80);const sc=80/WS;
+  BIO.forEach(b=>{mctx.beginPath();mctx.arc(b.x*sc,b.y*sc,b.r*sc*1.3,0,Math.PI*2);mctx.fillStyle=(COL_BIO[b.t]||'#444')+'14';mctx.fill();});
+  NODES.forEach(n=>{if(n.done)return;mctx.beginPath();mctx.arc(n.x*sc,n.y*sc,2.8,0,Math.PI*2);mctx.fillStyle=(COL_BIO[n.p]||'#888')+'aa';mctx.fill();});
+  NPC.forEach(op=>{mctx.beginPath();mctx.arc(op.x*sc,op.y*sc,1.8,0,Math.PI*2);mctx.fillStyle=(COL_BIO[op.p]||'#888')+'80';mctx.fill();});
+  mctx.beginPath();mctx.arc(P.x*sc,P.y*sc,3,0,Math.PI*2);mctx.fillStyle='#F1EFE8';mctx.fill();
+  // dpad
+  const dc=document.getElementById('dp').getContext('2d');dc.clearRect(0,0,110,110);
+  dc.beginPath();dc.arc(55,55,40,0,Math.PI*2);dc.fillStyle='rgba(127,119,221,.05)';dc.fill();dc.strokeStyle='rgba(127,119,221,.15)';dc.lineWidth=1;dc.stroke();
+  if(PAD.on&&(PAD.dx||PAD.dy)){dc.beginPath();dc.arc(55+PAD.dx*38,55+PAD.dy*38,11,0,Math.PI*2);dc.fillStyle='rgba(127,119,221,.5)';dc.fill();}
+  dc.beginPath();dc.arc(55,55,5,0,Math.PI*2);dc.fillStyle='rgba(127,119,221,.2)';dc.fill();
+}
+
+// ── PAD ───────────────────────────────────────────────────────────────────
+const dp=document.getElementById('dp');
+function ps(e){e.preventDefault();PAD.on=true;pm(e);}
+function pm(e){if(!PAD.on)return;e.preventDefault();const t=e.touches?e.touches[0]:e;const r=dp.getBoundingClientRect();const dx=t.clientX-r.left-55,dy=t.clientY-r.top-55;const l=Math.hypot(dx,dy);if(l>6){PAD.dx=dx/Math.max(l,40);PAD.dy=dy/Math.max(l,40);}else{PAD.dx=0;PAD.dy=0;}}
+function pe(){PAD.on=false;PAD.dx=0;PAD.dy=0;}
+dp.addEventListener('touchstart',ps,{passive:false});dp.addEventListener('touchmove',pm,{passive:false});dp.addEventListener('touchend',pe);
+dp.addEventListener('mousedown',ps);window.addEventListener('mousemove',e=>{if(PAD.on)pm(e);});window.addEventListener('mouseup',pe);
+
+// ── START ─────────────────────────────────────────────────────────────────
+function startGame(polo){
+  const nm=document.getElementById('iname').value.trim()||'Operador';
+  P.name=nm;P.polo=polo;
+  document.getElementById('hn').textContent=nm;
+  document.getElementById('hn').style.color=SYS.papeis.find(p=>p.polo===polo)?.col||'#7F77DD';
+  document.getElementById('intro').style.display='none';
+  document.getElementById('spanel').style.display='block';
+  initVars();renderBtns();upHUD();RUN=true;
+  addCh('Y','Bem-vindo, '+nm+'. O sistema é seu.','#AFA9EC');
+  setTimeout(()=>addCh('Sistema','⚙ Botão "Sistema" para definir suas regras.','#CECBF6'),2500);
+  setTimeout(()=>{const n=NODES.find(n=>n.id==='pedra');if(n)openDlg(n,0);},3000);
+  setTimeout(()=>addCh('Inaê','O Operador chegou.',COL_BIO['-1']),8000);
+  setTimeout(()=>addCh('Kaio','Você definiu a condição de vitória?',COL_BIO['0']),18000);
+}
+
+// ── LOOP ──────────────────────────────────────────────────────────────────
+let FR=0,RUN=false;
+function loop(){FR++;if(RUN){phys();draw();}requestAnimationFrame(loop);}
+loop();
+</script>
+</body>
+</html>

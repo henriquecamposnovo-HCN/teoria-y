@@ -1,519 +1,168 @@
-use anchor_lang::prelude::*;
-
-declare_id!("ContYxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-
-// ─────────────────────────────────────────────
-// TEORIA Y -- CONTRACT Y
-// Autor: Henrique Campos Novo, Porto Alegre, 2026
-// Licenca: CC BY 4.0
-//
-// Axioma: Todo sistema que persiste e triadico.
-// Polo (-1): ancora       -- quem entrega / ancora a transacao
-// Polo  (0): mediador     -- GOV API como sistema de aceite
-// Polo (+1): expansao     -- quem recebe / expande
-//
-// Superposicao de Papeis: qualquer CPF/CNPJ pode ocupar
-// qualquer polo. O papel colapsa no momento da transacao.
-// ─────────────────────────────────────────────
-
-#[program]
-pub mod contract_y {
-    use super::*;
-
-    // ─── INSTRUCAO 1: Criar contrato em superposicao ───────────────
-    pub fn criar(
-        ctx: Context<Criar>,
-        params: CriarParams,
-    ) -> Result<()> {
-        let contrato = &mut ctx.accounts.contrato;
-
-        // Validacoes basicas
-        require!(params.valor_centavos > 0, ErroY::ValorInvalido);
-        require!(params.prazo_horas > 0 && params.prazo_horas <= 8760, ErroY::PrazoInvalido);
-        require!(!params.token_aceite_gov.is_empty(), ErroY::TokenGovAusente);
-        require!(
-            params.polo_neg1 != params.polo_pos1,
-            ErroY::PolosIdenticos
-        );
-
-        // Registra contrato -- estado inicial: INDEFINIDO (-1)
-        contrato.polo_neg1        = params.polo_neg1;
-        contrato.polo_pos1        = params.polo_pos1;
-        contrato.valor_centavos   = params.valor_centavos;
-        contrato.token_aceite_gov = params.token_aceite_gov;
-        contrato.tipo_oraculo     = params.tipo_oraculo;
-        contrato.tipo_contrato    = params.tipo_contrato;
-        contrato.classificador    = params.classificador;
-        contrato.aliquota_bps     = params.aliquota_bps;
-        contrato.estado           = Estado::Indefinido;
-        contrato.criado_em        = Clock::get()?.unix_timestamp;
-        contrato.prazo_expira_em  = contrato.criado_em + (params.prazo_horas as i64 * 3600);
-        contrato.bump             = ctx.bumps.contrato;
-
-        emit!(EventoContratoCriado {
-            contrato:      contrato.key(),
-            polo_neg1:     contrato.polo_neg1,
-            polo_pos1:     contrato.polo_pos1,
-            valor:         contrato.valor_centavos,
-            tipo_contrato: contrato.tipo_contrato.clone(),
-            criado_em:     contrato.criado_em,
-        });
-
-        msg!("Contract Y criado. Estado: INDEFINIDO. Polo(-1)={} Polo(+1)={}",
-             contrato.polo_neg1, contrato.polo_pos1);
-        Ok(())
-    }
-
-    // ─── INSTRUCAO 2: Submeter evento de entrega ───────────────────
-    // O polo (-1) submete a prova de que a condicao foi satisfeita.
-    // Transicao: INDEFINIDO -> PENDENTE
-    pub fn submeter(
-        ctx: Context<Submeter>,
-        prova: ProvaEntrega,
-    ) -> Result<()> {
-        let contrato = &mut ctx.accounts.contrato;
-
-        // So pode submeter no estado INDEFINIDO
-        require!(
-            contrato.estado == Estado::Indefinido,
-            ErroY::EstadoInvalido
-        );
-
-        // Verifica que nao expirou
-        let agora = Clock::get()?.unix_timestamp;
-        require!(agora <= contrato.prazo_expira_em, ErroY::ContratoExpirado);
-
-        // Valida que quem submete e o polo (-1)
-        require!(
-            ctx.accounts.submetente.key() == contrato.polo_neg1,
-            ErroY::NaoAutorizado
-        );
-
-        // Registra a prova
-        contrato.prova_hash    = prova.hash;
-        contrato.prova_tipo    = prova.tipo;
-        contrato.prova_ref     = prova.referencia;
-        contrato.submetido_em  = agora;
-        contrato.estado        = Estado::Pendente;
-
-        emit!(EventoSubmetido {
-            contrato:     contrato.key(),
-            prova_hash:   contrato.prova_hash.clone(),
-            prova_tipo:   contrato.prova_tipo.clone(),
-            submetido_em: agora,
-        });
-
-        msg!("Contrato submetido. Estado: PENDENTE. Aguardando aceite GOV.");
-        Ok(())
-    }
-
-    // ─── INSTRUCAO 3: Aceitar -- GOV confirma e polo (+1) recebe ──
-    // Transicao: PENDENTE -> ACEITO
-    pub fn aceitar(
-        ctx: Context<Aceitar>,
-        confirmacao_gov: String,
-        imposto_centavos: u64,
-    ) -> Result<()> {
-        let contrato = &mut ctx.accounts.contrato;
-
-        require!(
-            contrato.estado == Estado::Pendente,
-            ErroY::EstadoInvalido
-        );
-
-        // Valida que quem aceita e o polo (+1)
-        require!(
-            ctx.accounts.aceitante.key() == contrato.polo_pos1,
-            ErroY::NaoAutorizado
-        );
-
-        let agora = Clock::get()?.unix_timestamp;
-        require!(agora <= contrato.prazo_expira_em, ErroY::ContratoExpirado);
-
-        // Registra confirmacao e fecha contrato
-        contrato.confirmacao_gov = confirmacao_gov;
-        contrato.imposto_centavos = imposto_centavos;
-        contrato.fechado_em      = agora;
-        contrato.estado          = Estado::Aceito;
-
-        emit!(EventoAceito {
-            contrato:         contrato.key(),
-            polo_neg1:        contrato.polo_neg1,
-            polo_pos1:        contrato.polo_pos1,
-            valor:            contrato.valor_centavos,
-            imposto:          imposto_centavos,
-            classificador:    contrato.classificador.clone(),
-            fechado_em:       agora,
-        });
-
-        // NOTA: A liquidacao Pix ocorre off-chain via Pix Bridge
-        // que escuta o evento EventoAceito e dispara o Pix.
-        // O hash da transacao Pix e registrado via confirmar_pix().
-
-        msg!("Contrato ACEITO. Valor: {} centavos. Imposto: {} centavos. Aguardando Pix.",
-             contrato.valor_centavos, imposto_centavos);
-        Ok(())
-    }
-
-    // ─── INSTRUCAO 4: Neutro -- GOV aceita com condicoes ──────────
-    // Transicao: PENDENTE -> NEUTRO
-    pub fn neutralizar(
-        ctx: Context<Neutralizar>,
-        motivo: String,
-        condicoes: String,
-    ) -> Result<()> {
-        let contrato = &mut ctx.accounts.contrato;
-
-        require!(
-            contrato.estado == Estado::Pendente,
-            ErroY::EstadoInvalido
-        );
-
-        let agora = Clock::get()?.unix_timestamp;
-        contrato.motivo_neutro = motivo.clone();
-        contrato.fechado_em    = agora;
-        contrato.estado        = Estado::Neutro;
-
-        emit!(EventoNeutro {
-            contrato:  contrato.key(),
-            motivo:    motivo,
-            condicoes: condicoes,
-            em:        agora,
-        });
-
-        msg!("Contrato NEUTRO. Polo (0) se manifestou com condicoes.");
-        Ok(())
-    }
-
-    // ─── INSTRUCAO 5: Recusar ──────────────────────────────────────
-    // Transicao: PENDENTE -> RECUSADO
-    pub fn recusar(
-        ctx: Context<Recusar>,
-        motivo: String,
-    ) -> Result<()> {
-        let contrato = &mut ctx.accounts.contrato;
-
-        require!(
-            contrato.estado == Estado::Pendente,
-            ErroY::EstadoInvalido
-        );
-
-        let agora = Clock::get()?.unix_timestamp;
-        contrato.motivo_neutro = motivo.clone();
-        contrato.fechado_em    = agora;
-        contrato.estado        = Estado::Recusado;
-
-        emit!(EventoRecusado {
-            contrato: contrato.key(),
-            motivo:   motivo,
-            em:       agora,
-        });
-
-        msg!("Contrato RECUSADO. Motivo registrado on-chain.");
-        Ok(())
-    }
-
-    // ─── INSTRUCAO 6: Expirar -- anti-LIMBO ───────────────────────
-    // Qualquer um pode chamar apos o prazo.
-    // Transicao: INDEFINIDO | PENDENTE -> LIMBO
-    pub fn expirar(ctx: Context<Expirar>) -> Result<()> {
-        let contrato = &mut ctx.accounts.contrato;
-
-        let agora = Clock::get()?.unix_timestamp;
-        require!(agora > contrato.prazo_expira_em, ErroY::PrazoNaoExpirou);
-
-        require!(
-            contrato.estado == Estado::Indefinido
-                || contrato.estado == Estado::Pendente,
-            ErroY::EstadoInvalido
-        );
-
-        contrato.fechado_em = agora;
-        contrato.estado     = Estado::Limbo;
-
-        emit!(EventoLimbo {
-            contrato:    contrato.key(),
-            estado_prev: format!("{:?}", contrato.estado),
-            expirado_em: agora,
-        });
-
-        // LIMBO aciona auditoria -- o polo (0) GOV falhou.
-        // O evento e indexado para fins de diagnostico Y.
-        msg!("LIMBO: polo (0) nao fechou no prazo. Auditoria acionada.");
-        Ok(())
-    }
-
-    // ─── INSTRUCAO 7: Confirmar Pix ───────────────────────────────
-    // A Pix Bridge confirma on-chain o hash da transacao Pix.
-    pub fn confirmar_pix(
-        ctx: Context<ConfirmarPix>,
-        hash_pix: String,
-    ) -> Result<()> {
-        let contrato = &mut ctx.accounts.contrato;
-
-        require!(
-            contrato.estado == Estado::Aceito,
-            ErroY::EstadoInvalido
-        );
-
-        contrato.hash_pix = hash_pix.clone();
-
-        emit!(EventoPixConfirmado {
-            contrato: contrato.key(),
-            hash_pix: hash_pix,
-            em:       Clock::get()?.unix_timestamp,
-        });
-
-        msg!("Pix confirmado on-chain. Ciclo Y completo: Z se revelou.");
-        Ok(())
-    }
-}
-
-// ─────────────────────────────────────────────
-// ESTADO -- Os tres polos + estados de erro
-// ─────────────────────────────────────────────
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
-pub enum Estado {
-    Indefinido, // (-1) proposta criada, superposicao mantida
-    Pendente,   //  (0) GOV verificando -- com prazo
-    Aceito,     // (+1) transacao valida, Pix disparado
-    Neutro,     // (+1) aceito com condicoes -- polo (0) se manifestou
-    Recusado,   // (+1) invalido -- motivo registrado
-    Limbo,      // ERRO: polo (0) nao fechou -- auditoria acionada
-}
-
-// ─────────────────────────────────────────────
-// TIPO DE ORACULO
-// ─────────────────────────────────────────────
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
-pub enum TipoOraculo {
-    HashDigital,     // hash do artefato entregue
-    DuplaAssinatura, // ambas as partes assinam on-chain
-    NFeSeafaz,       // numero NF-e consultado na SEFAZ API
-    Iot,             // medicao de dispositivo IOT
-}
-
-// ─────────────────────────────────────────────
-// ACCOUNT: ContractY
-// ─────────────────────────────────────────────
-#[account]
-#[derive(Default)]
-pub struct ContractY {
-    // Polos triádicos
-    pub polo_neg1:         Pubkey,  // (-1) carteira que ancora
-    pub polo_pos1:         Pubkey,  // (+1) carteira que expande
-
-    // Valor e fiscal
-    pub valor_centavos:    u64,
-    pub imposto_centavos:  u64,
-    pub aliquota_bps:      u16,     // basis points (925 = 9.25%)
-    pub classificador:     String,  // classificador fiscal GOV
-
-    // Aceite GOV
-    pub token_aceite_gov:  String,  // JWT do aceite previo
-    pub confirmacao_gov:   String,  // hash do aceite de execucao
-    pub tipo_contrato:     String,  // compra_venda | servico | energia | ...
-
-    // Oraculo
-    pub tipo_oraculo:      TipoOraculo,
-    pub prova_hash:        String,
-    pub prova_tipo:        String,
-    pub prova_ref:         String,  // numero NF-e, ID IOT, etc
-
-    // Estado e tempo
-    pub estado:            Estado,
-    pub criado_em:         i64,
-    pub submetido_em:      i64,
-    pub fechado_em:        i64,
-    pub prazo_expira_em:   i64,
-
-    // Pix
-    pub hash_pix:          String,
-
-    // Diagnostico
-    pub motivo_neutro:     String,
-
-    pub bump:              u8,
-}
-
-impl ContractY {
-    pub const LEN: usize = 8    // discriminator
-        + 32 + 32               // polos
-        + 8 + 8 + 2             // valores
-        + 4 + 32                // classificador
-        + 4 + 256               // token_aceite_gov
-        + 4 + 256               // confirmacao_gov
-        + 4 + 64                // tipo_contrato
-        + 1                     // tipo_oraculo
-        + 4 + 64                // prova_hash
-        + 4 + 32                // prova_tipo
-        + 4 + 128               // prova_ref
-        + 1                     // estado
-        + 8 + 8 + 8 + 8         // timestamps
-        + 4 + 128               // hash_pix
-        + 4 + 256               // motivo_neutro
-        + 1;                    // bump
-}
-
-// ─────────────────────────────────────────────
-// PARAMS
-// ─────────────────────────────────────────────
-#[derive(AnchorSerialize, AnchorDeserialize)]
-pub struct CriarParams {
-    pub polo_neg1:         Pubkey,
-    pub polo_pos1:         Pubkey,
-    pub valor_centavos:    u64,
-    pub prazo_horas:       u16,
-    pub token_aceite_gov:  String,
-    pub tipo_oraculo:      TipoOraculo,
-    pub tipo_contrato:     String,
-    pub classificador:     String,
-    pub aliquota_bps:      u16,
-}
-
-#[derive(AnchorSerialize, AnchorDeserialize)]
-pub struct ProvaEntrega {
-    pub hash:       String,
-    pub tipo:       String,
-    pub referencia: String,
-}
-
-// ─────────────────────────────────────────────
-// CONTEXTS
-// ─────────────────────────────────────────────
-#[derive(Accounts)]
-#[instruction(params: CriarParams)]
-pub struct Criar<'info> {
-    #[account(
-        init,
-        payer = pagador,
-        space = ContractY::LEN,
-        seeds = [
-            b"contract_y",
-            params.polo_neg1.as_ref(),
-            params.polo_pos1.as_ref(),
-        ],
-        bump
-    )]
-    pub contrato: Account<'info, ContractY>,
-
-    #[account(mut)]
-    pub pagador: Signer<'info>,
-
-    pub system_program: Program<'info, System>,
-}
-
-#[derive(Accounts)]
-pub struct Submeter<'info> {
-    #[account(mut, has_one = polo_neg1)]
-    pub contrato:    Account<'info, ContractY>,
-    pub polo_neg1:   SystemAccount<'info>,
-    pub submetente:  Signer<'info>,
-}
-
-#[derive(Accounts)]
-pub struct Aceitar<'info> {
-    #[account(mut, has_one = polo_pos1)]
-    pub contrato:   Account<'info, ContractY>,
-    pub polo_pos1:  SystemAccount<'info>,
-    pub aceitante:  Signer<'info>,
-}
-
-#[derive(Accounts)]
-pub struct Neutralizar<'info> {
-    #[account(mut)]
-    pub contrato:    Account<'info, ContractY>,
-    pub autoridade:  Signer<'info>,
-}
-
-#[derive(Accounts)]
-pub struct Recusar<'info> {
-    #[account(mut)]
-    pub contrato:    Account<'info, ContractY>,
-    pub autoridade:  Signer<'info>,
-}
-
-#[derive(Accounts)]
-pub struct Expirar<'info> {
-    #[account(mut)]
-    pub contrato:    Account<'info, ContractY>,
-    pub chamador:    Signer<'info>,
-}
-
-#[derive(Accounts)]
-pub struct ConfirmarPix<'info> {
-    #[account(mut)]
-    pub contrato:    Account<'info, ContractY>,
-    pub pix_bridge:  Signer<'info>,
-}
-
-// ─────────────────────────────────────────────
-// EVENTOS
-// ─────────────────────────────────────────────
-#[event] pub struct EventoContratoCriado {
-    pub contrato:      Pubkey,
-    pub polo_neg1:     Pubkey,
-    pub polo_pos1:     Pubkey,
-    pub valor:         u64,
-    pub tipo_contrato: String,
-    pub criado_em:     i64,
-}
-#[event] pub struct EventoSubmetido {
-    pub contrato:     Pubkey,
-    pub prova_hash:   String,
-    pub prova_tipo:   String,
-    pub submetido_em: i64,
-}
-#[event] pub struct EventoAceito {
-    pub contrato:      Pubkey,
-    pub polo_neg1:     Pubkey,
-    pub polo_pos1:     Pubkey,
-    pub valor:         u64,
-    pub imposto:       u64,
-    pub classificador: String,
-    pub fechado_em:    i64,
-}
-#[event] pub struct EventoNeutro {
-    pub contrato:  Pubkey,
-    pub motivo:    String,
-    pub condicoes: String,
-    pub em:        i64,
-}
-#[event] pub struct EventoRecusado {
-    pub contrato: Pubkey,
-    pub motivo:   String,
-    pub em:       i64,
-}
-#[event] pub struct EventoLimbo {
-    pub contrato:    Pubkey,
-    pub estado_prev: String,
-    pub expirado_em: i64,
-}
-#[event] pub struct EventoPixConfirmado {
-    pub contrato: Pubkey,
-    pub hash_pix: String,
-    pub em:       i64,
-}
-
-// ─────────────────────────────────────────────
-// ERROS Y
-// ─────────────────────────────────────────────
-#[error_code]
-pub enum ErroY {
-    #[msg("Valor deve ser maior que zero")]
-    ValorInvalido,
-    #[msg("Prazo invalido (1 a 8760 horas)")]
-    PrazoInvalido,
-    #[msg("Token de aceite GOV ausente")]
-    TokenGovAusente,
-    #[msg("Polo (-1) e polo (+1) nao podem ser identicos")]
-    PolosIdenticos,
-    #[msg("Estado invalido para esta operacao")]
-    EstadoInvalido,
-    #[msg("Contrato expirado -- polo (0) nao fechou a tempo")]
-    ContratoExpirado,
-    #[msg("Prazo ainda nao expirou")]
-    PrazoNaoExpirou,
-    #[msg("Nao autorizado para esta operacao")]
-    NaoAutorizado,
-}
+%PDF-1.4
+%���� ReportLab Generated PDF document (opensource)
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 5 0 R /F5 7 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/BaseFont /Courier-Bold /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+>>
+endobj
+5 0 obj
+<<
+/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
+>>
+endobj
+6 0 obj
+<<
+/Contents 15 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 14 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+7 0 obj
+<<
+/BaseFont /Courier /Encoding /WinAnsiEncoding /Name /F5 /Subtype /Type1 /Type /Font
+>>
+endobj
+8 0 obj
+<<
+/Contents 16 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 14 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+9 0 obj
+<<
+/Contents 17 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 14 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+10 0 obj
+<<
+/Contents 18 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 14 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+11 0 obj
+<<
+/Contents 19 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 14 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+12 0 obj
+<<
+/PageMode /UseNone /Pages 14 0 R /Type /Catalog
+>>
+endobj
+13 0 obj
+<<
+/Author (Henrique Campos Novo) /CreationDate (D:20260321191640+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260321191640+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (\(unspecified\)) /Title (Teoria Y -- Aplicacoes) /Trapped /False
+>>
+endobj
+14 0 obj
+<<
+/Count 5 /Kids [ 6 0 R 8 0 R 9 0 R 10 0 R 11 0 R ] /Type /Pages
+>>
+endobj
+15 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 816
+>>
+stream
+Gat=(?#SFN'Rf.GSB#IrY.p/og-^eP<RXpT>P?E62n17LM89McbC9A,;?C8VW1":MpjSc\m]cpTI74*><5<(*o4n@MOZu-FVNHAK<BaP][[)T7cBN1lR7a:&)47_/PmOQ^Am-<0\cB"[SoC!!.l:.A(fqSdXmdM.+dNTKQqhY+>*ajmJo?0(^l>O-\__ST>dXnJDSpNTKB1I07/e/$Vlo`lJBfuE\]kTlgpojV4,?`B'.K=qG,nA9XTX*#SPZLCPBr9IaV'mWRA,:q`!"CUB1r.Bq^Tce6OCfI]<ffWSf$7f@>>3N@Zs1mo1'eqhI1gHq]XQ2[VPm?>!hLl</Pn+&rC($A-pr\q4@J7Rd$N:R(@bdP"j1<d_!NF+^ZCTYZ*8,dmK:Uaf^b-80\Gb*NkhhDV@g,pf3[,4uR;ha*J;A!isTFK>-RcX<RW;?tBjL)^Z1Pn94th)1?Gn"c]]ddI5I'Gb.05`on\):Z0tVJ_#7($<dgLZr6PZ<E_o@F+U*GMp!TVF')4_DuQ(24\//#dG.F<[+rpnXh2.lj1tBl)8_EL]N8-WOB"2*V\N-53Xk:+`&?O_knha>iA/!A>ga#/4XIJZB"35=ApcGKEVOOh-52@1V2iu>CpJ,,In*u&&j;L)m89+6[!fcGgX*OXn4i4'&&kF:27;U<Igtcbk+u;3TkV]%-K0_A<;'C.pYNL\VTm58!^]o<-#JQ:(X]^c+]5k%B(JPrg._n*%-6n!_39r-F`guBV\#mm]*BX(-q[h_V.3KC,G9'-g0aJ;3cjc(`6-P,qng66qUdheHD!@21&22eTo>0~>endstream
+endobj
+16 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 2380
+>>
+stream
+Gau`U=`<(R&:XAWQq+'^'p55n!e#$(Va8_-M6eTATJ*Z?DcoWjQBL$tk`>1kDE4cR[:5fuZ'Ju]1]6Cn%*cT,0@p%rEe$(fGl<p/j03e/-6*&UTAXm6p?,RK#p#X/EVJ>[6LKaK*&!*L*oa*DA&5ruB`[OqLTV9o!>?$T^>jMo9$Q=BUQ!_95/ZJ.>jX;;aMb"ii*V"YWj)?G>/@VjGG^&fk0[E6GBrZb2LiO))q$lH+Ca:tD@k,/I#qQ<8Do[h%Z?Fm@JCOF,Wl9T5Fg\=s#MZ">JiFB@\6/PK?k,92kI\*i7!qB$_5:.JQ(Fa*V"SH":$c8?@rM(Q[8`WO5qV9k"rY9m-XIMNp^VO'TjokR0,CJPVtH(@f"[.7&CT?.[(",:1^FP0RVYo:k16[#.Y3=WHum/oja)nNIIMlF2s8'&$=[c"m8sKkXV3.Iq0`4<%9=jB"$o1:dnqi%4VU`[Q7KO.bGmVIQRRqrUpRrPG?0U8l8:'6tOM!1.kdpMo8_CdI4pu<?+:;6L[H]^X%Z3>mH&cmr?#j/"'leV$8Ne(dk1:/7c<iP2'2_M,qkXSu4![eiG\6$$\ol-A:jocRD6**QJ%;!ac'4"%E8Vk]u+)PX?8gE?)Js6nTm$SL6ZVep?PCF2SV2^-SIbeaq_)OTu]04AIGT(\OI+bZ>lNn];OE.b(_9d7gdsX8@]XcM&oZ`ml>ppeY^OQic&<pq5\W*5>:1W3'%$h"+=QXAgegI24W=)d`;k.R/k8"@LZi)Sfh6iBDa:rU[s2eBaoB&V50ubjSM6B9bT`kl>2m@'O^+C,6ZS<N-$-_f9lihBD^=?W-CE,R/GC4Ocf7L8&`ql3nEnj)/,4YP4pB&)Bg%!=qf!j`-?``NUbu3d<=]&?o0/D\H&W`1<!-fK62*ca>2oP@;/F-lCd(elLYnm-o#H]4g<_Y,s/e4M-Kn!,f-k7D0ZNK9'%_HW/\9e.ih4>s<0.i8H0MGM!s5U`F[.8d2up,,m@\=o1lr<n2P.V'_-+of':><gN<0S6;iR;\O6);!`;(%L%(Wl]Uhmf\HjFD4U/lR$AIqFd6J#C2+?g/<8>fFilmMPLc#eHEpfTIG?:;'\sTe$VEr@2LNVQkPp?&J"/OOW&3CA\)2@/q:MRkA)#e&h?h#h]lkc^':&efe<Na"pt1eIBM&T+JKSQ:M,>+^al:"4aR;HJX;E!J.p+&8B+hcTH_g5RCL'3diM!0!>\\5+iAs9c5OEAZ\f:>7U[9XMR5rn.HY>[r.Xlb7)a]/gKnnPEPg/R;\J']Kn<%.C2YgS+5k4Y3..F!IbA?&_iRD9N(A7*tl,Nc?Bf(k4$8Vm@XCjiKafVY_dhF)=<Vhla#??O2a7><7iW-I-fHQ+qhugmKNetCd',*4R^q2YJlj!^M+`i%&&RMi]&oY"-NIF/d)#Q--P8LAm+2/`+QAtF/WA2^:<ZU)8[Y'=F?RPtZ""5-'aL\2H:=9Crqr3;3+s(-L-k2lB/Lar9&>A$\N%H_C`c\W(OZ@uK@R"]$mS$dK8!Q(?6&A#JmV[MDmB_%1WCA918.:iGHAd32r!j1`O3L?lK5SF\6+\FPR)rWJk4<=s[Y72/BQkpbfXhnS6Tp`/Sgf%@)P]Np.Jf:fedI2l1Q8B2\Fk5n@/0S3iGbRR[P29hYqnmh:6&M=]#_^JrIMiAI=ZG'ige;IlShB.]iZ4&'K+N*;/BLRp\=>&Zem(;3/$ZMN^eiHh(A!fSZJ[g+n"RE>\X)RG?mn:Y+88?F-Pb5_>4\.VaBLl]P9c8>)L?Rg"XqS+dm4T:c[?Qkjeieo@TNnnDs/b`/=+;p/Q#Hc`6_]U8:MSaX%D-TY[J8/Md(!^DXNNFUtl4e0Dh\=Z7eW;t1*C#lXc@#k$#h\5Pu4lgDd^.'n$1Kqj^"VR,WmZ:8R6Q)QhV#9`0g%fd2dNpDGi@a9$9%h)fl<dC':"hO#DeW3pQFF0.[gp.EE0`5]Cj>j+?6RZ4-Msc*lEt]t:;RNp<R62q\[YQRPEs_*4RbmeI2HQ;ghcXU:&f_q#W_cg;jHB\_'eX^B"%([?;),oWbVk`>C5:"Sqh#7%bBmA@$`->!Ebp6;]V(uAGH-bLcrI'IU-@`%rDi<7.MD>.1BpCZ!t:Xa?>ioU:-]fR'[M\h`QM$CF-,g^Q:4)YoWIfc\WRZQN9u8LF,Qt(jCN<B^RVlNPOEH[5'-tL!etA3AhU%RB#p4'^V%'ea3e*?R^2$4<%9]7ZA7j!HGESHg%62eas=BsA:=R%d^)X4*:$&miqEiKER<8C^,o<PQB>CLm'Zq/<+O.0m^u?ZG#!2[5r)0RI,98O(7rWmNDK/NIsA5Jl@6[ckP!iEF1pM&>8hec_k;e\ILB[BfCodr\XhL6lp%Y='3G~>endstream
+endobj
+17 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 2766
+>>
+stream
+Gau0F>Ar:T(4Q"]3%kZLNNJ#JNDqGEE1E_n+Ea3m.$,W+Zp[^CQ,EtdEkB?jq#*`h7cTFs@q?Q?*fHA+%aXf0PSq%,@eOG<&A>TIkH>aXO)FBA"\q<An*&<Hak)`"B&SDT.VZpDJ)Q)I6B3/,Ogi,=kTp6S]eg[197>b[E>5[.@Q/C6569;d:2bg6P1+&)5GsE>/lS>k;%`bfkhi,annTi@Or#WKd?V:EBB6U0oE3qI5rV"Hh?*sJ&id-8-//j2q,3NKr4sG0`L-@trsTZ_i%t6)o*N_=k=N4HFce5F,kPOq..j/=2]7S9oP(hdO.804_;X*sbcLaC%<fT8T#82pM.tp'a7]?9R`De!puWYYM:!G699RA%`($"<p&tI#XBg>DH)(W"r<SkSX'L>)*D9Y\[P<TGX_Ve>op5"+M?jE&6lFD#[T-W(NAD9Al;?@3776e@>30Lloab9i&$V?G0\4Y(>q1(j.E]%8A]c4Z,]4G?O6K<Be3)b?+$XI-@DcnpK,pc@,LXoj[.<?Vr^EpaXib3T.!eXfaQo?tdn6+O9WhBqap_-R;'sj\9;QoR7aN*K>um35HS'F2IuF>VS2`5\hja,BJP^1\*)B9[>5'\=q/4-Y!uPq\qFu.p[j:e^G<"DsGIPWKD8tJ9&%p36m<nZXZX[Fr\tkb_T/P\N45AfgSp\;h*U[gC5<Q74,3lHP$^%1dh\^IuJd=rM>;0g^hV`6+$&uWhcjqA^]:2$IgL4.*U_YkbB7_Uuf*IY6kfYFPncO:S/$0@IKo$la/%H@j=MlS$`H<YUDMeL/XEgp.p:/aRM1SWjo2WaeL<`)_o,Q@9L&QK97A1G]eQDAN9,r>*f_nC+.fV/(<"8(Yh$[C0:US\NV)?\WbS6J^"2A.5_N^+h8243a3kgll&^&1cM(Ja'Y:a-F1Xm^+Oei7C1<n'1I!=h,OJn80)t?HUr#L)Z4MOrsRK\qVE[gEf`\ZT#.nCnl.%qGi1fcO>%#5$LX?\"F)N1=X%g)MuXnbc"'%PT;<]5]s1JCj?s6qh3UK=B:HZJYCXO](g+F_Y[PS[.a-<:14TTI%gTSufNpCB9Bn!bL>N-]9,,lN>4F*c2EFAOZhNU:E^LHaAni2!PKTpNbBeTc8m#_=hC&Rot*Gj__r@?0OH$q\?]cNU.K<W_^:o&d='eLb7(nHhV-D%>fh)4%#e5WINl`5\PmJ0C]mRK),si3o]'W0P4c9i-[OXL1a(\$`k:Q1Cpf&'"K>87J*.&1mTV)WbAg*Fbg<L")!)>o=S'@+Ps$N5^`=[VHD5K#*%1BZ+l8.;X[f4-hit&@u6S"pgD(T6Pr2gJ)*5f]39e$g*?F@puOk$c]5-9,p/+j!1id*oV9c#G@/)P2j6s7qM0$.L_%pSd[7u?^@]IhREfG7;N`k\^A'kA<X@3TUaU%9P,*Pi")RC-;b\'VF<D'B7!(mA9L,;I(#o<R41>,mZ+qMRjdiKGeU=2BX4_g>];j.`gL'a<G?JOUW!;[+nkb%YK3k$fZao1Bj-^kqjXtjk2t2a\ui#m_jhY+E%?#*^sDb^7rt/SCNZ\s"+QK3cK"Oo/C?ACW-F@!P%qDab=:C<>+U)L_b/8(3XJ_D#/K%W:*BM4U"CpOh(]<E/`Pa5,46gT>6YacRcl(8o,F0%\DKGc=J:+")E.3c6T76`%g9>G!!4'+=FRR>(HefA!-F-^&-oGtV?6#a:g%K]%*ehs;+!`k<s.<ZP36,+E013q8/!TkQ6;pM\jAf;`a?$UOSV7Ve\_28E8q'\<Q"N&e4=6l)@#$QnU#u07'o)[Q%2,h?D5@5i+iA&fouLPC3a$Y%61\EBr+L@WCu9+TR4`Nh`&Wh_,ju=!t_d2"!(*3l5i+X*CA4#M3ZM&20b.)6W781!1Wm'?K!N"EFT01I_kcqiNS*ToNEGufrT@BrVDI*YHHcSdEh9271:YlpZ@eYmgkN9o4NmApS+qT7^<bgdE<Hlopq1[oO=)&/'q82(iO1AZ[Ks!a-^2s%40_h0r&Cp@d^t(Rt-m`N?<eNC30kT[CR>2)K+b`bW@"=S(5j*n%(V?Dus/+a;j#5L-Ag$VWg&m^HK&Od0/ae;\6A(dIID+23S21h*cY>.&,9nqgth,eQc]W.CPWr<a&J_Ho_Y[A7KYGi;t-fr>c/;gH)bJ48244a5PG\15ibPSS;TXA'uhu>EkK59Vj24j(IXn1A=7AVr2$E"<Vk,J;^ii<"p>WhthK-dG'2qri>1"0j9_s`\mD"hg9ApM&WKt!7sC+dls]J/XkA\pNCQk]Qlg(pjO3BiW7Bsq?>b`F?TI0#`V"ekk59#]Kd'p\UibhFZ0Vd9OW>$h9PEi\Q*lEmXHQ5n*V-g/]-JlU-Crq%sD4s4e\Sp7i\N+(it\k_q^U=#Y3s"an:fAP-<cU(sd_O:>#<.C_+,ZMYFm6(s>]nb,PYTQ[@UBp:BUXm%W;I*,t*eU!nK8;ZAJRZC+3:$/IF%9h$M'A@*AFmF]I?2#GS"aV!"%RRnQX1=aL)&(&r&hi1Y"3M@eSYF3ZHNU'd";Nn+ORAsBB-?f;5_<f@NMc?,aI85R_F!dN/*N$uIe;`djWiT/CW7.#[^Qo2T$?I[b-MLaL+refpH;-[\IkhWVO9+P7n@^XX!7gJU7H=-"NuYqp]tK,%6YY]=\P[-JW:h"e%%8_+IX#W-I--!h(E6/_(Ya['D#+TcHS>*[Rs'"7d%7kYVdGkf><'mrE*=6ip,/rJLQ*!aiAMIWLobr2;m4R.`/,\2Pm2BYao;BkIuLu~>endstream
+endobj
+18 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 2434
+>>
+stream
+Gau`U=`<%a&:XAWQi_\4RV9rO*[2\(+LU=`7ADiI&g0VLf&B;18oeJaWY+mDGD;I*<0S4H5iYrNGEt%kZZCLMiaC[T00WGL^i)k*^Z*$4/D%ZhB#4$KQnQc,c76tqfgPD2F_8pPD0`oja*#</s4Y>r3$]GhJQLW>#'1f?>MpDX1JA=i7PIspSHKQh^iTo:[UHD'/$2^"IfQWOS-0A5JdWH5FUAMie'C8r_Kc4+c`m>$A@D\DT#FsPn[\d>jX,d0=KQcaGEFGLq.n5[bN/0djVaZ_n$@8BlcbhQcPA-$?jj>piO.6'\81Oj*Tl(sYe@MKUV1TmJrMXX>(Y"e+\W+mO5rLT\u%="UpHV!$/iJ/,eAkibtPVTdS*(BQALQ!\I*F0_pZ3h0Sn'iZ*-I2+#gBPHel!LRi^sU[WY,+rf8[TW=4*3;(,q<1<_O:gIAmUL<7^"Edi/;\@Htr+"("dnHl5e/)8EiH*Nn"RSbYBbqH5,'YBsr/ll]ncXEkA?#:gALo#j6>()PBQJ0s`0an]7fuu2\]H%X?Ld70>2N_?'7.N'gd#Sg)DDbU2VaAJb@"h7Yc@Rp!+L:_VUm]HtPegi.DY`u`.!d0M1\m<Oa\ISAYA7]BPCq*X+=g]$k*_6?L4%ZgHTUX(UW5.3hM4$LB!^Inh8Ou83)c<B3:bDI(CPHp\%s;<0!;&Ys1EaX*a[XYoIB88`eEfj?s@MQ0@-GDkQI+U:bU.9N1!=b`Uk34MT%*lRL4V3L%R+?P^]VqY'Xgio.8W]E@:g.Na6mtCKU7&NcUAeAW>W+q[U9g%YpAIM^D`\<cZ"QedGu2I:[;aCeM4#$]V\N<d8DnGJ^o29\4H;SC"<!7L//mkeN-!9b=DJ&7*$2A>bJCP54K/BD<+d@Yrf0=9g9E,,N3'\G/V:o#SAGW/VE14J"af=PfTYKifH"^Bi`jOe)TnFI$D@H:D5/W_JLf5<X$b/DF[A3L(\TduNMH4`-<qs)V;<^XP>gT6u$,jFHqPq*e%@LH?O!=Iq_<3$I*FDA/"r(Y-RE"bdFZAT'0*qA`>kGPqDe`\;`Ss7\4Ebd>b]GL9oW>"GV.Tt>-J2R^'d0QPu-`H<+$B&aX-T5"Gii"c?cC'(9`('1%"!p=00?dbWnW-*@6=%mI(0ZUSJCT5R<RXVPQOj]b.JMR>37@F25Hp_f5DL(u">pY@@bT/U2EQ9COiPX_Sh.+OW)!O%c,g%bVSsB`ub0_!$rr]_51r97D3f,OA^??QQ:^*_3+5t)<36+'X!Q([6NE;0UQ"PG?1?GB'g<@]@qD!lh\Th<'HgPQ.<jQ5EKrbKR=G;=]+uUDFQ\!r13^j1*9u&m9P!$o$)5Ire[u%g0&alNH!:Rn?9!\FO[F\26/c?.aX"Y$8>15:GbUHq,7kN7hCFbSmMCZYH!S/=/Q+.9#AZ0)i6bYt3_i8#cA41F?WAGdj`/OnE;qApU$`'m9Z=ZCg(N<FDA9IhQO<s`[ZT24^X'9?N*-[ob_oZj/enLp+`$hQq*5l#$cKIj%4f1)q1EW8Gn)uluZZf6:%V+62_=tQMV\%\qJq/!:%B/n`:+"L["+hjlr;PUi*8gEolN`;c"o(9X*eI/,3,EXVCiuUQ79SSdJ@:Ht!S/8?m&g+D8W+M(cc#l7NYM)F3bcfEEE9HneGE"i+As*-,m60mU6C*\l6)1f/]un35RMZ`/8e6fENF]b.]FCB3Gl[=6E9VVe+:0=Dfl+:D9PNm4uG'.9OC7+*&9Wg9ZJ.)SB5'0P3H8Ls&/fd_qq16`Ol^ZXGdGNrVf9&Dc6IGdH:-&L`I:C1mH`o&nkC&fK`la/K2NTM_s+e,c0o147-O+',T]_\.:@O9O@s335i0KA\:@-JW8Go,T^hC^:*H#3L@[u5c6\sUlp,426`#1nCZrTO3BF6Fm.`+eY`H1)_'`@7sL,n&'t.%Eaq0!BW1\&-&jS*6BOksiC6Z5B-#ku!qeDOas;dHSgcH9*UVs$j!+"[LS;r+$lI'Ej3Q*rA<rnba#`n5Us@%Xk@d7hNc_<gZjn,`<C9rL`j'I7qe'Ei=;$'IQ:]>@iGjF9SXP(/0E=7a^C3)WLE&Cm!<I[t-o39@d[[s,CC9eQrH_C!3\)4f6hU6Aq/fl`SB!]+IT!4sWaUCcq9D"FHlHm$XD!iJg:$$0>gb=?*,u^7+GFAK]0'H01MUF_Djpo-cdn\j=O+-Rd!k$6=\tS"omE;::2@:JFGDr4BLpY![>.EC?3T1cR^ZhtXt8Fmj`U?DHZjRfS*c0(4RGoqW2lf]-@58[dsEH@gbG13M>km:(N-S<J!s**#4:*n2))PUhZXelAdDD$YBn\aBM'$bR-lnV1/B@aT/BOrDH/eL(fl#/R:@^4,T'Gon,'aH\&=r5'\uLR7;K(q\^>5<3"m,B'J)bg$?"jt[dAOtG_j%A1=rn';EgWL$ah*956~>endstream
+endobj
+19 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1040
+>>
+stream
+Gat=)9on$e&A@sBb\`n[c&e*eNs1,CZUgNPYt8,+$KT'#>_@aOd>F)c'`%8:dU$&d2Q]j/&g_QXDs#=)8-#Q[89aG$hJD043rpOXm/r/r'sRWGhJQDUX5cgkA6`l0o.7(#=Z!qbZ7`J@7[Z,fJ706QLnj^%Zaq\V!B$4&k7)]ZYhg9<XF`ZFZ[plFZW_'"!T4p4HfGA.3#T5)Y/^P:\ArC+GZMP/m9d*r-"8M-MPac=0:R$5O(r=@!kHt$6qtiBb[XN#75!Nm?WWKXf9JS>=u@%1A6+<bR1U+F=j2$Xa3lk!=Y7bSdWV4?[\&AlR>pbDTr8gSnrfB<je%6M:*k[[gWOdYPp[<GNhok8U"A*7'J>RIoK6q]A=[+R>5f*ZQNn4f!`(4"U?&C(10Kc"^;B`KK+V<;%fKURem!Hn;JNhQSc)&m73r=VC<\UQDhaf_oPVQ[S:Utb[-Fg1WVAMPmB>OiNR>_8"HQ)IjE]#9"PR%eo,)-CJk!L&[g%.9-rAhq+O;Bn__b,@\cII*4+ro1KOuoEPM/4(q<&RALiuJ.plV<JdNN=![0Sa_+g8<=UT50`"glGC5AAC;F0oOQaK"6"K"Qf/P+"K:M"ILM7B\ac'g/%R)t43n8u"c+ObG%:S[.5I<TMH)!*AA5l'17kK9Z(TDTDCc5k:07N8.S,p\O0,I']Z./o(T3Pm7Ml(F0'f8:Y)N+mXc^mW"2^N7.!1(Bs=oLUasQktlS+#U#5?n5O<F;CYul4&5Ffi&2.5iGl.h`O4*,T7#(V[\ITtm,(Br@".$GYImmG/Fh@3\e.dlZ*gM4UXk,0,V3eg4f<TpOQ?3[Zice25nd(PP/^.*`2U_5VM_`ECEOQV)dM5W2TN7gV[CYdk62Sq<&*bUf'e1+*F8F/$A*9r0[m<f\,:OH,iiNYQ`B%:'LJ=AWuG+%P)dU,\.<ZP8Aa6<4]8*,n"s4%3(8.2%l0`H?(BTm\Yjo`?Io-$q!.*;f;BiFUh$3fM-YSq52n7?gid9g;"&ZcW*m7/DqjE%pG#uVI0Tisq"k~>endstream
+endobj
+xref
+0 20
+0000000000 65535 f 
+0000000061 00000 n 
+0000000132 00000 n 
+0000000239 00000 n 
+0000000351 00000 n 
+0000000461 00000 n 
+0000000576 00000 n 
+0000000781 00000 n 
+0000000886 00000 n 
+0000001091 00000 n 
+0000001296 00000 n 
+0000001502 00000 n 
+0000001708 00000 n 
+0000001778 00000 n 
+0000002075 00000 n 
+0000002161 00000 n 
+0000003068 00000 n 
+0000005540 00000 n 
+0000008398 00000 n 
+0000010924 00000 n 
+trailer
+<<
+/ID 
+[<596ea4af2de60e5e2d89f0bcbc258af3><596ea4af2de60e5e2d89f0bcbc258af3>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 13 0 R
+/Root 12 0 R
+/Size 20
+>>
+startxref
+12056
+%%EOF

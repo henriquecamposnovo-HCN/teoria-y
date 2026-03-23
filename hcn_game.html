@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>H · C · N — O Jogo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#080814;--bg2:#0f0f22;--bg3:#16162e;
+  --neg1:#1D9E75;--neg1d:#085041;--neg1l:#9FE1CB;
+  --zero:#7F77DD;--zerod:#3C3489;--zerol:#CECBF6;
+  --pos1:#D85A30;--pos1d:#712B13;--pos1l:#F0997B;
+  --z:#AFA9EC;--zd:#26215C;
+  --text:#F1EFE8;--text2:#B4B2A9;--text3:#5F5E5A;
+  --rad:10px;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;}
+canvas{display:block;position:absolute;top:0;left:0;}
+
+/* HUD */
+#hud{position:absolute;top:0;left:0;right:0;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;z-index:10;pointer-events:none;}
+.hud-left{display:flex;flex-direction:column;gap:3px;}
+.hud-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.hud-label{font-size:10px;color:var(--text3);font-family:monospace;letter-spacing:.05em;}
+.hud-val{font-size:15px;font-weight:600;font-family:monospace;}
+.hv-n{color:var(--neg1);}
+.hv-0{color:var(--zero);}
+.hv-p{color:var(--pos1);}
+.hv-z{color:var(--z);}
+
+/* Z bar */
+#zbar-wrap{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);width:200px;z-index:10;pointer-events:none;}
+.zbar-label{font-size:10px;color:var(--z);font-family:monospace;text-align:center;margin-bottom:4px;letter-spacing:.08em;}
+.zbar-bg{height:8px;background:rgba(127,119,221,.2);border-radius:4px;overflow:hidden;border:0.5px solid rgba(127,119,221,.3);}
+.zbar-fill{height:100%;background:var(--zero);border-radius:4px;transition:width .3s;width:0%;}
+
+/* Controles */
+#controls{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:10;padding:0 10px;}
+.ctrl-btn{flex:1;max-width:90px;padding:10px 6px;border-radius:var(--rad);border:1.5px solid;font-size:12px;font-weight:600;font-family:monospace;cursor:pointer;text-align:center;transition:transform .1s,opacity .1s;background:rgba(0,0,0,.4);-webkit-user-select:none;user-select:none;}
+.ctrl-btn:active{transform:scale(.93);}
+.ctrl-btn.on{opacity:1;}
+.ctrl-btn.off{opacity:.45;}
+.bn{border-color:var(--neg1);color:var(--neg1);}
+.b0{border-color:var(--zero);color:var(--zero);}
+.bp{border-color:var(--pos1);color:var(--pos1);}
+.bz{border-color:var(--z);color:var(--z);max-width:60px;}
+.bn.on{background:rgba(29,158,117,.18);}
+.b0.on{background:rgba(127,119,221,.18);}
+.bp.on{background:rgba(216,90,48,.18);}
+
+/* Overlay */
+#overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;background:rgba(8,8,20,.92);padding:24px;text-align:center;}
+#overlay h1{font-size:28px;font-weight:700;font-family:monospace;color:var(--zero);margin-bottom:6px;letter-spacing:.1em;}
+#overlay .sub{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6;}
+#overlay .axiom{font-size:12px;font-family:monospace;color:var(--z);margin-bottom:24px;line-height:1.9;background:rgba(127,119,221,.08);padding:12px 16px;border-radius:8px;border:0.5px solid rgba(127,119,221,.3);}
+.start-btn{padding:13px 32px;border-radius:var(--rad);border:1.5px solid var(--zero);background:rgba(127,119,221,.15);color:var(--zerol);font-size:14px;font-weight:600;font-family:monospace;cursor:pointer;letter-spacing:.05em;transition:background .2s;}
+.start-btn:hover{background:rgba(127,119,221,.3);}
+
+/* Nivel */
+#nivel-info{position:absolute;top:60px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;text-align:center;}
+.nivel-txt{font-size:11px;font-family:monospace;color:var(--text3);letter-spacing:.06em;}
+.nivel-nome{font-size:13px;font-family:monospace;color:var(--text2);margin-top:2px;}
+
+/* Mensagem */
+#msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:15;pointer-events:none;text-align:center;opacity:0;transition:opacity .3s;}
+.msg-txt{font-size:20px;font-weight:700;font-family:monospace;padding:10px 20px;border-radius:8px;}
+
+/* Game over */
+#gameover{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:20;background:rgba(8,8,20,.95);padding:24px;text-align:center;}
+#gameover h2{font-size:24px;font-family:monospace;color:var(--z);margin-bottom:8px;}
+#gameover .score{font-size:36px;font-weight:700;font-family:monospace;color:var(--zero);margin:12px 0;}
+#gameover .desc{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:20px;}
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<!-- HUD -->
+<div id="hud">
+  <div class="hud-left">
+    <span class="hud-label">NIVEL</span>
+    <span class="hud-val hv-0" id="h-nivel">1</span>
+  </div>
+  <div style="text-align:center;">
+    <div class="hud-label">POLO ATIVO</div>
+    <div class="hud-val" id="h-polo" style="color:var(--neg1)">(-1)</div>
+  </div>
+  <div class="hud-right">
+    <span class="hud-label">PONTOS</span>
+    <span class="hud-val hv-z" id="h-pts">0</span>
+  </div>
+</div>
+
+<!-- Nivel info -->
+<div id="nivel-info">
+  <div class="nivel-txt">MISSAO</div>
+  <div class="nivel-nome" id="h-missao">Restaurar o polo (0)</div>
+</div>
+
+<!-- Z bar -->
+<div id="zbar-wrap">
+  <div class="zbar-label">Z  ·  <span id="h-z">0</span>%</div>
+  <div class="zbar-bg"><div class="zbar-fill" id="zbar"></div></div>
+</div>
+
+<!-- Controles -->
+<div id="controls">
+  <button class="ctrl-btn bn on" id="b-n" ontouchstart="setM('-1')" onclick="setM('-1')">(-1)<br>ancora</button>
+  <button class="ctrl-btn b0 off" id="b-0" ontouchstart="setM('0')" onclick="setM('0')">(0)<br>medeia</button>
+  <button class="ctrl-btn bp off" id="b-p" ontouchstart="setM('+1')" onclick="setM('+1')">(+1)<br>expande</button>
+  <button class="ctrl-btn bz off" id="b-z" onclick="activateZ()">Z</button>
+</div>
+
+<!-- Mensagem flash -->
+<div id="msg"><div class="msg-txt" id="msg-txt"></div></div>
+
+<!-- Overlay inicial -->
+<div id="overlay">
+  <h1>H · C · N</h1>
+  <div class="sub">O jogo da Teoria Y<br>Restaure o polo (0) — salve o sistema</div>
+  <div class="axiom">
+    (-1) Harmonia · ancora o sistema<br>
+    (0)  Coerência · medeia os polos<br>
+    (+1) Novidade · expande e cria<br>
+    Z = fechamento · o sistema persiste
+  </div>
+  <button class="start-btn" onclick="startGame()">INICIAR</button>
+</div>
+
+<!-- Game Over -->
+<div id="gameover">
+  <h2>Z SE REVELOU</h2>
+  <div class="score" id="go-score">0</div>
+  <div class="desc" id="go-desc"></div>
+  <button class="start-btn" onclick="startGame()">JOGAR NOVAMENTE</button>
+</div>
+
+<script>
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+let W, H, CX, CY;
+
+function resize(){
+  W = cv.width  = window.innerWidth;
+  H = cv.height = window.innerHeight;
+  CX = W/2; CY = H/2;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ── ESTADO ──────────────────────────────────────────────────────────────────
+let mode = '-1';
+let pts = 0;
+let zCharge = 0;
+let nivel = 1;
+let frame = 0;
+let running = false;
+let zActivated = false;
+let zCooldown = 0;
+let combo = 0;
+let maxCombo = 0;
+
+const NIVEIS = [
+  {nome:'Restore polo (0)',   target:30, speed:0.6, spawnRate:90,  desc:'O polo (0) está ausente. Coloque polos para restaurar a coerência.'},
+  {nome:'Equilibrar triade', target:50, speed:0.8, spawnRate:70,  desc:'Os polos precisam de equilíbrio. Evite que (+1) domine.'},
+  {nome:'Evitar o LIMBO',    target:65, speed:1.0, spawnRate:55,  desc:'O LIMBO se forma quando o polo (0) falha. Mantenha a mediação.'},
+  {nome:'Convergir para Z',  target:80, speed:1.2, spawnRate:45,  desc:'Leve todos os polos ao centro. Z se revela quando convergem.'},
+  {nome:'H · C · N = sempre',target:95, speed:1.5, spawnRate:35,  desc:'O sistema completo. Todos os polos em proporção perfeita.'},
+];
+
+// ── ENTIDADES ────────────────────────────────────────────────────────────────
+const players = [];   // polos do jogador
+const enemies = [];   // polos do LIMBO (hostis)
+const effects = [];   // efeitos visuais
+const orbs = [];      // orbes de campo Y
+
+// Estrelas de fundo
+const stars = Array.from({length:120},()=>({
+  x:Math.random(),y:Math.random(),
+  s:Math.random()*1.5+0.3,
+  b:Math.random()*0.6+0.2,
+  t:Math.random()*Math.PI*2
+}));
+
+// ── CORES ────────────────────────────────────────────────────────────────────
+const COLORS = {
+  '-1': {fill:'#1D9E75',stroke:'#9FE1CB',glow:'rgba(29,158,117,'},
+  '0':  {fill:'#7F77DD',stroke:'#CECBF6',glow:'rgba(127,119,221,'},
+  '+1': {fill:'#D85A30',stroke:'#F0997B',glow:'rgba(216,90,48,'},
+  'Z':  {fill:'#AFA9EC',stroke:'#EEEDFE',glow:'rgba(175,169,236,'},
+  'L':  {fill:'#E24B4A',stroke:'#F09595',glow:'rgba(226,75,74,'},
+};
+
+// ── POLOS DO JOGADOR ─────────────────────────────────────────────────────────
+function spawnPlayer(polo, x, y){
+  const fstr = polo==='-1'?1.2:polo==='+1'?0.5:0.85;
+  players.push({
+    x, y, polo,
+    vx:(Math.random()-0.5)*0.8,
+    vy:(Math.random()-0.5)*0.8,
+    r: 10,
+    life: 1.0,
+    age: 0,
+    fstr,
+  });
+  spawnEffect(x, y, COLORS[polo].fill, 'spawn');
+  combo++;
+  if(combo>maxCombo) maxCombo=combo;
+  pts += 10 * combo;
+  if(combo>2) showMsg(`COMBO x${combo}!`, COLORS[polo].fill);
+  updateHUD();
+}
+
+// ── INIMIGOS LIMBO ───────────────────────────────────────────────────────────
+function spawnEnemy(){
+  const lado = Math.floor(Math.random()*4);
+  let x,y;
+  if(lado===0){x=Math.random()*W;y=-20;}
+  else if(lado===1){x=W+20;y=Math.random()*H;}
+  else if(lado===2){x=Math.random()*W;y=H+20;}
+  else{x=-20;y=Math.random()*H;}
+  const speed = NIVEIS[nivel-1].speed * (0.8+Math.random()*0.4);
+  enemies.push({
+    x,y,
+    polo:'L',
+    r:10+Math.random()*6,
+    vx:(CX-x)*0.002*speed,
+    vy:(CY-y)*0.002*speed,
+    life:1.0,
+    age:0,
+    rot:0,
+  });
+}
+
+// ── ORBES DE CAMPO ───────────────────────────────────────────────────────────
+function spawnOrb(){
+  const polos=['-1','0','+1'];
+  const polo=polos[Math.floor(Math.random()*3)];
+  const angle=Math.random()*Math.PI*2;
+  const dist=80+Math.random()*120;
+  orbs.push({
+    x:CX+Math.cos(angle)*dist,
+    y:CY+Math.sin(angle)*dist,
+    polo,
+    r:8,
+    phase:Math.random()*Math.PI*2,
+    collected:false,
+  });
+}
+
+// ── EFEITOS ──────────────────────────────────────────────────────────────────
+function spawnEffect(x,y,color,type){
+  effects.push({x,y,color,type,age:0,
+    particles:Array.from({length:type==='spawn'?8:5},()=>({
+      vx:(Math.random()-0.5)*3,
+      vy:(Math.random()-0.5)*3,
+      r:Math.random()*3+1,
+    }))
+  });
+}
+
+// ── FISICA ───────────────────────────────────────────────────────────────────
+function updatePhysics(){
+  // Polos do jogador
+  players.forEach(p=>{
+    p.age++;
+    p.life -= 0.0015;
+
+    // Atracao para Z (centro)
+    const dx=CX-p.x, dy=CY-p.y;
+    const dist=Math.sqrt(dx*dx+dy*dy)+0.1;
+    const f = p.polo==='-1'?0.015:p.polo==='+1'?-0.005:0.01;
+    p.vx += dx/dist * f * p.fstr;
+    p.vy += dy/dist * f * p.fstr;
+
+    // Interacao com outros polos
+    players.forEach(q=>{
+      if(q===p) return;
+      const qx=q.x-p.x, qy=q.y-p.y;
+      const qd=Math.sqrt(qx*qx+qy*qy)+0.1;
+      if(qd>120) return;
+      const same=p.polo===q.polo;
+      const force=same?-0.008:0.005;
+      p.vx+=qx/qd*force;
+      p.vy+=qy/qd*force;
+    });
+
+    // Inimigos afastam
+    enemies.forEach(e=>{
+      const ex=e.x-p.x, ey=e.y-p.y;
+      const ed=Math.sqrt(ex*ex+ey*ey)+0.1;
+      if(ed>80) return;
+      p.vx-=ex/ed*0.02;
+      p.vy-=ey/ed*0.02;
+    });
+
+    p.vx*=0.92; p.vy*=0.92;
+    p.x+=p.vx; p.y+=p.vy;
+
+    // Z charge
+    const dz=Math.sqrt((p.x-CX)**2+(p.y-CY)**2);
+    if(dz<40) zCharge=Math.min(1,zCharge+0.003);
+  });
+
+  // Remover mortos
+  for(let i=players.length-1;i>=0;i--){
+    if(players[i].life<=0){
+      spawnEffect(players[i].x,players[i].y,COLORS[players[i].polo].fill,'die');
+      players.splice(i,1);
+      combo=0;
+    }
+  }
+
+  // Inimigos LIMBO
+  enemies.forEach(e=>{
+    e.age++;
+    e.rot+=0.05;
+    // Mover para o centro
+    const dx=CX-e.x,dy=CY-e.y;
+    const dist=Math.sqrt(dx*dx+dy*dy)+0.1;
+    e.vx+=dx/dist*0.008*NIVEIS[nivel-1].speed;
+    e.vy+=dy/dist*0.008*NIVEIS[nivel-1].speed;
+    e.vx*=0.95;e.vy*=0.95;
+    e.x+=e.vx;e.y+=e.vy;
+
+    // Colisao com polos do jogador
+    players.forEach(p=>{
+      const px=e.x-p.x,py=e.y-p.y;
+      const pd=Math.sqrt(px*px+py*py);
+      if(pd<e.r+p.r){
+        // Polo (0) neutraliza LIMBO
+        if(p.polo==='0'){
+          e.life=0;
+          pts+=50;
+          showMsg('+50 NEUTRALIZADO', '#7F77DD');
+          zCharge=Math.min(1,zCharge+0.05);
+          spawnEffect(e.x,e.y,'#7F77DD','die');
+        } else {
+          p.life=0;
+          zCharge=Math.max(0,zCharge-0.08);
+          spawnEffect(p.x,p.y,'#E24B4A','die');
+        }
+        updateHUD();
+      }
+    });
+
+    // Se chega ao centro -- dano
+    const dz=Math.sqrt((e.x-CX)**2+(e.y-CY)**2);
+    if(dz<25){
+      e.life=0;
+      zCharge=Math.max(0,zCharge-0.12);
+      spawnEffect(CX,CY,'#E24B4A','die');
+      showMsg('LIMBO no polo (0)!','#E24B4A');
+      updateHUD();
+    }
+  });
+  for(let i=enemies.length-1;i>=0;i--){
+    if(enemies[i].life<=0) enemies.splice(i,1);
+  }
+
+  // Orbes
+  orbs.forEach(o=>{ o.phase+=0.04; });
+  orbs.forEach((o,i)=>{
+    if(o.collected) return;
+    players.forEach(p=>{
+      if(p.polo!==o.polo) return;
+      const dx=o.x-p.x,dy=o.y-p.y;
+      if(Math.sqrt(dx*dx+dy*dy)<p.r+o.r+8){
+        o.collected=true;
+        pts+=30;
+        zCharge=Math.min(1,zCharge+0.04);
+        spawnEffect(o.x,o.y,COLORS[o.polo].fill,'spawn');
+        showMsg('+30', COLORS[o.polo].fill);
+        updateHUD();
+      }
+    });
+  });
+  for(let i=orbs.length-1;i>=0;i--){
+    if(orbs[i].collected) orbs.splice(i,1);
+  }
+
+  // Efeitos
+  effects.forEach(e=>{ e.age++; e.particles.forEach(p=>{p.vx*=0.9;p.vy*=0.9;}); });
+  for(let i=effects.length-1;i>=0;i--){
+    if(effects[i].age>30) effects.splice(i,1);
+  }
+
+  // Z cooldown
+  if(zCooldown>0) zCooldown--;
+}
+
+// ── DESENHO ──────────────────────────────────────────────────────────────────
+function draw(){
+  ctx.clearRect(0,0,W,H);
+
+  // Fundo
+  const bg=ctx.createRadialGradient(CX,CY,0,CX,CY,Math.max(W,H)*0.7);
+  bg.addColorStop(0,`rgba(15,10,30,${0.95+zCharge*0.05})`);
+  bg.addColorStop(1,'rgba(8,8,20,1)');
+  ctx.fillStyle=bg;
+  ctx.fillRect(0,0,W,H);
+
+  // Estrelas
+  stars.forEach(s=>{
+    const b=s.b*(0.5+0.5*Math.sin(frame*0.02+s.t));
+    ctx.beginPath();
+    ctx.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);
+    ctx.fillStyle=`rgba(241,239,232,${b})`;
+    ctx.fill();
+  });
+
+  // Grid polar Y
+  for(let r=40;r<=200;r+=40){
+    ctx.beginPath();
+    ctx.arc(CX,CY,r*(1+zCharge*0.1),0,Math.PI*2);
+    ctx.strokeStyle=`rgba(127,119,221,${0.04+zCharge*0.04})`;
+    ctx.lineWidth=0.5;
+    ctx.stroke();
+  }
+  for(let a=0;a<6;a++){
+    const angle=a/6*Math.PI*2+frame*0.003;
+    ctx.beginPath();
+    ctx.moveTo(CX,CY);
+    ctx.lineTo(CX+Math.cos(angle)*200,CY+Math.sin(angle)*200);
+    ctx.strokeStyle=`rgba(127,119,221,0.04)`;
+    ctx.lineWidth=0.5;
+    ctx.stroke();
+  }
+
+  // Z central
+  const zr=22+8*Math.sin(frame*0.06)+zCharge*20;
+  // aura
+  const zaura=ctx.createRadialGradient(CX,CY,0,CX,CY,zr*2.5);
+  zaura.addColorStop(0,`rgba(127,119,221,${0.15+zCharge*0.35})`);
+  zaura.addColorStop(1,'rgba(127,119,221,0)');
+  ctx.fillStyle=zaura;
+  ctx.beginPath();
+  ctx.arc(CX,CY,zr*2.5,0,Math.PI*2);
+  ctx.fill();
+  // nucleo
+  ctx.beginPath();
+  ctx.arc(CX,CY,zr,0,Math.PI*2);
+  ctx.fillStyle=`rgba(60,52,137,${0.7+zCharge*0.3})`;
+  ctx.fill();
+  ctx.strokeStyle=`rgba(175,169,236,${0.5+zCharge*0.5})`;
+  ctx.lineWidth=1.5;
+  ctx.stroke();
+  ctx.font=`700 ${Math.round(zr*0.65)}px monospace`;
+  ctx.fillStyle=`rgba(238,237,254,${0.8+zCharge*0.2})`;
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText('Z',CX,CY);
+  ctx.textBaseline='alphabetic';
+
+  // Orbes
+  orbs.forEach(o=>{
+    if(o.collected) return;
+    const c=COLORS[o.polo];
+    const pulse=1+0.2*Math.sin(o.phase);
+    // glow
+    const og=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r*3);
+    og.addColorStop(0,c.glow+'0.2)');
+    og.addColorStop(1,c.glow+'0)');
+    ctx.fillStyle=og;
+    ctx.beginPath();
+    ctx.arc(o.x,o.y,o.r*3,0,Math.PI*2);
+    ctx.fill();
+    // corpo
+    ctx.beginPath();
+    ctx.arc(o.x,o.y,o.r*pulse,0,Math.PI*2);
+    ctx.fillStyle=c.fill+'88';
+    ctx.fill();
+    ctx.strokeStyle=c.stroke;
+    ctx.lineWidth=1;
+    ctx.stroke();
+    ctx.font='500 9px monospace';
+    ctx.fillStyle=c.stroke;
+    ctx.textAlign='center';
+    ctx.fillText(o.polo,o.x,o.y+3);
+  });
+
+  // Inimigos LIMBO
+  enemies.forEach(e=>{
+    const c=COLORS['L'];
+    ctx.save();
+    ctx.translate(e.x,e.y);
+    ctx.rotate(e.rot);
+    // glow
+    const eg=ctx.createRadialGradient(0,0,0,0,0,e.r*2.5);
+    eg.addColorStop(0,c.glow+'0.3)');
+    eg.addColorStop(1,c.glow+'0)');
+    ctx.fillStyle=eg;
+    ctx.beginPath();
+    ctx.arc(0,0,e.r*2.5,0,Math.PI*2);
+    ctx.fill();
+    // forma irregular
+    ctx.beginPath();
+    for(let i=0;i<8;i++){
+      const a=i/8*Math.PI*2;
+      const r=e.r*(0.7+0.3*Math.sin(i*2.3+e.age*0.1));
+      i===0?ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r):ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+    }
+    ctx.closePath();
+    ctx.fillStyle='rgba(226,75,74,0.7)';
+    ctx.fill();
+    ctx.strokeStyle='#F09595';
+    ctx.lineWidth=1;
+    ctx.stroke();
+    ctx.restore();
+    // label
+    ctx.font='600 8px monospace';
+    ctx.fillStyle='#F09595';
+    ctx.textAlign='center';
+    ctx.fillText('L',e.x,e.y+3);
+  });
+
+  // Polos do jogador
+  players.forEach(p=>{
+    const c=COLORS[p.polo];
+    const pulse=1+0.15*Math.sin(p.age*0.08);
+    // glow
+    const pg=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+    pg.addColorStop(0,c.glow+`${0.25*p.life})`);
+    pg.addColorStop(1,c.glow+'0)');
+    ctx.fillStyle=pg;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);
+    ctx.fill();
+    // corpo
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r*pulse,0,Math.PI*2);
+    ctx.fillStyle=c.fill+Math.round(p.life*200).toString(16).padStart(2,'0');
+    ctx.fill();
+    ctx.strokeStyle=c.stroke;
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+    // simbolo
+    ctx.font='600 9px monospace';
+    ctx.fillStyle=c.stroke;
+    ctx.textAlign='center';
+    ctx.fillText(p.polo,p.x,p.y+3);
+    // vida bar
+    ctx.fillStyle=`rgba(255,255,255,0.15)`;
+    ctx.fillRect(p.x-p.r,p.y+p.r+3,p.r*2,2);
+    ctx.fillStyle=c.fill;
+    ctx.fillRect(p.x-p.r,p.y+p.r+3,p.r*2*p.life,2);
+  });
+
+  // Efeitos de particulas
+  effects.forEach(e=>{
+    const alpha=1-e.age/30;
+    e.particles.forEach(p=>{
+      p.x=(p.x||e.x)+p.vx;
+      p.y=(p.y||e.y)+p.vy;
+      ctx.beginPath();
+      ctx.arc(p.x||e.x,p.y||e.y,p.r*alpha,0,Math.PI*2);
+      ctx.fillStyle=e.color+Math.round(alpha*180).toString(16).padStart(2,'0');
+      ctx.fill();
+    });
+  });
+
+  // Z pulse quando ativado
+  if(zActivated){
+    const zp=ctx.createRadialGradient(CX,CY,0,CX,CY,200);
+    zp.addColorStop(0,'rgba(175,169,236,0.3)');
+    zp.addColorStop(1,'rgba(175,169,236,0)');
+    ctx.fillStyle=zp;
+    ctx.fillRect(0,0,W,H);
+  }
+}
+
+// ── HUD ──────────────────────────────────────────────────────────────────────
+function updateHUD(){
+  document.getElementById('h-pts').textContent=pts;
+  document.getElementById('h-z').textContent=Math.round(zCharge*100);
+  document.getElementById('zbar').style.width=Math.round(zCharge*100)+'%';
+  document.getElementById('h-nivel').textContent=nivel;
+  const nv=NIVEIS[nivel-1];
+  if(nv) document.getElementById('h-missao').textContent=nv.nome;
+}
+
+// ── MENSAGEM FLASH ────────────────────────────────────────────────────────────
+let msgTimer=null;
+function showMsg(txt,color){
+  const el=document.getElementById('msg');
+  const et=document.getElementById('msg-txt');
+  et.textContent=txt;
+  et.style.color=color;
+  et.style.background=color+'22';
+  et.style.border=`1px solid ${color}44`;
+  el.style.opacity='1';
+  clearTimeout(msgTimer);
+  msgTimer=setTimeout(()=>el.style.opacity='0',900);
+}
+
+// ── MODO ─────────────────────────────────────────────────────────────────────
+function setM(m){
+  mode=m;
+  ['b-n','b-0','b-p'].forEach(id=>document.getElementById(id).classList.add('off'));
+  ['b-n','b-0','b-p'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  const map={'-1':'b-n','0':'b-0','+1':'b-p'};
+  document.getElementById(map[m]).classList.remove('off');
+  document.getElementById(map[m]).classList.add('on');
+  const c=COLORS[m];
+  document.getElementById('h-polo').textContent=m;
+  document.getElementById('h-polo').style.color=c.fill;
+}
+
+// ── PODER Z ──────────────────────────────────────────────────────────────────
+function activateZ(){
+  if(zCooldown>0||zCharge<0.5) return;
+  zActivated=true;
+  zCooldown=300;
+  // Empurra todos os inimigos
+  enemies.forEach(e=>{
+    const dx=e.x-CX,dy=e.y-CY;
+    const d=Math.sqrt(dx*dx+dy*dy)+0.1;
+    e.vx+=dx/d*8;
+    e.vy+=dy/d*8;
+  });
+  // Restaura vida de todos os polos
+  players.forEach(p=>{ p.life=Math.min(1,p.life+0.3); });
+  zCharge=Math.max(0,zCharge-0.4);
+  pts+=100;
+  showMsg('Z ATIVADO! +100','#AFA9EC');
+  updateHUD();
+  setTimeout(()=>zActivated=false,800);
+}
+
+// ── CLIQUE / TOQUE ───────────────────────────────────────────────────────────
+function handleInput(x,y){
+  if(!running) return;
+  spawnPlayer(mode,x,y);
+}
+
+cv.addEventListener('click',e=>{
+  handleInput(e.clientX,e.clientY);
+});
+cv.addEventListener('touchstart',e=>{
+  e.preventDefault();
+  Array.from(e.changedTouches).forEach(t=>handleInput(t.clientX,t.clientY));
+},{passive:false});
+
+// ── PROGRESSAO DE NIVEL ──────────────────────────────────────────────────────
+function checkNivel(){
+  const nv=NIVEIS[nivel-1];
+  if(!nv) return;
+  if(zCharge*100>=nv.target){
+    if(nivel>=NIVEIS.length){
+      endGame(true);
+      return;
+    }
+    nivel++;
+    zCharge=Math.max(0,zCharge-0.3);
+    showMsg(`NIVEL ${nivel}!`,'#AFA9EC');
+    updateHUD();
+    // Limpar inimigos
+    enemies.length=0;
+  }
+  // Game over se Z cai demais
+  if(zCharge<0&&players.length===0&&enemies.length>5){
+    endGame(false);
+  }
+}
+
+// ── FIM DE JOGO ──────────────────────────────────────────────────────────────
+function endGame(win){
+  running=false;
+  const go=document.getElementById('gameover');
+  go.style.display='flex';
+  document.getElementById('go-score').textContent=pts;
+  const desc=win
+    ?`Z se revelou. Nivel ${nivel} completo.\nCombo maximo: x${maxCombo}\nH · C · N = sempre`
+    :`O LIMBO capturou o polo (0).\nPontos: ${pts} · Combo: x${maxCombo}\nTente novamente.`;
+  document.getElementById('go-desc').textContent=desc;
+  document.getElementById('go-desc').style.color=win?'#AFA9EC':'#F09595';
+}
+
+// ── LOOP PRINCIPAL ───────────────────────────────────────────────────────────
+let spawnCounter=0;
+let orbCounter=0;
+
+function loop(){
+  if(running){
+    frame++;
+    spawnCounter++;
+    orbCounter++;
+
+    const nv=NIVEIS[nivel-1];
+
+    // Spawn inimigos
+    if(spawnCounter>=nv.spawnRate){
+      spawnEnemy();
+      spawnCounter=0;
+    }
+
+    // Spawn orbes
+    if(orbCounter>=120&&orbs.length<6){
+      spawnOrb();
+      orbCounter=0;
+    }
+
+    updatePhysics();
+    checkNivel();
+    updateHUD();
+  }
+
+  draw();
+  requestAnimationFrame(loop);
+}
+
+// ── INICIAR ──────────────────────────────────────────────────────────────────
+function startGame(){
+  document.getElementById('overlay').style.display='none';
+  document.getElementById('gameover').style.display='none';
+  players.length=0; enemies.length=0;
+  effects.length=0; orbs.length=0;
+  pts=0; zCharge=0; nivel=1;
+  frame=0; combo=0; maxCombo=0;
+  zCooldown=0; zActivated=false;
+  setM('-1');
+  updateHUD();
+  running=true;
+}
+
+loop();
+</script>
+</body>
+</html>
