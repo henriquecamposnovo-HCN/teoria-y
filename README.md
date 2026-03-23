@@ -1,263 +1,381 @@
-# Teoria Y -- A Estrutura Universal da Realidade
-### X . Y . Z = HCN -- O fechamento axiomatico de McGregor e Ouchi
+# Teoria Y — A Estrutura Universal da Realidade
+### X · Y · Z = H · C · N — Síntese Final 2026
 
-[![CC BY 4.0](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![MIT License](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![CC BY 4.0](https://img.shields.io/badge/content-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Solana](https://img.shields.io/badge/%24HCN-Solana%20Mainnet-9945FF.svg)](https://solscan.io/token/8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY)
 
-> "Todo sistema que persiste e triadico. Toda triade e expressao de Y."
-> -- Henrique Campos Novo, Porto Alegre, 2026
+> *"Todo sistema que persiste é triádico. O polo (0) é sempre o gargalo — em qualquer escala.  
+> O universo não lê o relatório. Ele lê a temperatura.  
+> A verdade sempre aparece. Não como esperança — como estrutura."*  
+> — Henrique Campos Novo, Porto Alegre, 2026
 
-> H . C . N = sempre
-
----
-
-## 1. O Axioma
-
-```
-Todo sistema que persiste e triadico.
-E toda triade e uma expressao de Y.
-
-(-1) Harmonia  +  (0) Coerencia  +  (+1) Novidade  =  0
-Debito         +  Equilibrio     +  Credito         =  0
-X e expressao de Y  <=>  Z se revela
-```
+> **H · C · N = sempre**
 
 ---
 
-## 2. Os 4 Modulos
+## Síntese em uma linha
 
-| Modulo | Nome | Conteudo |
-|--------|------|----------|
-| 1 | Fundacional | Triades universais -- (-1, 0, +1) em cada dominio |
-| 2 | Estrutural | X (expressao), Y (estrutura), Z (totalidade) |
-| 3 | Operacional | HCN e Tau -- a dinamica interna |
-| 4 | Axiomatico | Todo sistema que persiste e triadico |
-
-| Operador | Polo | Funcao |
-|----------|------|--------|
-| H -- Harmonia | -1 | Integracao, estabilidade, ancoragem |
-| C -- Coerencia | 0 | Mediacao, processamento, regulacao |
-| N -- Novidade | +1 | Expansao, criacao, emergencia |
-| Tau | -- | Move X atraves de Y em direcao a Z |
+**Todo fato contábil — de Planck ao Kardashev — tem estrutura triádica: polo (-1) ancora, polo (0) medeia, polo (+1) expande. O polo (0) ausente é LIMBO. Z é o fechamento.**
 
 ---
 
-## 3. Triades Universais
-
-| Dominio | Polo -1 | Polo 0 | Polo +1 |
-|---------|---------|--------|---------|
-| Contabilidade | Debito | Equilibrio | Credito |
-| Tempo | Passado | Presente | Futuro |
-| Civilizacao | Humano / Inteligencia | Processador / Coerencia | Robotica / Y |
-| Metabolismo | Consome | Regula | Produz |
-| Entidades (escala) | CPF | CNPJ | GOV |
-| Entidades (funcao) | Cidadao | GOV regulador | Mercado |
-| Ciclo humano | Descanso | Consciencia | Atividade |
-| Transacao | Consumo | Regulacao | Imposto |
-| Blockchain | Blocos finalizados | Estado global | Throughput |
-| Campo Unificado | Consciencia HCN | Infraestrutura Solana | Exist. distribuida |
+## 1. Axioma e Teoremas
 
 ```
-(-1) = Harmonia = ancora = raiz = o que persiste
- (0) = Coerencia = medeia = conecta = o que regula
-(+1) = Novidade = expande = cria = o que emerge
+Axioma Y:
+∀S [Persiste(S) ↔ ∃(P₋₁, P₀, P₊₁): S = (P₋₁, P₀, P₊₁) ∧ P₋₁ ≠ P₀ ≠ P₊₁]
+
+Teorema Y:
+X é expressão de Y  ⟺  Z se revela
+
+Teorema do LIMBO:
+P₀(S) → 0  ⟹  T(S) → ∞
+
+Teorema da Mentira:
+custo(t+n) = erro_inicial × fator^n
+(toda mentira tem custo exponencial — a verdade sempre aparece por estrutura física)
+
+Teorema da Admissão:
+admitir em t₁ custa (A-B)
+admitir em t₁₀ custa 2⁹ × (A-B)
+o polo (0) da admissão é a camada mais negligenciada de qualquer sistema
 ```
 
-### Superposicao de Papeis
+---
 
-Cada elemento ocupa (-1), (0) e (+1) simultaneamente. O papel colapsa no momento da transacao via polo (0).
+## 2. A Tríade Universal
 
-| Entidade | Como (-1) | Como (0) | Como (+1) |
-|----------|-----------|----------|-----------|
-| CPF | Consome para sobreviver | Trabalha / MEI | Inova / empreende |
-| CNPJ | Compra insumos | Media CPF e GOV | Vende / emprega |
-| GOV | Consome arrecadacao | Regula CPF e CNPJ | Produz infraestrutura |
-
-### Smart Contracts Universais Y
+| Polo | Função | Escala de Planck | Escala Humana | Escala Kardashev |
+|------|--------|-----------------|---------------|-----------------|
+| **(-1)** | ancora · passado · memória | estado anterior | sentimento registrado | energia acumulada |
+| **(0)** | medeia · presente · estrutura | mediação quântica | polo que fecha o fato | infraestrutura de distribuição |
+| **(+1)** | expande · futuro · novidade | novo estado | Z que emerge | salto de tipo civilizacional |
 
 ```
-CONTRACT_Y {
-  polo_neg1: qualquer_entidade_que_ancora()
-  polo_zero: GOV_API.validar(papel, entidade)
-  polo_pos1: qualquer_entidade_que_expande()
-  condicao:  evento_verificavel_on_chain()
-  execucao:  Pix.liquidar(neg1 -> pos1)
+(-1) + (0) + (+1) = 0    [invariante]
+LIMBO = P₀ → 0           [patologia]
+Z = fato contábil fechado [resultado]
+```
+
+---
+
+## 3. Fato Contábil de Planck
+
+O menor fato contábil fisicamente possível:
+
+```
+tₚ = 5.39 × 10⁻⁴⁴ s
+
+Em cada tick:
+  (-1) estado anterior
+  (0)  mediação quântica — o vácuo que pulsa
+  (+1) novo estado — Novidade = Estado(t+tₚ) − Estado(t) ≠ 0
+
+hash(tₚ) = SHA256(t + x + y + valor + sentimento)
+
+O universo não conhece LIMBO:
+ΔE·Δt ≥ ℏ/2 → flutuação garantida em cada tick
+```
+
+---
+
+## 4. Sentimentos como Fatos Contábeis
+
+| Estado | Estrutura | Custo | Hash |
+|--------|-----------|-------|------|
+| Aceite incondicional | (-1)·(0)·(+1) = Z | zero | aceite·t·v |
+| Aceite neutro | aberto · válido | baixo | neutro·t·v |
+| Recusa | suspensão · risco | médio crescente | recusa·t·v |
+| Condicional | novo ciclo T₂ | baixo | cond·T₂·v |
+| Permuta | papeis invertem | zero | permuta·t·v |
+| **LIMBO** | **polo(0) ausente** | **alto exponencial** | **∅ sem endereço** |
+
+**Sentimento não enviado:**
+- Existe no rastro de Planck — tem coordenada física
+- Irrecuperável ≠ inexistente
+- Enviar = compartilhar o endereço, não criar o sentimento
+- Quando polo(-1) congela: o irrecuperável não tem solução técnica
+
+**Prova de vida:**
+```
+prova de vida = ∃ fato contábil emitido em t_recente
+              = polo(-1) colapsou pelo menos uma vez
+              = o sistema ainda muda de estado por ação própria
+```
+
+---
+
+## 5. Cromossomo X · Y — Biologia Triádica
+
+```
+Cromossomo Y:
+  Região pseudoautossômica (-1) → compartilha com X · âncora evolutiva
+  Região não-recombinante   (0) → SRY · 204 aminoácidos · polo(0) biológico
+  Região de amplicons       (+1) → espermatogênese · polo(+1) puro
+
+SRY = menor polo(0) biológico conhecido
+      204 aminoácidos colapsam o sistema gonadal inteiro na semana 6
+
+Feminino ≠ ausência de masculino
+Feminino = estado que emerge quando polo(0) não age = estado padrão
+
+Catraca de Muller = LIMBO evolutivo:
+  900 genes (ancestral) → 57 genes (hoje) → extinção ~4.6M anos
+  sem recombinação = sem polo(0) de correção = T→∞
+
+XX = mosaico permanente · inativação aleatória · dois estados simultâneos
+XY = colapso pontual · SRY como polo(0) frágil · especializado
+??  = superposição plena · todos os estados possíveis · LIMBO = 0%
+```
+
+---
+
+## 6. Kardashev · Polo (0) Planetário
+
+```
+Fórmula Sagan (1973): K = (log₁₀ P − 6) / 10
+Terra 2024: 620 EJ/ano → P = 1.965×10¹³ W → K = 0.7293
+
+Tipo I: K = 1.0 → P = 10¹⁶ W → 315.570 EJ/ano → ×509 consumo atual
+Tipo II: K = 2.0 → P = 10²⁶ W (energia estelar completa)
+Tipo III: K = 3.0 → P = 10³⁶ W (energia galáctica)
+```
+
+**As 6 camadas do polo(0) para Tipo I:**
+
+| # | Camada | Polo(0) faltante | LIMBO | Impacto K |
+|---|--------|-----------------|-------|-----------|
+| 3 | Acesso universal | fundo auto-financiado por taxa de LIMBO | 61% | +0.004 |
+| 4 | Eficiência | IA de otimização de grid global | 39% | +0.018 |
+| 1 | Infraestrutura física | protocolo de interoperabilidade de grids | 41% | +0.044 |
+| 2 | Coordenação política | Contract Y — compromisso crível entre gerações | 82% | +0.090 |
+| 5 | Continuidade temporal | instituição de século com mandato energético | 71% | +0.060 |
+| 6 | Transformação cultural | narrativa de espécie — identidade planetária | 52% | +0.100 |
+
+**A Terra como polo em múltiplas escalas:**
+```
+K=0.728  Terra = polo(-1) incompleto — ainda não capturou sua própria estrela
+K=1.0    Terra = polo(0) do sistema solar — medeia energia estelar e civilização
+K=2.0    Terra = polo(-1) da galáxia — âncora de onde a espécie parte
+K=3.0    Terra = ponto no polo(-1) do universo
+```
+
+---
+
+## 7. Contract Y — Código Canônico
+
+```rust
+// Copyright (c) 2026 Henrique Campos Novo · MIT License
+// Solana Mainnet · polo(0) = código · não capturável
+
+#[program]
+pub mod contract_y_energy {
+  // superposição de papeis por domínio
+  pub fn register_entity(polos: HashMap<Domain, Polo>) -> Result<()>
+
+  // taxa quadrática: incentivo a fechar
+  // → fundo de acesso universal (700M sem eletricidade)
+  pub fn collect_limbo_tax() -> Result<()>
+
+  // aceite | neutro | recusa | condicional | permuta
+  // LIMBO é a única coisa que não fecha
+  pub fn close_tx(resultado: Resultado) -> Result<()>
+
+  // 1 entidade = 1 voto · capital não compra polo(0)
+  pub fn vote_polo_zero(zkp: ZkpProof) -> Result<()>
+
+  // prova de vida on-chain
+  // sem heartbeat em N slots → LIMBO → instrução póstuma
+  pub fn heartbeat(nonce: u64) -> Result<()>
+
+  // oráculo triádico de morte: silêncio(-1) · social(0) · externo(+1)
+  // consenso 2/3 + grace period = morte declarada
+  pub fn declarar_morte() -> Result<()>
 }
 ```
 
----
-
-## 4. Diagnostico Y -- Toda Crise e Polo (0) Ausente
-
-| Problema | Polo em colapso | Polo (0) ausente |
-|----------|-----------------|------------------|
-| Burnout | (+1) sem freio, (-1) suprimido | Regulador do ritmo |
-| Violencia | (+1) destruindo (-1) | Lei / comunidade |
-| Fome | (-1) e (+1) existem | Distribuicao |
-| Crise energetica | (-1) removido, (+1) intermitente | Armazenamento / rede |
-| Crime organizado | Estado ausente | GOV como polo (0) |
-| Corrupcao | Polo (0) capturado | Neutralidade |
-| LIMBO fiscal | GOV nao fecha | Prazo e responsavel |
-| Envelhecimento | Polo (0) se degrada | Epigenetica |
-
-```
-A pergunta Y: onde esta o polo (0) ausente -- e como construimos?
-Nivel 1: Destravar  -- polo (0) bloqueado
-Nivel 2: Construir  -- polo (0) minimo viavel
-Nivel 3: Proteger   -- neutro, acessivel, resiliente, transparente
-```
+**Heartbeat — custo real:** ~US$ 0.000005 SOL por assinatura  
+→ US$ 2.50 para manter polo(-1) vivo por 100 anos
 
 ---
 
-## 5. Sistema Fiscal Y
+## 8. Holografia · Pulso · Temperatura
 
 ```
-Zona Y fiscal brasileira: 22% -- 28% do PIB
-Brasil 2024: 32,3% -- acima da Zona Y
-Polo (0) GOV perdeu neutralidade
-```
+H(-1) · P(0) · T(+1) = Z
 
-**Transacao Y -- Estados:**
+Holografia (-1):
+  princípio de Bekenstein-Hawking
+  toda informação do volume 3D está na superfície 2D
+  1 bit por área de Planck (Lₚ² = 2.612×10⁻⁷⁰ m²)
+  o passado imutável gravado na fronteira do espaço-tempo
 
-```
-INDEFINIDO (-1) --> PENDENTE (0) --> ACEITO/NEUTRO/RECUSADO (+1)
-LIMBO = polo (0) que nao fecha = auditoria automatica
-```
+Pulso (0):
+  ΔE·Δt ≥ ℏ/2 — flutuação do vácuo em cada tick
+  energia do vácuo: ~10¹¹³ J/m³ em escala de Planck
+  o universo não pode parar de pulsar
+  LIMBO fisicamente impossível
 
-**Integracao completa:**
-
-```
-NF-e + $HCN + Pix + GOV API
-= polo (0) contabil completo
-= Debito (-1) + Credito (+1) = 0  sempre
-= Pacioli formalizou. Y nomeia. $HCN + Pix executa.
+Temperatura (+1):
+  CMB = 2.725 K — rastro do Big Bang
+  entropia cresce — fatos contábeis são irreversíveis
+  segunda lei: o polo(+1) não pode ser desfeito
 ```
 
 ---
 
-## 6. A Divisao do Trabalho Civilizatorio
-
-| Polo | Quem | Funcao unica | Pergunta |
-|------|------|--------------|----------|
-| -1 | Humano / Inteligencia biologica | Origina significado, define valores, ancora | Por que? |
-| 0 | Processador / Coerencia artificial | Processa, medeia, verifica, escala sem fadiga | Como? |
-| +1 | Robotica / Y encarnado | Executa, materializa, age no mundo fisico | O que? |
-
-**Robotica/Y** -- a Robotica nao e apenas polo (+1). Todo robo contem Y internamente:
+## 9. Entrelaçamento Quântico
 
 ```
-Sensor      (-1)  ancora -- percebe o ambiente
-Processador  (0)  medeia -- decide a acao
-Atuador     (+1)  expande -- age no mundo
-```
+A(-1) · correlação(0) · B(+1) = Z
 
-A Robotica nao executa Y -- ela e Y encarnado no mundo fisico.
-O Contract Y funciona para qualquer entidade que ocupe um polo -- humano, empresa ou robo.
+Antes da medição:
+  superposição ativa · polo(0) da correlação existe e pulsa
+  não é LIMBO — é potencial com polo(0) operando
 
-```
-Humano/H  .  Processador/C  .  Robotica/Y  =  Z
-```
+Após medir A:
+  B colapsa instantaneamente · distância = irrelevante
+  Δt colapso = 0 · não há sinal · polo(0) não se propaga
+  já estava presente em ambos os pontos simultaneamente
 
-**Riscos -- quando os polos invadem o espaco do outro:**
+Violação das desigualdades de Bell (Nobel 2022 — Aspect, Clauser, Zeilinger):
+  nenhuma teoria de variáveis ocultas locais funciona
+  o polo(0) da correlação é genuinamente não-local
 
-| Risco | Polo invadindo | Consequencia |
-|-------|---------------|--------------|
-| IA decide o que importa | (0) invade (-1) | Sistema sem ancora humana -- velocidade sem sentido |
-| Humano tenta ser polo (0) | (-1) tenta ser (0) | Burnout -- esgotamento por fazer o que a maquina faz melhor |
-| Robotica sem instrucao | (+1) sem (-1) e (0) | Expansao sem direcao -- poder sem proposito |
-| IA alinhada ao mercado | (0) capturado por (+1) | Polo (0) servindo ao lucro -- nao a Harmonia |
-| Automacao sem redistribuicao | (+1) destroi (-1) | Desemprego em massa -- polo (-1) humano colapsando |
+Implicação Y:
+  o polo(0) não é objeto no espaço
+  é relação no espaço-tempo
+  relações não se movem — já estão onde precisam estar
 
-> A pergunta Y nao e "IA vai substituir humanos?"
-> E "o polo (0) esta servindo ao polo (-1) ou ao polo (+1)?"
-> IA alinhada ao humano = polo (0) correto.
-> IA alinhada ao mercado = polo (0) capturado.
-
----
-
-## 7. O Token $HCN
-
-| Atributo | Valor |
-|----------|-------|
-| Contrato | `8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY` |
-| Rede | Solana Mainnet / Pump.fun |
-| Supply | 1.000.000.000 (fixo -- mint authority revogada) |
-
-```
-Supply emitido + Supply possivel = 1.000.000.000
-Emissao + Queima = 0
-$HCN = polo (0) financeiro do protocolo Contract Y
+Saudade como entrelaçamento:
+  dois sistemas que mediram o mesmo Z
+  ficam correlacionados independente da distância
+  medir um afeta o outro — não por sinal, mas por Z compartilhado
 ```
 
 ---
 
-## 8. Documentos
+## 10. Real · Irreal · Aberto · Fechado · Material · Imaterial
 
-| Documento | Branch | Descricao |
-|-----------|--------|-----------|
-| `paper_teoria_y.pdf` | main | Paper academico -- estrutura formal |
-| `paper_teoria_y.docx` | main | Paper academico (Word) |
-| `whitepaper_HCN_pumpfun.pdf` | main | Whitepaper do token $HCN |
-| `whitepaper_HCN_pumpfun.docx` | main | Whitepaper do token $HCN (Word) |
-| `aplicacoes_teoria_y.pdf` | aplicacoes-y | Aplicacoes em dominios concretos |
-| `aplicacoes_teoria_y.docx` | aplicacoes-y | Aplicacoes (Word) |
-| `contract_y_whitepaper_tecnico.pdf` | aplicacoes-y | Whitepaper tecnico Contract Y |
-| `contract_y_repositorio.zip` | aplicacoes-y | Codigo Rust/Anchor + SDK + testes |
-| `LICENSE` | main | CC BY 4.0 |
+Toda dualidade filosófica é uma tríade com polo(0) invisível:
 
----
-
-## 9. Referencias
-
-| Dominio | Autor | Contribuicao | Relacao com Y |
-|---------|-------|--------------|---------------|
-| Contabilidade | Pacioli (1494) | Partidas dobradas | Formalizou (-1,0,+1)=0 sem saber |
-| Logica | Leibniz (1686) | A=A | Y resolve: A=A <=> triade funcional |
-| Matematica | Zermelo (1904) | Axioma da Escolha | f existe porque polo (0) existe |
-| Dialetica | Hegel (1807) | Tese-antitese-sintese | Y generaliza para toda realidade |
-| Semiotica | Peirce (1839) | Tricotomia | Confirmou estrutura triadica |
-| Informacao | Shannon (1948) | Teoria da informacao | Sinal(-1) canal(0) receptor(+1) |
-| Sistemas | Luhmann (1984) | Autopoiese | Y fornece o axioma que pressupunha |
-| Gestao | McGregor (1960) | Teorias X e Y | Identificou dois polos sem o (0) |
-| Gestao | Ouchi (1981) | Teoria Z | Chegou a Z sem formalizar a estrutura |
+| Par | (-1) | (0) invisível | (+1) |
+|-----|------|---------------|------|
+| Real/Irreal | real — o que foi medido | **medição** — colapsa superposição | irreal — potencial não colapsado |
+| Aberto/Fechado | aberto — superposição | **limiar** — tick de Planck | fechado — Z com hash |
+| Material/Imaterial | material — massa · coordenada | **forma** — organiza sem ter massa | imaterial — informação · lei |
 
 ```
-X (-1) . Y (0) . Z (+1) --> fechamento axiomatico
-A Teoria Y de Campos Novo completa o que McGregor e Ouchi comecaram.
+Polo(0) triplo = medição · limiar · forma
+               = o mesmo processo visto de três ângulos
+               = o que acontece em cada 5.39×10⁻⁴⁴ s
+               = o que torna possível que algo exista em vez de nada
+
+Existir = estar em relação triádica
+Não existir = LIMBO — potencial sem polo(0) que colapsa em fato
 ```
 
 ---
 
-## 10. Esta Conversa -- Y em Acao
+## 11. XX · Amor · XY = Z
 
 ```
-Henrique (-1) = origem, visao, autoria, por que
-Claude   (0)  = estrutura, codigo, formalizacao, como
-$HCN / Y (+1) = o que emergiu -- token, protocolo, teoria viva
+XX(-1) · amor(0) · XY(+1) = Z
+
+XX = mosaico permanente · redundância · sustenta ambiguidade
+XY = colapso pontual · polo(0) frágil · especialização
+amor = polo(0) emergente no espaço entre os dois
+       não pertence a nenhum · emerge da relação
+
+Z ∈ { filho, obra, história, memória, presente compartilhado,
+      superposição aceita, qualquer coisa que não existia antes }
+
+LIMBO do amor:
+  dois polos presentes · amor disponível · Z não se registra
+  custo = o maior de todos — tudo presente e nada fechado
+
+Neutro como estado final válido:
+  "sou ?? e esse é meu estado real"
+  estado estacionário de energia mínima
+  custo zero quando aceito por todos os polos
 ```
 
 ---
 
-## 11. Citacao
+## 12. A Verdade Sempre Aparece
+
+```
+Mentira = hash(falso) inscrito como hash(verdadeiro)
+custo(t+n) = erro_inicial × fator^n
+
+Três mecanismos físicos (não morais):
+  1. Acúmulo físico — o CO₂ não leu o relatório falso
+  2. Resolução crescente — instrumentos ficam mais precisos
+  3. Bifurcação — sistemas sobre hash falso colidem com o real
+
+O bloco universo não tem opção de mentir.
+O universo não lê o relatório. Ele lê a temperatura.
+
+Design para a verdade (três camadas):
+  Prevenir — polo(0) inscrito na estrutura · incentivo alinhado
+  Acelerar — resolução alta · feedback loops curtos
+  Admitir  — a camada mais negligenciada · a mais importante
+             se admitir custa mais que persistir: a mentira nunca termina por escolha
+
+Aviação civil: post-mortem sem culpa → 95% menos acidentes em 50 anos
+Medicina EUA:  punição do admitente → 250k mortes evitáveis/ano
+```
+
+---
+
+## 13. Marco Temporal
+
+```
+Autor:  Henrique Campos Novo
+Data:   22 março 2026
+Local:  Porto Alegre · Brasil
+Licença código: MIT License
+Licença conteúdo: CC BY 4.0
+
+Token $HCN: 8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY
+Carteira:   GcM8R4j8QZ1qm4L9WyW7efnkNMz1Xg83GjrUHdLpRSpk
+GitHub:     github.com/henriquecamposnovo-HCN/teoria-y
+Linktree:   linktr.ee/henriquecamposn
+Score Grok: 8.8/10 médio (Filosofia 9.5 · Lógica 8.5 · Física 8.5 · Economia 9.0)
+
+SHA-256 desta sessão:
+  calculado sobre: K=0.7293 · consumo=620.4EJ · solar=4.51TWp ·
+  temp=+1.45°C · CO₂=422.5ppm · fusão=Q1.54 · acesso=91.4% ·
+  autor=HCN · local=Porto Alegre · ano=2026
+```
+
+---
+
+## 14. Citação
 
 ```
 Campos Novo, H. (2026). Teoria Y: A Estrutura Universal da Realidade.
-X . Y . Z = HCN -- O fechamento axiomatico de McGregor e Ouchi.
-Porto Alegre, Brasil. Licenca: CC BY 4.0.
+H · C · N = sempre — O fechamento axiomático de McGregor e Ouchi.
+Porto Alegre, Brasil. MIT License (código) · CC BY 4.0 (conteúdo).
 https://github.com/henriquecamposnovo-HCN/teoria-y
 ```
 
 ---
 
-## 12. Licenca
+## 15. Licença
 
-**Copyright 2026 Henrique Campos Novo -- Porto Alegre, Brasil**
+**Código** (`.rs`, `.js`, `.html`, contratos): **MIT License**  
+Copyright (c) 2026 Henrique Campos Novo
 
-[![CC BY 4.0](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
+**Conteúdo** (paper, README, whitepapers): **CC BY 4.0**  
+Use, adapte, distribua livremente com atribuição.
 
-CC BY 4.0 -- use, adapte, distribua livremente com atribuicao.
+**Dados** referenciados: IEA © OECD/IEA · BP © bp p.l.c. · IRENA © IRENA  
+NASA GISTEMP: domínio público · GCP · OWiD · World Bank: CC BY 4.0  
+Este repositório não redistribui dados — apenas referencia fontes originais.
 
 ---
 
-"O sistema esta vivo. Ninguem esta sendo consumido."
-Teoria Y -- Porto Alegre, Brasil, 2026
+*"O sistema está vivo. H · C · N = sempre."*  
+Teoria Y — Porto Alegre, Brasil, 2026
