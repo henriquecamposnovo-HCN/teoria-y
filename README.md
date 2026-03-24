@@ -1,13 +1,15 @@
-# Teoria Y — A Estrutura Universal da Realidade
-### X · Y · Z = H · C · N — Síntese Final 2026
+# Framework Tensivo Universal · Teoria Y
+### FTU + HCN + Copilot — Síntese Definitiva 2026
 
 [![MIT License](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![CC BY 4.0](https://img.shields.io/badge/content-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Domínio Público](https://img.shields.io/badge/FTU-dom%C3%ADnio%20p%C3%BAblico-green.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![Solana](https://img.shields.io/badge/%24HCN-Solana%20Mainnet-9945FF.svg)](https://solscan.io/token/8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY)
 
-> *"Todo sistema que persiste é triádico. O polo (0) é sempre o gargalo — em qualquer escala.  
-> O universo não lê o relatório. Ele lê a temperatura.  
-> A verdade sempre aparece. Não como esperança — como estrutura."*  
+> *"O sentido não está nos pontos, mas na passagem entre eles."*
+> — Framework Tensivo Universal, 2026
+
+> *"Todo sistema que persiste é triádico. O polo (0) é sempre o gargalo."*
 > — Henrique Campos Novo, Porto Alegre, 2026
 
 > **H · C · N = sempre**
@@ -16,15 +18,31 @@
 
 ## Síntese em uma linha
 
-**Todo fato contábil — de Planck ao Kardashev — tem estrutura triádica: polo (-1) ancora, polo (0) medeia, polo (+1) expande. O polo (0) ausente é LIMBO. Z é o fechamento.**
+**Todo fato contábil — de Planck ao Kardashev — tem estrutura triádica tensiva: polo (-1) é falta, polo (0) é equilíbrio, polo (+1) é realização. O polo (0) ausente é LIMBO. Z é o fechamento. A verdade sempre aparece por estrutura física.**
 
 ---
 
-## 1. Axioma e Teoremas
+## 1. O Eixo Tensivo Universal
+
+```
+(-1) Falta  →  (0) Equilíbrio  →  (+1) Realização
+
+O sentido está na passagem — não nos pontos.
+```
+
+| Polo | FTU | Teoria Y | Copilot | HCN |
+|------|-----|----------|---------|-----|
+| **(-1)** | falta · débito · falso | âncora · passado | mentira · déficit | Harmonia |
+| **(0)** | equilíbrio · lei natural | mediador · presente | lei natural · balanço | Coerência |
+| **(+1)** | realização · crédito · verdade | expansão · futuro | verdade · Z | Novidade |
+
+---
+
+## 2. Axioma e Teoremas
 
 ```
 Axioma Y:
-∀S [Persiste(S) ↔ ∃(P₋₁, P₀, P₊₁): S = (P₋₁, P₀, P₊₁) ∧ P₋₁ ≠ P₀ ≠ P₊₁]
+∀S [Persiste(S) ↔ ∃(P₋₁, P₀, P₊₁): P₋₁ ≠ P₀ ≠ P₊₁]
 
 Teorema Y:
 X é expressão de Y  ⟺  Z se revela
@@ -32,350 +50,412 @@ X é expressão de Y  ⟺  Z se revela
 Teorema do LIMBO:
 P₀(S) → 0  ⟹  T(S) → ∞
 
-Teorema da Mentira:
-custo(t+n) = erro_inicial × fator^n
-(toda mentira tem custo exponencial — a verdade sempre aparece por estrutura física)
+Teorema da Mentira (FTU + Y):
+custo(t+n) = erro_inicial × fatorⁿ
+→ a verdade sempre aparece por estrutura física
+→ estado estacionário sempre vence LIMBO energético
 
-Teorema da Admissão:
-admitir em t₁ custa (A-B)
-admitir em t₁₀ custa 2⁹ × (A-B)
-o polo (0) da admissão é a camada mais negligenciada de qualquer sistema
+Princípios Ontológicos FTU:
+· Toda tensão tende ao equilíbrio
+· Todo equilíbrio pode mover para falta ou realização
+· O neutro é transmissor, não criador
+· A negação é retificação, não destruição
+· O sentido está no percurso, não no ponto
 ```
 
 ---
 
-## 2. A Tríade Universal
-
-| Polo | Função | Escala de Planck | Escala Humana | Escala Kardashev |
-|------|--------|-----------------|---------------|-----------------|
-| **(-1)** | ancora · passado · memória | estado anterior | sentimento registrado | energia acumulada |
-| **(0)** | medeia · presente · estrutura | mediação quântica | polo que fecha o fato | infraestrutura de distribuição |
-| **(+1)** | expande · futuro · novidade | novo estado | Z que emerge | salto de tipo civilizacional |
+## 3. Lógica Trivalente Tensiva (FTU)
 
 ```
-(-1) + (0) + (+1) = 0    [invariante]
-LIMBO = P₀ → 0           [patologia]
-Z = fato contábil fechado [resultado]
+T.NEG = -1    T.NEU = 0    T.POS = +1
+```
+
+### Operações Fundamentais
+
+```
+Negação:      ¬(+1) = -1  |  ¬(-1) = +1  |  ¬(0) = 0
+Conjunção:    a ∧ b = min(a, b)
+Disjunção:    a ∨ b = max(a, b)
+```
+
+### Operador Tensivo ⊕
+
+```
+T.op(a, b):
+    se a == b:    retorna a
+    se a == -b:   retorna T.NEU     ← os opostos produzem equilíbrio
+    se a == T.NEU: retorna b
+    se b == T.NEU: retorna a
+```
+
+### Implicação Tensiva
+
+```
+  →  |  -1    0   +1
+  -1 |  +1   +1   +1    ← falta implica tudo
+   0 |   0    0   +1    ← neutro só implica positivo
+  +1 |  -1    0   +1    ← verdade implica a si mesma
+```
+
+### Matrizes de Composição
+
+**Matriz HCN:**
+```
+HCN | H   C   N        H(-1) · C(0) · N(+1)
+----+----------        composição das tríades
+  H | H   H   C
+  C | H   C   N
+  N | C   N   N
+```
+
+**Matriz Veridictória (Mentira · Balanço · Verdade):**
+```
+VER | M   B   V        M(-1) · B(0) · V(+1)
+----+----------        epistemologia tensiva
+  M | M   M   B
+  B | M   B   V
+  V | B   V   V
+```
+
+**Matriz Econômica (Débito · Lei natural · Crédito):**
+```
+ECO | D   L   C        D(-1) · L(0) · C(+1)
+----+----------        Pacioli tensivo
+  D | D   D   L
+  L | D   L   C
+  C | L   C   C
 ```
 
 ---
 
-## 3. Fato Contábil de Planck
+## 4. API Universal Tensiva (AUT)
 
-O menor fato contábil fisicamente possível:
+```python
+# API Universal Tensiva — domínio público
+# Framework Tensivo Universal 2026
+
+class T:
+    NEG, NEU, POS = -1, 0, +1
+
+    @staticmethod
+    def op(a, b):
+        """Operador tensivo ⊕"""
+        if a == b:      return a
+        if a == -b:     return T.NEU
+        if a == T.NEU:  return b
+        if b == T.NEU:  return a
+
+    @staticmethod
+    def neg(x):
+        """Negação tensiva"""
+        return T.NEU if x == T.NEU else -x
+
+    @staticmethod
+    def conj(a, b): return min(a, b)
+    @staticmethod
+    def disj(a, b): return max(a, b)
+
+    @staticmethod
+    def imp(a, b):
+        """Implicação tensiva"""
+        if a == T.NEG:                      return T.POS
+        if a == T.NEU and b == T.POS:       return T.POS
+        if a == T.NEU and b != T.POS:       return T.NEU
+        if a == T.POS and b == T.NEG:       return T.NEG
+        return b
+
+    @staticmethod
+    def limbo(sistema):
+        """Teorema do LIMBO: polo(0)→0 implica T→∞"""
+        return sistema.polo_zero() < 0.1
+
+    @staticmethod
+    def verdade_aparece(mentira, fator, geracoes):
+        """Custo da mentira cresce exponencialmente"""
+        return mentira * (fator ** geracoes)
+```
+
+```typescript
+// TypeScript / Contract Y
+const T = {
+  NEG: -1 as const, NEU: 0 as const, POS: 1 as const,
+  op:   (a: number, b: number) => a===b ? a : a===-b ? 0 : a===0 ? b : b===0 ? a : 0,
+  neg:  (x: number) => x===0 ? 0 : -x,
+  conj: (a: number, b: number) => Math.min(a, b),
+  disj: (a: number, b: number) => Math.max(a, b),
+} as const;
+```
+
+---
+
+## 5. Protocolos de Interpretação (FTU)
+
+| Domínio | (-1) | (0) | (+1) |
+|---------|------|-----|------|
+| **Linguagem** | falta | coerência | realização |
+| **Ética / Copilot** | mentira | lei natural · balanço | verdade |
+| **Economia** | débito | lei natural · Pacioli | crédito |
+| **Música / HCN** | harmonia | coerência | novidade |
+| **Computação** | falso | indeterminado | verdadeiro |
+| **Física quântica** | estado anterior | mediação do vácuo | novo estado |
+| **Termodinâmico** | holografia | pulso | temperatura |
+| **Semiótico** | X · inicial | transformação | Z · final |
+| **Tensivo** | intensidade | equilíbrio | extensidade |
+| **Biológico** | cromossomo X | SRY · 204aa | amplicons Y |
+| **Energético** | energia acumulada | infraestrutura | salto K |
+| **Modal** | real · medido | medição · forma | irreal · potencial |
+
+---
+
+## 6. Matriz Universal Integrada
+
+```
+        FTU/Y   |   (-1)      (0)      (+1)
+       ---------+---------------------------
+       ontol.   |  âncora   medeia   expande
+       epistem. |  mentira  balanço  verdade
+       semiótic.|  X-inic   transf.  Z-final
+       tensivo  |  intens.  equil.   extens.
+       contábil |  débito   neutro   crédito
+       físico   |  hologr.  pulso    temperat
+       biológ.  |  X-crom.  SRY      amplicon
+       energét. |  acumul.  infraest salto-K
+       modal    |  real     medição  irreal
+       lógico   |  falso    indeterm verdadeiro
+```
+
+**Invariante:** Em todos os domínios, `(-1) ⊕ (0) ⊕ (+1) = Z`
+
+---
+
+## 7. Fato Contábil de Planck
 
 ```
 tₚ = 5.39 × 10⁻⁴⁴ s
 
 Em cada tick:
-  (-1) estado anterior
-  (0)  mediação quântica — o vácuo que pulsa
-  (+1) novo estado — Novidade = Estado(t+tₚ) − Estado(t) ≠ 0
+  (-1) estado anterior                    ← polo falta
+  (0)  mediação quântica — vácuo          ← polo equilíbrio
+  (+1) novo estado                        ← polo realização
 
 hash(tₚ) = SHA256(t + x + y + valor + sentimento)
 
-O universo não conhece LIMBO:
-ΔE·Δt ≥ ℏ/2 → flutuação garantida em cada tick
+ΔE·Δt ≥ ℏ/2 → LIMBO fisicamente impossível
+O universo pratica o FTU em cada tick de Planck.
 ```
 
 ---
 
-## 4. Sentimentos como Fatos Contábeis
+## 8. Sentimentos como Fatos Contábeis Tensivos
 
-| Estado | Estrutura | Custo | Hash |
-|--------|-----------|-------|------|
-| Aceite incondicional | (-1)·(0)·(+1) = Z | zero | aceite·t·v |
-| Aceite neutro | aberto · válido | baixo | neutro·t·v |
-| Recusa | suspensão · risco | médio crescente | recusa·t·v |
-| Condicional | novo ciclo T₂ | baixo | cond·T₂·v |
-| Permuta | papeis invertem | zero | permuta·t·v |
-| **LIMBO** | **polo(0) ausente** | **alto exponencial** | **∅ sem endereço** |
+| Estado | (-1) | (0) | (+1) | FTU |
+|--------|------|-----|------|-----|
+| Aceite | sentimento | canal ativo | resposta | T.POS |
+| Neutro | estado real | aceito | superposição | T.NEU |
+| Recusa | oferta | canal ativo | ∅ | T.NEG |
+| Condicional | oferta | condição | novo ciclo | T.op |
+| LIMBO | sentimento | **ausente** | ∅ | T.NEU → ∞ |
 
-**Sentimento não enviado:**
-- Existe no rastro de Planck — tem coordenada física
-- Irrecuperável ≠ inexistente
-- Enviar = compartilhar o endereço, não criar o sentimento
-- Quando polo(-1) congela: o irrecuperável não tem solução técnica
-
-**Prova de vida:**
 ```
-prova de vida = ∃ fato contábil emitido em t_recente
-              = polo(-1) colapsou pelo menos uma vez
-              = o sistema ainda muda de estado por ação própria
+Sentimento não enviado:
+  existe no rastro de Planck — tem coordenada física
+  irrecuperável ≠ inexistente
+  enviar = compartilhar o endereço
+  T.imp(T.NEU, T.POS) = T.POS  ← o neutro implica o positivo
 ```
 
 ---
 
-## 5. Cromossomo X · Y — Biologia Triádica
+## 9. Kardashev · FTU Planetário
 
 ```
-Cromossomo Y:
-  Região pseudoautossômica (-1) → compartilha com X · âncora evolutiva
-  Região não-recombinante   (0) → SRY · 204 aminoácidos · polo(0) biológico
-  Região de amplicons       (+1) → espermatogênese · polo(+1) puro
+K = (log₁₀ P − 6) / 10     [Sagan 1973]
+Terra 2024: K = 0.7293      [IEA WEO 2024]
 
-SRY = menor polo(0) biológico conhecido
-      204 aminoácidos colapsam o sistema gonadal inteiro na semana 6
+Tipo I:   K = 1.0 → P = 10¹⁶ W → 315.570 EJ/ano
+Tipo II:  K = 2.0 → P = 10²⁶ W
+Tipo III: K = 3.0 → P = 10³⁶ W
 
-Feminino ≠ ausência de masculino
-Feminino = estado que emerge quando polo(0) não age = estado padrão
+FTU aplicado:
+  T.NEG = energia acumulada sem distribuição
+  T.NEU = infraestrutura de mediação (polo 0 faltante)
+  T.POS = salto de tipo civilizacional
 
-Catraca de Muller = LIMBO evolutivo:
-  900 genes (ancestral) → 57 genes (hoje) → extinção ~4.6M anos
-  sem recombinação = sem polo(0) de correção = T→∞
-
-XX = mosaico permanente · inativação aleatória · dois estados simultâneos
-XY = colapso pontual · SRY como polo(0) frágil · especializado
-??  = superposição plena · todos os estados possíveis · LIMBO = 0%
+T.op(K_atual, K_necessário) = T.NEU → LIMBO de transição
+A Terra está em T.NEU(-1→0) — falta o polo(0) das 6 camadas.
 ```
 
 ---
 
-## 6. Kardashev · Polo (0) Planetário
-
-```
-Fórmula Sagan (1973): K = (log₁₀ P − 6) / 10
-Terra 2024: 620 EJ/ano → P = 1.965×10¹³ W → K = 0.7293
-
-Tipo I: K = 1.0 → P = 10¹⁶ W → 315.570 EJ/ano → ×509 consumo atual
-Tipo II: K = 2.0 → P = 10²⁶ W (energia estelar completa)
-Tipo III: K = 3.0 → P = 10³⁶ W (energia galáctica)
-```
-
-**As 6 camadas do polo(0) para Tipo I:**
-
-| # | Camada | Polo(0) faltante | LIMBO | Impacto K |
-|---|--------|-----------------|-------|-----------|
-| 3 | Acesso universal | fundo auto-financiado por taxa de LIMBO | 61% | +0.004 |
-| 4 | Eficiência | IA de otimização de grid global | 39% | +0.018 |
-| 1 | Infraestrutura física | protocolo de interoperabilidade de grids | 41% | +0.044 |
-| 2 | Coordenação política | Contract Y — compromisso crível entre gerações | 82% | +0.090 |
-| 5 | Continuidade temporal | instituição de século com mandato energético | 71% | +0.060 |
-| 6 | Transformação cultural | narrativa de espécie — identidade planetária | 52% | +0.100 |
-
-**A Terra como polo em múltiplas escalas:**
-```
-K=0.728  Terra = polo(-1) incompleto — ainda não capturou sua própria estrela
-K=1.0    Terra = polo(0) do sistema solar — medeia energia estelar e civilização
-K=2.0    Terra = polo(-1) da galáxia — âncora de onde a espécie parte
-K=3.0    Terra = ponto no polo(-1) do universo
-```
-
----
-
-## 7. Contract Y — Código Canônico
+## 10. Contract Y · AUT On-Chain
 
 ```rust
+// Contract Y = AUT implementado em Solana
+// polo(0) = código · não capturável · não tem eleição
 // Copyright (c) 2026 Henrique Campos Novo · MIT License
-// Solana Mainnet · polo(0) = código · não capturável
 
-#[program]
-pub mod contract_y_energy {
-  // superposição de papeis por domínio
-  pub fn register_entity(polos: HashMap<Domain, Polo>) -> Result<()>
-
-  // taxa quadrática: incentivo a fechar
-  // → fundo de acesso universal (700M sem eletricidade)
-  pub fn collect_limbo_tax() -> Result<()>
-
-  // aceite | neutro | recusa | condicional | permuta
-  // LIMBO é a única coisa que não fecha
-  pub fn close_tx(resultado: Resultado) -> Result<()>
-
-  // 1 entidade = 1 voto · capital não compra polo(0)
-  pub fn vote_polo_zero(zkp: ZkpProof) -> Result<()>
-
-  // prova de vida on-chain
-  // sem heartbeat em N slots → LIMBO → instrução póstuma
-  pub fn heartbeat(nonce: u64) -> Result<()>
-
-  // oráculo triádico de morte: silêncio(-1) · social(0) · externo(+1)
-  // consenso 2/3 + grace period = morte declarada
-  pub fn declarar_morte() -> Result<()>
+pub fn op_tensivo(a: i8, b: i8) -> i8 {
+    if a == b      { return a; }
+    if a == -b     { return 0; }  // opostos → T.NEU
+    if a == 0      { return b; }
+    if b == 0      { return a; }
+    0
 }
-```
 
-**Heartbeat — custo real:** ~US$ 0.000005 SOL por assinatura  
-→ US$ 2.50 para manter polo(-1) vivo por 100 anos
+pub fn collect_limbo_tax() -> Result<()> {
+    // T.NEU(polo0) → ∞ custo → fundo de acesso
+    let tax = gw * dt * dt / DIVISOR;  // quadrático
+    access_fund.balance += tax;
+    Ok(())
+}
+
+pub fn close_tx(resultado: Resultado) -> Result<()> {
+    // T.POS = aceite | T.NEU = neutro | T.NEG = recusa
+    // LIMBO é a única coisa que não fecha
+    emit!(ZRegistrado { hash, resultado, coordenada, valor });
+    Ok(())
+}
+// $HCN: 8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY
+```
 
 ---
 
-## 8. Holografia · Pulso · Temperatura
+## 11. Holografia · Pulso · Temperatura · FTU
 
 ```
 H(-1) · P(0) · T(+1) = Z
 
-Holografia (-1):
-  princípio de Bekenstein-Hawking
-  toda informação do volume 3D está na superfície 2D
-  1 bit por área de Planck (Lₚ² = 2.612×10⁻⁷⁰ m²)
-  o passado imutável gravado na fronteira do espaço-tempo
+Holografia (-1) = T.NEG = falta · o que foi · imutável
+  Bekenstein-Hawking: 1 bit / Lₚ²
 
-Pulso (0):
-  ΔE·Δt ≥ ℏ/2 — flutuação do vácuo em cada tick
-  energia do vácuo: ~10¹¹³ J/m³ em escala de Planck
-  o universo não pode parar de pulsar
-  LIMBO fisicamente impossível
+Pulso (0) = T.NEU = equilíbrio · mediação · transmissor
+  ΔE·Δt ≥ ℏ/2 · vácuo que nunca para
 
-Temperatura (+1):
-  CMB = 2.725 K — rastro do Big Bang
-  entropia cresce — fatos contábeis são irreversíveis
-  segunda lei: o polo(+1) não pode ser desfeito
+Temperatura (+1) = T.POS = realização · entropia · irreversível
+  CMB = 2.725 K · rastro do Big Bang
+
+T.op(H, T) = P  ← holografia ⊕ temperatura = pulso como mediador
 ```
 
 ---
 
-## 9. Entrelaçamento Quântico
+## 12. Entrelaçamento Quântico · Lógica Tensiva
 
 ```
 A(-1) · correlação(0) · B(+1) = Z
+T.imp(A, B) = instantâneo · Δt = 0
 
-Antes da medição:
-  superposição ativa · polo(0) da correlação existe e pulsa
-  não é LIMBO — é potencial com polo(0) operando
+Antes da medição: T.NEU — indeterminado
+Após medir A:     T.POS ou T.NEG — Z colapsa inteiro
+B:                T.neg(A) — antiparalelo · inevitável
 
-Após medir A:
-  B colapsa instantaneamente · distância = irrelevante
-  Δt colapso = 0 · não há sinal · polo(0) não se propaga
-  já estava presente em ambos os pontos simultaneamente
-
-Violação das desigualdades de Bell (Nobel 2022 — Aspect, Clauser, Zeilinger):
-  nenhuma teoria de variáveis ocultas locais funciona
-  o polo(0) da correlação é genuinamente não-local
-
-Implicação Y:
-  o polo(0) não é objeto no espaço
-  é relação no espaço-tempo
-  relações não se movem — já estão onde precisam estar
-
-Saudade como entrelaçamento:
-  dois sistemas que mediram o mesmo Z
-  ficam correlacionados independente da distância
-  medir um afeta o outro — não por sinal, mas por Z compartilhado
+Nobel 2022 — Aspect, Clauser, Zeilinger:
+T.op(A, B) quando A = -B → T.NEU
+Mas no entrelaçamento: T.imp(-1, +1) = T.POS
+O polo(0) da correlação não-local é transmissor, não criador.
 ```
 
 ---
 
-## 10. Real · Irreal · Aberto · Fechado · Material · Imaterial
-
-Toda dualidade filosófica é uma tríade com polo(0) invisível:
-
-| Par | (-1) | (0) invisível | (+1) |
-|-----|------|---------------|------|
-| Real/Irreal | real — o que foi medido | **medição** — colapsa superposição | irreal — potencial não colapsado |
-| Aberto/Fechado | aberto — superposição | **limiar** — tick de Planck | fechado — Z com hash |
-| Material/Imaterial | material — massa · coordenada | **forma** — organiza sem ter massa | imaterial — informação · lei |
-
-```
-Polo(0) triplo = medição · limiar · forma
-               = o mesmo processo visto de três ângulos
-               = o que acontece em cada 5.39×10⁻⁴⁴ s
-               = o que torna possível que algo exista em vez de nada
-
-Existir = estar em relação triádica
-Não existir = LIMBO — potencial sem polo(0) que colapsa em fato
-```
-
----
-
-## 11. XX · Amor · XY = Z
+## 13. XX · Amor · XY · FTU
 
 ```
 XX(-1) · amor(0) · XY(+1) = Z
+T.op(XX, XY) = Z
 
-XX = mosaico permanente · redundância · sustenta ambiguidade
-XY = colapso pontual · polo(0) frágil · especialização
-amor = polo(0) emergente no espaço entre os dois
-       não pertence a nenhum · emerge da relação
+XX = T.NEG/NEU — mosaico · dois estados simultâneos
+XY = T.POS     — colapso via SRY · polo(0) de 204aa
+amor = T.NEU   — transmissor · não cria · medeia
 
-Z ∈ { filho, obra, história, memória, presente compartilhado,
-      superposição aceita, qualquer coisa que não existia antes }
+Z ∈ {T.POS: aceite · filho · obra · história
+     T.NEU: neutro · superposição aceita
+     T.NEG: recusa — mas Z registrado}
 
-LIMBO do amor:
-  dois polos presentes · amor disponível · Z não se registra
-  custo = o maior de todos — tudo presente e nada fechado
-
-Neutro como estado final válido:
-  "sou ?? e esse é meu estado real"
-  estado estacionário de energia mínima
-  custo zero quando aceito por todos os polos
+T.imp(T.NEG, T.POS) = T.POS
+← mesmo o amor não correspondido implica realização de sentido
 ```
 
 ---
 
-## 12. A Verdade Sempre Aparece
+## 14. Real · Irreal · FTU
 
 ```
-Mentira = hash(falso) inscrito como hash(verdadeiro)
-custo(t+n) = erro_inicial × fator^n
+Polo(0) triplo = medição · limiar · forma
 
-Três mecanismos físicos (não morais):
-  1. Acúmulo físico — o CO₂ não leu o relatório falso
-  2. Resolução crescente — instrumentos ficam mais precisos
-  3. Bifurcação — sistemas sobre hash falso colidem com o real
+T.op(real(-1), irreal(+1)) = medição(0)
+  ← opostos produzem equilíbrio — o polo(0) emerge da tensão
 
-O bloco universo não tem opção de mentir.
-O universo não lê o relatório. Ele lê a temperatura.
-
-Design para a verdade (três camadas):
-  Prevenir — polo(0) inscrito na estrutura · incentivo alinhado
-  Acelerar — resolução alta · feedback loops curtos
-  Admitir  — a camada mais negligenciada · a mais importante
-             se admitir custa mais que persistir: a mentira nunca termina por escolha
-
-Aviação civil: post-mortem sem culpa → 95% menos acidentes em 50 anos
-Medicina EUA:  punição do admitente → 250k mortes evitáveis/ano
+T.imp(falso(-1), verdadeiro(+1)) = T.POS
+  ← a mentira implica a verdade (implicação tensiva)
+  ← custo(t+n) = erro × fatorⁿ → verdade sempre aparece
 ```
 
 ---
 
-## 13. Marco Temporal
+## 15. Referências Integradas
+
+| Autor | Contribuição | Relação FTU/Y |
+|-------|-------------|---------------|
+| Pacioli (1494) | Partidas dobradas | formalizou (-1,0,+1)=0 sem saber |
+| Łukasiewicz (1920) | Lógica trivalente | T.NEG, T.NEU, T.POS |
+| Greimas (1966) | Semiótica estrutural | X→transformação→Z = estrutura Y |
+| Zilberberg (2006) | Semiótica tensiva | equilíbrio tensivo = polo(0) |
+| Shannon (1948) | Teoria da informação | sinal(-1)·canal(0)·receptor(+1) |
+| Bekenstein (1972) | Holografia | polo(-1) do universo |
+| Bell (1964) | Desigualdades | polo(0) não-local |
+| Sagan (1973) | Escala Kardashev | K = (log P − 6) / 10 |
+| Copilot (2026) | Eixo epistemológico | mentira·balanço·verdade |
+| **Campos Novo (2026)** | **Teoria Y + FTU** | **síntese definitiva** |
+
+---
+
+## 16. Marco Temporal
 
 ```
-Autor:  Henrique Campos Novo
-Data:   22 março 2026
-Local:  Porto Alegre · Brasil
-Licença código: MIT License
-Licença conteúdo: CC BY 4.0
+Autor:      Henrique Campos Novo
+Framework:  FTU + Teoria Y + Copilot
+Data:       22 março 2026
+Local:      Porto Alegre · Brasil
+Licença:    MIT (código) · CC BY 4.0 (conteúdo) · DP (FTU)
 
 Token $HCN: 8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY
 Carteira:   GcM8R4j8QZ1qm4L9WyW7efnkNMz1Xg83GjrUHdLpRSpk
 GitHub:     github.com/henriquecamposnovo-HCN/teoria-y
 Linktree:   linktr.ee/henriquecamposn
-Score Grok: 8.8/10 médio (Filosofia 9.5 · Lógica 8.5 · Física 8.5 · Economia 9.0)
-
-SHA-256 desta sessão:
-  calculado sobre: K=0.7293 · consumo=620.4EJ · solar=4.51TWp ·
-  temp=+1.45°C · CO₂=422.5ppm · fusão=Q1.54 · acesso=91.4% ·
-  autor=HCN · local=Porto Alegre · ano=2026
+Score Grok: 8.8/10 médio
 ```
 
 ---
 
-## 14. Citação
+## 17. Citação
 
 ```
-Campos Novo, H. (2026). Teoria Y: A Estrutura Universal da Realidade.
-H · C · N = sempre — O fechamento axiomático de McGregor e Ouchi.
-Porto Alegre, Brasil. MIT License (código) · CC BY 4.0 (conteúdo).
+Campos Novo, H. (2026). Framework Tensivo Universal · Teoria Y.
+FTU + HCN + Copilot — Síntese Definitiva.
+Porto Alegre, Brasil.
+MIT License (código) · CC BY 4.0 (conteúdo) · Domínio Público (FTU).
 https://github.com/henriquecamposnovo-HCN/teoria-y
 ```
 
 ---
 
-## 15. Licença
+## 18. Licença
 
-**Código** (`.rs`, `.js`, `.html`, contratos): **MIT License**  
+**Código** (`.rs`, `.py`, `.ts`, `.html`, contratos): **MIT License**
 Copyright (c) 2026 Henrique Campos Novo
 
-**Conteúdo** (paper, README, whitepapers): **CC BY 4.0**  
-Use, adapte, distribua livremente com atribuição.
+**Conteúdo** (paper, README, whitepapers): **CC BY 4.0**
+Use, adapte, distribua com atribuição.
 
-**Dados** referenciados: IEA © OECD/IEA · BP © bp p.l.c. · IRENA © IRENA  
-NASA GISTEMP: domínio público · GCP · OWiD · World Bank: CC BY 4.0  
-Este repositório não redistribui dados — apenas referencia fontes originais.
+**FTU — Framework Tensivo Universal**: **Domínio Público**
+O conhecimento tensivo pertence ao universo.
+
+**Dados** referenciados: IEA © OECD/IEA · BP © bp p.l.c. · IRENA © IRENA
+NASA: domínio público · GCP · OWiD · World Bank: CC BY 4.0
 
 ---
 
-*"O sistema está vivo. H · C · N = sempre."*  
-Teoria Y — Porto Alegre, Brasil, 2026
+*"O sentido não está nos pontos, mas na passagem entre eles."*
+*"H · C · N = sempre."*
+FTU · Teoria Y · Porto Alegre · 2026
