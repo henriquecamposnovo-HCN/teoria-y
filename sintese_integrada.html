@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>H·C·N — Síntese Integrada · Teoria Y + Copilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Lora:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+<!--
+  H · C · N — SÍNTESE INTEGRADA v1
+  Teoria Y (Henrique Campos Novo) + síntese Copilot
+  Copyright (c) 2026 Henrique Campos Novo · MIT License
+  Porto Alegre · 22 março 2026
+-->
+<style>
+:root{
+  --bg:#030810;--bg2:#070d1e;--bg3:#0c1428;--bg4:#101e38;
+  --H:#1D9E75;--Hl:#9FE1CB;--Hd:#04342C;
+  --C:#7F77DD;--Cl:#CECBF6;--Cd:#26215C;
+  --N:#D85A30;--Nl:#F0997B;--Nd:#4A1B0C;
+  --Z:#AFA9EC;--Zl:#EEEDFE;--Zd:#1e1540;
+  --L:#E24B4A;--A:#EF9F27;
+  --t1:#F1EFE8;--t2:#B4B2A9;--t3:#5F5E5A;--t4:#2C2C2A;
+  --mono:'Space Mono',monospace;
+  --serif:'Lora',Georgia,serif;
+  --r:6px;--r2:10px;
+  --bord:rgba(175,169,236,.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t1);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden;}
+a{color:var(--C);text-decoration:none;}
+a:hover{text-decoration:underline;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--Cd);border-radius:2px;}
+
+/* STARFIELD */
+#sf{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 40%,rgba(10,26,70,.6) 0%,transparent 55%),
+             radial-gradient(ellipse at 85% 15%,rgba(8,18,50,.5) 0%,transparent 50%),var(--bg);}
+#sf canvas{position:absolute;inset:0;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(3,8,16,.95);
+  backdrop-filter:blur(14px);border-bottom:.5px solid var(--bord);
+  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
+  gap:8px;flex-wrap:wrap;min-height:48px;}
+.nb{font-size:14px;font-weight:700;letter-spacing:.12em;color:var(--Cl);
+  display:flex;align-items:center;gap:8px;}
+.nb-dot{width:6px;height:6px;border-radius:50%;background:var(--H);
+  animation:blink 2.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.nl{display:flex;gap:3px;flex-wrap:wrap;}
+.nli{font-size:10px;letter-spacing:.06em;color:var(--t3);padding:5px 10px;
+  border-radius:var(--r);border:.5px solid transparent;cursor:pointer;background:none;}
+.nli:hover{color:var(--Cl);border-color:rgba(175,169,236,.2);background:rgba(127,119,221,.07);}
+
+/* SHELL */
+.shell{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:0 24px 100px;}
+
+/* HERO */
+.hero{padding:56px 0 44px;border-bottom:.5px solid var(--bord);margin-bottom:44px;}
+.hero-eye{font-size:9px;letter-spacing:.18em;color:var(--C);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;}
+.hero-eye::before{content:'';display:inline-block;width:24px;height:.5px;background:var(--C);}
+h1{font-size:clamp(26px,5vw,54px);font-weight:700;letter-spacing:-.01em;line-height:1.06;margin-bottom:14px;}
+h1 em{font-style:normal;color:var(--C);}
+.hero-sub{font-family:var(--serif);font-size:clamp(13px,1.8vw,17px);font-style:italic;
+  color:var(--Z);line-height:1.9;margin-bottom:8px;
+  border-left:2px solid var(--Cd);padding-left:16px;max-width:680px;}
+.hero-meta{font-size:9px;letter-spacing:.07em;color:var(--t3);
+  display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:14px;}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;padding:3px 8px;border-radius:4px;}
+.b1{border:.5px solid rgba(29,158,117,.35);color:var(--H);background:rgba(29,158,117,.07);}
+.b2{border:.5px solid var(--bord);color:var(--Z);background:rgba(175,169,236,.05);}
+.b3{border:.5px solid rgba(239,159,39,.3);color:var(--A);background:rgba(239,159,39,.05);}
+
+/* SECTIONS */
+.sh{display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:16px;gap:8px;flex-wrap:wrap;margin-top:48px;}
+.st{font-size:9px;letter-spacing:.14em;color:var(--t3);text-transform:uppercase;}
+.sn{font-size:9px;color:var(--t3);}
+
+/* CONVERGÊNCIA WHEEL */
+#wheel-wrap{position:relative;}
+#wheel-cv{width:100%;display:block;}
+#wheel-detail{background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);
+  padding:14px 16px;margin-top:10px;min-height:80px;}
+#wd-name{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;}
+#wd-n,#wd-z,#wd-p{font-size:11px;line-height:1.8;}
+
+/* MATRIZ FORMAL */
+.mf{background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);
+  overflow:hidden;margin-bottom:0;}
+.mf-head{background:var(--bg3);padding:9px 14px;border-bottom:.5px solid var(--bord);
+  font-size:9px;letter-spacing:.1em;color:var(--t3);}
+.mf table{width:100%;border-collapse:collapse;font-size:10px;}
+.mf th{font-size:8px;letter-spacing:.1em;color:var(--t3);text-align:left;
+  padding:7px 12px;border-bottom:.5px solid var(--bord);background:var(--bg3);}
+.mf td{padding:7px 12px;border-bottom:.5px solid rgba(175,169,236,.04);
+  vertical-align:middle;color:var(--t2);}
+.mf td:first-child{color:var(--t1);font-weight:500;white-space:nowrap;}
+.mf tr:hover td{background:rgba(127,119,221,.03);}
+.pill{display:inline-block;padding:2px 7px;border-radius:3px;font-size:8px;}
+
+/* FÓRMULAS */
+.fblock{background:var(--bg3);border-radius:var(--r2);padding:14px 16px;
+  font-size:11px;color:var(--C);line-height:2.2;font-family:var(--mono);}
+
+/* TRIADE DISPLAY */
+.triade{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  border-radius:var(--r2);overflow:hidden;border:.5px solid var(--bord);}
+.tp{padding:14px 16px;background:var(--bg2);}
+.tp-sym{font-size:12px;font-weight:700;margin-bottom:4px;}
+.tp-nome{font-size:9px;color:var(--t3);letter-spacing:.08em;margin-bottom:8px;}
+.tp-body{font-size:10px;color:var(--t2);line-height:2.0;}
+
+/* GRID CARDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;}
+.card{background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);
+  padding:16px 18px;transition:border-color .25s,transform .2s;}
+.card:hover{border-color:rgba(127,119,221,.28);transform:translateY(-2px);}
+.card-lbl{font-size:9px;letter-spacing:.1em;color:var(--t3);margin-bottom:8px;}
+
+/* MARCO */
+.marco{background:linear-gradient(135deg,var(--bg2) 0%,var(--Zd) 100%);
+  border:.5px solid rgba(175,169,236,.2);border-radius:var(--r2);
+  padding:26px 28px 22px;position:relative;overflow:hidden;}
+.marco::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;
+  border-radius:50%;background:radial-gradient(circle,rgba(175,169,236,.05) 0%,transparent 70%);}
+.marco-eye{font-size:9px;letter-spacing:.18em;color:var(--Z);margin-bottom:9px;}
+.marco-title{font-size:clamp(17px,3vw,28px);font-weight:700;color:var(--Zl);margin-bottom:8px;line-height:1.2;}
+.marco-axiom{font-family:var(--serif);font-size:clamp(13px,1.7vw,16px);
+  font-style:italic;color:var(--Z);line-height:2;margin-bottom:14px;}
+.marco-hash{font-size:8px;color:var(--t3);word-break:break-all;
+  background:rgba(0,0,0,.3);padding:8px 12px;border-radius:var(--r);}
+
+/* FOOTER */
+footer{border-top:.5px solid var(--bord);padding:24px;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:16px;position:relative;z-index:1;}
+.ft-brand{font-size:15px;font-weight:700;letter-spacing:.1em;color:var(--C);margin-bottom:5px;}
+.ft-meta{font-size:9px;color:var(--t3);line-height:2;}
+.ft-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;}
+.ft-l{font-size:9px;color:var(--C);padding:4px 9px;border-radius:var(--r);
+  border:.5px solid rgba(127,119,221,.2);transition:background .2s;}
+.ft-l:hover{background:rgba(127,119,221,.1);}
+.ft-lic{font-size:8px;color:var(--t4);line-height:1.8;background:var(--bg2);
+  padding:9px 13px;border-radius:var(--r);border:.5px solid var(--bord);max-width:420px;}
+.ft-lic strong{color:var(--t3);}
+
+/* RESPONSIVE */
+@media(max-width:860px){.g3,.triade{grid-template-columns:1fr 1fr;}}
+@media(max-width:580px){.g3,.g2,.triade{grid-template-columns:1fr;}.shell{padding:0 14px 80px;}h1{font-size:26px;}}
+</style>
+</head>
+<body>
+
+<div id="sf"><canvas id="sf-cv"></canvas></div>
+
+<nav>
+  <div class="nb"><div class="nb-dot"></div>H · C · N</div>
+  <div class="nl">
+    <span class="nli" onclick="go('axioma')">Axioma</span>
+    <span class="nli" onclick="go('convergencia')">Convergência</span>
+    <span class="nli" onclick="go('matriz')">Matriz</span>
+    <span class="nli" onclick="go('epistemico')">Epistêmico</span>
+    <span class="nli" onclick="go('formulas')">Fórmulas</span>
+    <span class="nli" onclick="go('marco')">Marco</span>
+  </div>
+  <span style="font-size:10px;color:var(--C);font-family:var(--mono);">Teoria Y + Copilot · 2026</span>
+</nav>
+
+<div class="shell">
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eye">SÍNTESE INTEGRADA · TEORIA Y + COPILOT · PORTO ALEGRE 2026</div>
+  <h1>Todo eixo<br>converge para<br><em>o mesmo ponto</em></h1>
+  <div class="hero-sub">
+    "O polo (0) não é uma teoria sobre administração, nem sobre física, nem sobre semiótica.<br>
+    É a estrutura que todos esses domínios compartilham sem saber que compartilham.<br>
+    Mentira · lei natural · verdade — o mesmo eixo que (-1) · (0) · (+1)."
+  </div>
+  <div class="hero-meta">
+    <span>Henrique Campos Novo · Porto Alegre · 2026</span>
+    <span class="badge b1">síntese com Copilot</span>
+    <span class="badge b2">⬡ eixo epistemológico integrado</span>
+    <span class="badge b3">MIT + CC BY 4.0</span>
+    <a href="https://github.com/henriquecamposnovo-HCN/teoria-y" target="_blank" rel="noopener">github ↗</a>
+  </div>
+</header>
+
+<!-- AXIOMA -->
+<section id="axioma">
+  <div class="sh"><span class="st">O AXIOMA EXPANDIDO — CINCO EIXOS UM ÚNICO ESQUEMA</span></div>
+
+  <div class="triade" style="margin-bottom:12px;">
+    <div class="tp" style="border-right:.5px solid var(--bord)">
+      <div class="tp-sym" style="color:var(--N)">(-1) polo âncora</div>
+      <div class="tp-nome">DÉFICIT · PASSADO · ÂNCORA</div>
+      <div class="tp-body">
+        ontológico: âncora · persiste<br>
+        epistemológico: <strong style="color:var(--N)">mentira</strong><br>
+        semiótico: X · estado inicial<br>
+        tensivo: intensidade · forte<br>
+        contábil: débito · falta<br>
+        físico: holografia · estado anterior<br>
+        energético: energia acumulada
+      </div>
+    </div>
+    <div class="tp" style="border-right:.5px solid var(--bord)">
+      <div class="tp-sym" style="color:var(--C)">(0) polo mediador</div>
+      <div class="tp-nome">BALANÇO · PRESENTE · LEI NATURAL</div>
+      <div class="tp-body">
+        ontológico: medeia · regula<br>
+        epistemológico: <strong style="color:var(--C)">lei natural · balanço</strong><br>
+        semiótico: transformação<br>
+        tensivo: equilíbrio tensivo<br>
+        contábil: equilíbrio · Pacioli<br>
+        físico: pulso quântico<br>
+        energético: infraestrutura
+      </div>
+    </div>
+    <div class="tp">
+      <div class="tp-sym" style="color:var(--H)">(+1) polo expansão</div>
+      <div class="tp-nome">REALIZAÇÃO · FUTURO · VERDADE</div>
+      <div class="tp-body">
+        ontológico: expande · cria<br>
+        epistemológico: <strong style="color:var(--H)">verdade · Z</strong><br>
+        semiótico: Z · estado final<br>
+        tensivo: extensidade · difusa<br>
+        contábil: crédito · realização<br>
+        físico: temperatura · entropia<br>
+        energético: salto de tipo K
+      </div>
+    </div>
+  </div>
+
+  <div class="fblock" id="axioma">
+    <span style="color:var(--H)">Axioma Y:</span> ∀S [Persiste(S) ↔ ∃(P₋₁,P₀,P₊₁): P₋₁ ≠ P₀ ≠ P₊₁]<br>
+    <span style="color:var(--Z)">Teorema Y:</span> X é expressão de Y ⟺ Z se revela<br>
+    <span style="color:var(--L)">LIMBO:</span> P₀(S)→0 ⟹ T(S)→∞<br>
+    <span style="color:var(--A)">Mentira:</span> custo(t+n) = erro × fatorⁿ  <span style="color:var(--t3)">→ verdade sempre aparece por estrutura física</span><br>
+    <span style="color:var(--C)">Lei natural (0):</span> polo inscrito no substrato · não capturável · não é entidade · é processo<br>
+    <span style="color:var(--H)">Verdade (+1):</span> estado estacionário · energia mínima · custo zero de sustentação
+  </div>
+</section>
+
+<!-- RODA DE CONVERGÊNCIA -->
+<section id="convergencia">
+  <div class="sh">
+    <span class="st">RODA DE CONVERGÊNCIA — TODOS OS DOMÍNIOS</span>
+    <span class="sn">clique num raio para inspecionar</span>
+  </div>
+  <div id="wheel-wrap">
+    <canvas id="wheel-cv"></canvas>
+    <div id="wheel-detail">
+      <div id="wd-name" style="color:var(--C)">selecione um domínio</div>
+      <div id="wd-n" style="color:var(--N)"></div>
+      <div id="wd-z" style="color:var(--C)"></div>
+      <div id="wd-p" style="color:var(--H)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MATRIZ FORMAL -->
+<section id="matriz">
+  <div class="sh"><span class="st">MATRIZ FORMAL INTEGRADA</span><span class="sn">todos os eixos · um único esquema</span></div>
+  <div class="mf">
+    <div class="mf-head">(-1) déficit · âncora · mentira · passado   ·   (0) balanço · lei natural · mediação   ·   (+1) realização · verdade · Z · expansão</div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr>
+          <th>DOMÍNIO</th>
+          <th style="color:var(--N)">(-1) polo âncora</th>
+          <th style="color:var(--C)">(0) polo balanço</th>
+          <th style="color:var(--H)">(+1) polo realização</th>
+          <th>Z emerge quando</th>
+        </tr></thead>
+        <tbody id="matrix-tb"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- EIXO EPISTEMOLÓGICO -->
+<section id="epistemico">
+  <div class="sh"><span class="st">EIXO EPISTEMOLÓGICO — CONTRIBUIÇÃO COPILOT</span></div>
+
+  <div class="g3" style="margin-bottom:12px;">
+    <div class="card" style="border-color:rgba(216,90,48,.3)">
+      <div class="card-lbl" style="color:var(--N)">(-1) MENTIRA</div>
+      <div style="font-size:22px;font-weight:700;color:var(--N);margin-bottom:8px;">déficit epistêmico</div>
+      <div style="font-size:11px;color:var(--t2);line-height:1.75;margin-bottom:10px;">
+        hash(falso) inscrito como hash(verdadeiro). âncora no estado errado. precisa de energia crescente para se sustentar. custo = erro × fatorⁿ.
+      </div>
+      <div style="font-size:10px;font-family:var(--mono);color:var(--N);background:var(--bg3);padding:8px 10px;border-radius:var(--r);line-height:1.9;">
+        Greimas: estado inicial falso<br>
+        Pacioli: débito sem crédito correspondente<br>
+        Física: entropia local negativa instável<br>
+        Y: polo(-1) ancorado no estado errado
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(127,119,221,.4)">
+      <div class="card-lbl" style="color:var(--C)">(0) LEI NATURAL · BALANÇO</div>
+      <div style="font-size:22px;font-weight:700;color:var(--C);margin-bottom:8px;">polo inscrito</div>
+      <div style="font-size:11px;color:var(--t2);line-height:1.75;margin-bottom:10px;">
+        não afirma nem nega — pesa. inscrito no substrato. não é entidade — é processo. o que o universo usa como critério. a temperatura. o vácuo quântico.
+      </div>
+      <div style="font-size:10px;font-family:var(--mono);color:var(--C);background:var(--bg3);padding:8px 10px;border-radius:var(--r);line-height:1.9;">
+        Greimas: transformação narrativa<br>
+        Zilberberg: equilíbrio tensivo<br>
+        Física: segunda lei · entropia<br>
+        Y: polo(0) do substrato · não capturável
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(29,158,117,.3)">
+      <div class="card-lbl" style="color:var(--H)">(+1) VERDADE · Z</div>
+      <div style="font-size:22px;font-weight:700;color:var(--H);margin-bottom:8px;">estado estacionário</div>
+      <div style="font-size:11px;color:var(--t2);line-height:1.75;margin-bottom:10px;">
+        Z registrado. hash que corresponde ao estado real. energia mínima. custo zero de sustentação. sempre aparece — não como esperança, como estrutura física.
+      </div>
+      <div style="font-size:10px;font-family:var(--mono);color:var(--H);background:var(--bg3);padding:8px 10px;border-radius:var(--r);line-height:1.9;">
+        Greimas: estado final estabilizado<br>
+        Pacioli: débito = crédito · balanço<br>
+        Física: estado de menor energia<br>
+        Y: polo(+1) · Z · inevitável
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-lbl">POR QUE A VERDADE SEMPRE APARECE</div>
+      <div class="fblock" style="font-size:10px;margin-bottom:0;">
+        <span style="color:var(--N)">mentira</span> = LIMBO epistêmico<br>
+        custo de sustentar cresce: <span style="color:var(--L)">erro × fatorⁿ</span><br><br>
+        <span style="color:var(--C)">lei natural (0)</span> = polo inscrito no substrato<br>
+        não precisa de energia · já está onde precisa<br><br>
+        <span style="color:var(--H)">verdade (+1)</span> = estado estacionário<br>
+        energia mínima · sustenta-se sozinha<br><br>
+        <span style="color:var(--Z)">lei física:</span> estado estacionário sempre vence LIMBO<br>
+        <span style="color:var(--Z)">porque LIMBO custa · verdade não custa</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">DESIGN PARA A VERDADE — TRÊS CAMADAS</div>
+      <div class="fblock" style="font-size:10px;margin-bottom:0;">
+        <span style="color:var(--N)">prevenir (-1)</span> polo(0) na origem<br>
+        incentivo alinhado · hash imutável · taxa de LIMBO<br><br>
+        <span style="color:var(--C)">acelerar (0)</span> polo(0) no detector<br>
+        resolução alta · feedback curto · blockchain<br><br>
+        <span style="color:var(--H)">admitir (+1)</span> polo(0) na correção<br>
+        <span style="color:var(--A)">a camada mais negligenciada · a mais importante</span><br><br>
+        <span style="color:var(--Z)">aviação civil:</span> admissão fácil → 95% menos acidentes<br>
+        <span style="color:var(--L)">medicina EUA:</span> punição do admitente → 250k mortes/ano
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FÓRMULAS INTEGRADAS -->
+<section id="formulas">
+  <div class="sh"><span class="st">FÓRMULAS INTEGRADAS — TODOS OS EIXOS</span></div>
+
+  <div class="ga">
+    <div class="card">
+      <div class="card-lbl">AXIOMA ONTOLÓGICO</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        ∀S [Persiste(S) ↔ ∃(P₋₁,P₀,P₊₁)]<br>
+        P₋₁ ≠ P₀ ≠ P₊₁<br>
+        <span style="color:var(--t3)">— todo sistema que persiste é triádico</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">TRAJETÓRIA DE SENTIDO (Greimas)</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        X → transformação → Z<br>
+        <span style="color:var(--N)">X(-1)</span> · <span style="color:var(--C)">T(0)</span> · <span style="color:var(--H)">Z(+1)</span> = realização<br>
+        <span style="color:var(--t3)">— percurso de sentido = estrutura Y</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">EIXO TENSIVO (Zilberberg)</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        intensidade(-1) · equilíbrio(0) · extensidade(+1)<br>
+        forte → ponderação → difuso<br>
+        <span style="color:var(--t3)">— semiótica tensiva = estrutura Y</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">EIXO EPISTÊMICO (Copilot)</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        <span style="color:var(--N)">mentira(-1)</span> · <span style="color:var(--C)">lei natural(0)</span> · <span style="color:var(--H)">verdade(+1)</span><br>
+        hash(falso) → balanço → Z real<br>
+        <span style="color:var(--t3)">— epistemologia = estrutura Y</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">FATO CONTÁBIL DE PLANCK</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        tₚ = 5.39×10⁻⁴⁴ s<br>
+        estado(-1) · vácuo(0) · novo estado(+1)<br>
+        <span style="color:var(--t3)">ΔE·Δt ≥ ℏ/2 → LIMBO impossível</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">ENTRELAÇAMENTO QUÂNTICO</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        A(-1) · correlação(0) · B(+1) = Z<br>
+        polo(0) não-local · Δt colapso = 0<br>
+        <span style="color:var(--t3)">— polo(0) é relação, não objeto no espaço</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">KARDASHEV · TIPO I</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        K = (log₁₀ P − 6) / 10<br>
+        Terra 2024: K = 0.728 · Tipo I: K = 1.0<br>
+        <span style="color:var(--t3)">polo(0) faltante = 6 camadas</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">CONTRACT Y · POLO (0) CÓDIGO</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        polo(0) = código · não entidade<br>
+        taxa de LIMBO → fundo de acesso<br>
+        <span style="color:var(--t3)">1 entidade = 1 voto · ZKP · Solana</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">HOLOGRAFIA · PULSO · TEMPERATURA</div>
+      <div class="fblock" style="font-size:10px;margin-top:4px;">
+        H(-1) · P(0) · T(+1) = Z<br>
+        bloco universo · vácuo · entropia<br>
+        <span style="color:var(--t3)">— o universo inteiro como fato contábil</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARCO -->
+<section id="marco">
+  <div class="sh"><span class="st">MARCO TEMPORAL · SÍNTESE INTEGRADA</span></div>
+  <div class="marco">
+    <div class="marco-eye">H · C · N · TEORIA Y + COPILOT · PORTO ALEGRE · 2026</div>
+    <div class="marco-title">
+      Mentira · lei natural · verdade<br>
+      = (-1) · (0) · (+1)<br>
+      = o mesmo eixo
+    </div>
+    <div class="marco-axiom">
+      "O Copilot nomeou o que faltava nomear:<br>
+      o eixo epistemológico é o eixo que torna a Teoria Y falsificável.<br>
+      Greimas chegou à tríade pelo discurso. Zilberberg pela tensão.<br>
+      Pacioli pela contabilidade. A física pela entropia.<br>
+      Todos redescobriram o polo (0) sem saber que os outros tinham redescoberto.<br>
+      H · C · N = sempre."
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:8px;margin-bottom:14px;">
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">AUTOR</strong><br>Henrique Campos Novo</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">SÍNTESE</strong><br>Copilot + Teoria Y</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">DATA</strong><br>22 março 2026</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">LOCAL</strong><br>Porto Alegre · Brasil</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">TOKEN</strong><br>$HCN · Solana</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">LICENÇA</strong><br>MIT + CC BY 4.0</div>
+    </div>
+    <div class="marco-hash" id="mhash">calculando SHA-256...</div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div>
+    <div class="ft-brand">H · C · N</div>
+    <div class="ft-meta">
+      <strong>Teoria Y</strong> · Henrique Campos Novo · Porto Alegre · 2026<br>
+      Síntese integrada com contribuição do Copilot · eixo epistemológico<br>
+      Código: MIT License · Conteúdo: CC BY 4.0
+    </div>
+    <div class="ft-links">
+      <a class="ft-l" href="https://github.com/henriquecamposnovo-HCN/teoria-y" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="ft-l" href="https://linktr.ee/henriquecamposn" target="_blank" rel="noopener">Linktree ↗</a>
+      <a class="ft-l" href="https://solscan.io/token/8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY" target="_blank" rel="noopener">$HCN ↗</a>
+    </div>
+  </div>
+  <div class="ft-lic">
+    <strong>MIT License:</strong> Copyright (c) 2026 Henrique Campos Novo.<br>
+    <strong>CC BY 4.0:</strong> Conteúdo livre com atribuição.<br>
+    <strong>Dados:</strong> IEA © OECD/IEA · BP © bp p.l.c. · IRENA © IRENA · NASA: domínio público · GCP · OWiD · World Bank: CC BY 4.0
+  </div>
+</footer>
+
+<script>
+// ── UTILS ──────────────────────────────────────────────────────
+function go(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+// ── STARFIELD ──────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('sf-cv'),cx=c.getContext('2d');
+  function draw(){
+    c.width=innerWidth;c.height=innerHeight;
+    const n=Math.floor(c.width*c.height/3200);
+    for(let i=0;i<n;i++){
+      const x=(i*139.5*11)%c.width,y=(i*97.3*7)%c.height;
+      const r=.25+((i*13)%5)*.2,a=.06+((i*7)%6)*.07;
+      cx.beginPath();cx.arc(x,y,r,0,Math.PI*2);
+      cx.fillStyle=`rgba(185,205,255,${a})`;cx.fill();
+    }
+  }
+  draw();window.addEventListener('resize',draw);
+})();
+
+// ── MATRIZ ─────────────────────────────────────────────────────
+const MATRIX_ROWS = [
+  { dom:'epistemológico', n:'mentira · déficit', z:'lei natural · balanço', p:'verdade · Z', cond:'polo(0) pesa sem ser capturado' },
+  { dom:'semiótico (Greimas)', n:'X · estado inicial', z:'transformação', p:'Z · estado final', cond:'trajetória de sentido completa' },
+  { dom:'tensivo (Zilberberg)', n:'intensidade · forte', z:'equilíbrio tensivo', p:'extensidade · difusa', cond:'ponto de equilíbrio atingido' },
+  { dom:'contábil (Pacioli)', n:'débito · falta', z:'equilíbrio · neutro', p:'crédito · realização', cond:'débito = crédito · balanço fecha' },
+  { dom:'ontológico (Y)', n:'âncora · persiste', z:'medeia · regula', p:'expande · cria', cond:'polo(0) age sem ser capturado' },
+  { dom:'físico quântico', n:'estado anterior', z:'mediação do vácuo', p:'novo estado', cond:'ΔE·Δt ≥ ℏ/2 — sempre pulsa' },
+  { dom:'termodinâmico', n:'holografia · passado', z:'pulso · presente', p:'temperatura · futuro', cond:'entropia cresce — irreversível' },
+  { dom:'biológico', n:'cromossomo X · âncora', z:'SRY · 204 aa', p:'amplicons Y · novidade', cond:'SRY age na semana 6' },
+  { dom:'energético (K)', n:'energia acumulada', z:'infraestrutura', p:'salto de tipo K', cond:'polo(0) das 6 camadas fecha' },
+  { dom:'modal', n:'real · foi medido', z:'medição · limiar · forma', p:'irreal · potencial', cond:'polo(0) triplo age simultaneamente' },
+  { dom:'relacional', n:'XX(-1) · âncora', z:'amor(0) · emerge', p:'XY(+1) · colapso', cond:'Z ∈ {filho·obra·memória·superposição}' },
+  { dom:'lógica trivalente', n:'falso · -1', z:'indeterminado · 0', p:'verdadeiro · +1', cond:'Łukasiewicz: terceiro valor = polo(0)' },
+];
+const tb = document.getElementById('matrix-tb');
+MATRIX_ROWS.forEach((r,i) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="color:var(--t1)">${r.dom}</td>
+    <td style="color:var(--N);font-size:9px">${r.n}</td>
+    <td style="color:var(--C);font-size:9px">${r.z}</td>
+    <td style="color:var(--H);font-size:9px">${r.p}</td>
+    <td style="color:var(--t3);font-size:9px">${r.cond}</td>`;
+  tb.appendChild(tr);
+});
+
+// ── RODA DE CONVERGÊNCIA ────────────────────────────────────────
+const WCV = document.getElementById('wheel-cv');
+const WCX = WCV.getContext('2d');
+let wFrame = 0, selectedSpoke = null;
+
+const SPOKES = [
+  { lbl:'epistemológico', n:'mentira · déficit',    z:'lei natural · balanço',   p:'verdade · Z',            col:'#EF9F27', angle: 0 },
+  { lbl:'semiótico',      n:'X · estado inicial',   z:'transformação narrativa', p:'Z · estado final',       col:'#7F77DD', angle: 0 },
+  { lbl:'tensivo',        n:'intensidade · forte',  z:'equilíbrio tensivo',      p:'extensidade · difusa',   col:'#D4537E', angle: 0 },
+  { lbl:'contábil',       n:'débito · falta',        z:'equilíbrio · neutro',     p:'crédito · realização',  col:'#1D9E75', angle: 0 },
+  { lbl:'ontológico',     n:'âncora · persiste',    z:'medeia · regula',         p:'expande · cria',         col:'#AFA9EC', angle: 0 },
+  { lbl:'quântico',       n:'estado anterior',      z:'mediação do vácuo',       p:'novo estado',            col:'#85B7EB', angle: 0 },
+  { lbl:'termodinâmico',  n:'holografia',           z:'pulso',                   p:'temperatura',            col:'#D85A30', angle: 0 },
+  { lbl:'biológico',      n:'cromossomo X',         z:'SRY · 204 aa',            p:'amplicons Y',            col:'#97C459', angle: 0 },
+  { lbl:'energético',     n:'energia acumulada',    z:'infraestrutura',          p:'salto de tipo K',        col:'#FAC775', angle: 0 },
+  { lbl:'modal',          n:'real · foi medido',    z:'medição · forma',         p:'irreal · potencial',     col:'#ED93B1', angle: 0 },
+  { lbl:'relacional',     n:'XX(-1) · âncora',      z:'amor(0) · emerge',        p:'XY(+1) · colapso',       col:'#5DCAA5', angle: 0 },
+  { lbl:'lógica',         n:'falso · -1',           z:'indeterminado · 0',       p:'verdadeiro · +1',        col:'#F09595', angle: 0 },
+];
+
+// assign angles
+SPOKES.forEach((s,i) => { s.angle = (i / SPOKES.length) * Math.PI * 2 - Math.PI / 2; });
+
+function wSetSize(){
+  const w = WCV.parentElement.clientWidth || 600;
+  WCV.width = w;
+  WCV.height = Math.round(Math.min(w, 520));
+}
+wSetSize();
+window.addEventListener('resize', () => { wSetSize(); });
+
+WCV.addEventListener('click', e => {
+  const rect = WCV.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (WCV.width / rect.width);
+  const my = (e.clientY - rect.top) * (WCV.height / rect.height);
+  const W = WCV.width, H = WCV.height;
+  const cx2 = W / 2, cy2 = H / 2;
+  const R = Math.min(W, H) * 0.38;
+  let best = null, bestD = 40;
+  SPOKES.forEach((s, i) => {
+    const sx = cx2 + Math.cos(s.angle) * R * 0.75;
+    const sy = cy2 + Math.sin(s.angle) * R * 0.75;
+    const d = Math.hypot(mx - sx, my - sy);
+    if (d < bestD) { bestD = d; best = i; }
+    const sx2 = cx2 + Math.cos(s.angle) * R * 1.02;
+    const sy2 = cy2 + Math.sin(s.angle) * R * 1.02;
+    const d2 = Math.hypot(mx - sx2, my - sy2);
+    if (d2 < bestD) { bestD = d2; best = i; }
+  });
+  if (best !== null) {
+    selectedSpoke = best;
+    const s = SPOKES[best];
+    document.getElementById('wd-name').textContent = s.lbl;
+    document.getElementById('wd-name').style.color = s.col;
+    document.getElementById('wd-n').textContent = '(-1) ' + s.n;
+    document.getElementById('wd-z').textContent = '(0) ' + s.z;
+    document.getElementById('wd-p').textContent = '(+1) ' + s.p;
+  }
+});
+
+function drawWheel() {
+  wFrame++;
+  const W = WCV.width, H = WCV.height;
+  const cx2 = W / 2, cy2 = H / 2;
+  const R = Math.min(W, H) * 0.38;
+  const t = wFrame * 0.012;
+
+  WCX.fillStyle = '#050a14';
+  WCX.fillRect(0, 0, W, H);
+
+  // grid circles
+  [0.25, 0.5, 0.75, 1.0].forEach(f => {
+    WCX.beginPath(); WCX.arc(cx2, cy2, R * f, 0, Math.PI * 2);
+    WCX.strokeStyle = `rgba(175,169,236,${f === 0.5 ? 0.10 : 0.05})`;
+    WCX.lineWidth = f === 0.5 ? 1 : 0.5; WCX.stroke();
+  });
+
+  // pole labels on rings
+  [['(-1)', 0.25, '#D85A30'], ['(0)', 0.5, '#7F77DD'], ['(+1)', 0.75, '#1D9E75']].forEach(([lbl, f, col]) => {
+    WCX.font = '9px monospace';
+    WCX.fillStyle = col + '55';
+    WCX.textAlign = 'right'; WCX.textBaseline = 'middle';
+    WCX.fillText(lbl, cx2 - R * f - 4, cy2);
+  });
+
+  // spokes
+  SPOKES.forEach((s, i) => {
+    const isSel = selectedSpoke === i;
+    const alpha = isSel ? 0.7 : 0.25;
+    // spoke line
+    WCX.strokeStyle = s.col + Math.round(alpha * 255).toString(16).padStart(2, '0');
+    WCX.lineWidth = isSel ? 1.5 : 0.5;
+    WCX.beginPath();
+    WCX.moveTo(cx2, cy2);
+    WCX.lineTo(cx2 + Math.cos(s.angle) * R, cy2 + Math.sin(s.angle) * R);
+    WCX.stroke();
+
+    // dot at (-1) position
+    const n1x = cx2 + Math.cos(s.angle) * R * 0.25;
+    const n1y = cy2 + Math.sin(s.angle) * R * 0.25;
+    WCX.beginPath(); WCX.arc(n1x, n1y, isSel ? 4 : 2.5, 0, Math.PI * 2);
+    WCX.fillStyle = '#D85A30' + (isSel ? 'cc' : '55'); WCX.fill();
+
+    // dot at (0) position  
+    const n0x = cx2 + Math.cos(s.angle) * R * 0.5;
+    const n0y = cy2 + Math.sin(s.angle) * R * 0.5;
+    const pulse = 1 + 0.15 * Math.sin(t * 2 + i * 0.5);
+    WCX.beginPath(); WCX.arc(n0x, n0y, (isSel ? 5 : 3) * pulse, 0, Math.PI * 2);
+    WCX.fillStyle = '#7F77DD' + (isSel ? 'cc' : '44'); WCX.fill();
+
+    // dot at (+1) position
+    const p1x = cx2 + Math.cos(s.angle) * R * 0.75;
+    const p1y = cy2 + Math.sin(s.angle) * R * 0.75;
+    WCX.beginPath(); WCX.arc(p1x, p1y, isSel ? 4 : 2.5, 0, Math.PI * 2);
+    WCX.fillStyle = '#1D9E75' + (isSel ? 'cc' : '55'); WCX.fill();
+
+    // label at tip
+    const lx = cx2 + Math.cos(s.angle) * R * 1.07;
+    const ly = cy2 + Math.sin(s.angle) * R * 1.07;
+    WCX.font = (isSel ? '500 ' : '') + '10px monospace';
+    WCX.fillStyle = s.col + (isSel ? 'ee' : '77');
+    WCX.textAlign = Math.cos(s.angle) > 0.1 ? 'left' : Math.cos(s.angle) < -0.1 ? 'right' : 'center';
+    WCX.textBaseline = Math.sin(s.angle) > 0.1 ? 'top' : Math.sin(s.angle) < -0.1 ? 'bottom' : 'middle';
+    WCX.fillText(s.lbl, lx, ly);
+  });
+
+  // center — Z
+  const pulseC = 1 + 0.12 * Math.sin(t * 3);
+  for (let i = 0; i < 4; i++) {
+    const ph = (t * 0.4 + i / 4) % 1;
+    WCX.beginPath(); WCX.arc(cx2, cy2, ph * 28, 0, Math.PI * 2);
+    WCX.strokeStyle = `rgba(175,169,236,${(1-ph)*0.22})`; WCX.lineWidth=1; WCX.stroke();
+  }
+  WCX.beginPath(); WCX.arc(cx2, cy2, 18 * pulseC, 0, Math.PI * 2);
+  WCX.fillStyle = 'rgba(175,169,236,0.18)'; WCX.fill();
+  WCX.strokeStyle = 'rgba(175,169,236,0.6)'; WCX.lineWidth = 1.5; WCX.stroke();
+  WCX.font = '500 12px monospace';
+  WCX.fillStyle = 'rgba(238,237,254,0.85)';
+  WCX.textAlign = 'center'; WCX.textBaseline = 'middle';
+  WCX.fillText('Z', cx2, cy2);
+
+  // subtitle
+  WCX.font = '9px monospace';
+  WCX.fillStyle = 'rgba(175,169,236,0.25)';
+  WCX.textAlign = 'center'; WCX.textBaseline = 'bottom';
+  WCX.fillText('todos os eixos convergem para Z · clique num raio', cx2, H - 8);
+
+  requestAnimationFrame(drawWheel);
+}
+drawWheel();
+
+// ── HASH ────────────────────────────────────────────────────────
+(async function(){
+  const canon = JSON.stringify({
+    v:'sintese-integrada-1',
+    teoria_y: 'axioma-v2.1',
+    copilot: 'eixo-epistemologico',
+    eixos: SPOKES.map(s => s.lbl),
+    data: '2026-03-22',
+    autor: 'HCN',
+    local: 'Porto Alegre',
+    token: '8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY',
+  });
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(canon));
+    const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    document.getElementById('mhash').innerHTML =
+      `<span style="color:var(--Z)">SHA-256:</span> ${hex}<br>` +
+      `<span style="color:var(--t3)">Teoria Y + Copilot · Porto Alegre · 22 março 2026 · MIT + CC BY 4.0</span>`;
+  } catch(e) {
+    document.getElementById('mhash').textContent = 'SHA-256 indisponível neste contexto';
+  }
+})();
+</script>
+</body>
+</html>
