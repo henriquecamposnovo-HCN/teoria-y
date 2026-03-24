@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="H·C·N Teoria Y — Síntese Universal. Kardashev · Sentimentos · Entrelaçamento · Contract Y · Porto Alegre 2026">
+<meta name="description" content="FTU · Teoria Y · H·C·N — Framework Tensivo Universal. Lógica trivalente, API tensiva, Kardashev, Contract Y, Sentimentos, Entrelaçamento.">
 <meta name="author" content="Henrique Campos Novo">
-<meta property="og:title" content="H·C·N — Teoria Y · Síntese Universal 2026">
-<meta property="og:description" content="Todo sistema que persiste é triádico. O polo (0) é sempre o gargalo. H·C·N = sempre.">
+<meta property="og:title" content="FTU · Teoria Y — Framework Tensivo Universal">
+<meta property="og:description" content="(-1) falta · (0) equilíbrio · (+1) realização. O sentido está na passagem. H·C·N = sempre.">
 <meta name="theme-color" content="#030810">
-<title>H · C · N — Teoria Y · Síntese Universal</title>
+<title>FTU · Teoria Y — Framework Tensivo Universal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Lora:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
 <!--
-  H · C · N — TEORIA Y · SÍNTESE UNIVERSAL
+  FTU · TEORIA Y · H · C · N
+  Framework Tensivo Universal + Teoria Y (Henrique Campos Novo) + Copilot
   Copyright (c) 2026 Henrique Campos Novo · MIT License (código)
-  Conteúdo: CC BY 4.0
+  Conteúdo: CC BY 4.0 · FTU: Domínio Público
   github.com/henriquecamposnovo-HCN/teoria-y
-  linktr.ee/henriquecamposn
-  $HCN: 8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY · Solana Mainnet
+  $HCN: 8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY
 -->
 <style>
 :root{
-  --bg:#030810;--bg2:#070d1e;--bg3:#0c1428;--bg4:#101e38;
+  --bg:#030810;--bg2:#070d1e;--bg3:#0c1428;--bg4:#111d36;
   --H:#1D9E75;--Hl:#9FE1CB;--Hd:#04342C;
   --C:#7F77DD;--Cl:#CECBF6;--Cd:#26215C;
   --N:#D85A30;--Nl:#F0997B;--Nd:#4A1B0C;
   --Z:#AFA9EC;--Zl:#EEEDFE;--Zd:#1e1540;
   --L:#E24B4A;--A:#EF9F27;
-  --t1:#F1EFE8;--t2:#B4B2A9;--t3:#5F5E5A;--t4:#2C2C2A;
+  --t1:#F1EFE8;--t2:#B4B2A9;--t3:#5F5E5A;
   --mono:'Space Mono',monospace;
   --serif:'Lora',Georgia,serif;
   --r:6px;--r2:10px;
@@ -37,12 +37,16 @@
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--t1);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden;}
 a{color:var(--C);text-decoration:none;}a:hover{text-decoration:underline;}
-::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-thumb{background:var(--Cd);border-radius:2px;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--Cd);border-radius:2px;}
+pre{font-family:var(--mono);font-size:10px;line-height:1.85;overflow-x:auto;white-space:pre-wrap;word-break:break-all;}
+
+/* STARFIELD */
 #sf{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse at 12% 38%,rgba(10,26,70,.65) 0%,transparent 55%),
+  background:radial-gradient(ellipse at 12% 40%,rgba(10,26,70,.65) 0%,transparent 55%),
              radial-gradient(ellipse at 88% 14%,rgba(8,18,50,.5) 0%,transparent 50%),var(--bg);}
 #sf canvas{position:absolute;inset:0;}
+
+/* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(3,8,16,.95);
   backdrop-filter:blur(14px);border-bottom:.5px solid var(--bord);
   padding:0 20px;display:flex;align-items:center;justify-content:space-between;
@@ -56,111 +60,124 @@ nav{position:sticky;top:0;z-index:100;background:rgba(3,8,16,.95);
 .nli{font-size:10px;letter-spacing:.06em;color:var(--t3);padding:5px 9px;
   border-radius:var(--r);border:.5px solid transparent;cursor:pointer;background:none;}
 .nli:hover{color:var(--Cl);border-color:rgba(175,169,236,.2);background:rgba(127,119,221,.07);}
-.nk{font-size:11px;font-weight:700;color:var(--C);padding:4px 10px;
-  border-radius:var(--r);border:.5px solid rgba(127,119,221,.3);background:rgba(127,119,221,.07);}
-.shell{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 20px 100px;}
+
+/* SHELL */
+.shell{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:0 20px 100px;}
 
 /* HERO */
-.hero{padding:52px 0 44px;border-bottom:.5px solid var(--bord);margin-bottom:44px;}
-.h-eye{font-size:9px;letter-spacing:.18em;color:var(--C);margin-bottom:12px;
+.hero{padding:52px 0 40px;border-bottom:.5px solid var(--bord);margin-bottom:44px;
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;}
+.hero-l{}
+.hero-eye{font-size:9px;letter-spacing:.18em;color:var(--C);margin-bottom:12px;
   display:flex;align-items:center;gap:8px;}
-.h-eye::before{content:'';display:inline-block;width:24px;height:.5px;background:var(--C);}
-h1{font-size:clamp(26px,5vw,56px);font-weight:700;letter-spacing:-.01em;
-  line-height:1.06;margin-bottom:14px;}
+.hero-eye::before{content:'';display:inline-block;width:24px;height:.5px;background:var(--C);}
+h1{font-size:clamp(26px,5vw,54px);font-weight:700;letter-spacing:-.01em;line-height:1.06;margin-bottom:14px;}
 h1 em{font-style:normal;color:var(--C);}
-.h-axiom{font-family:var(--serif);font-size:clamp(14px,2vw,18px);
-  font-style:italic;color:var(--Z);line-height:1.85;margin-bottom:10px;
-  border-left:2px solid var(--Cd);padding-left:16px;}
-.h-meta{font-size:9px;letter-spacing:.07em;color:var(--t3);
-  display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:16px;}
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;
-  padding:3px 8px;border-radius:4px;}
+.hero-axiom{font-family:var(--serif);font-size:clamp(13px,1.7vw,16px);font-style:italic;
+  color:var(--Z);line-height:1.9;margin-bottom:12px;
+  border-left:2px solid var(--Cd);padding-left:14px;max-width:580px;}
+.hero-meta{font-size:9px;letter-spacing:.07em;color:var(--t3);
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;padding:3px 8px;border-radius:4px;}
 .bl{border:.5px solid rgba(29,158,117,.35);color:var(--H);background:rgba(29,158,117,.07);}
-.bl::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--H);
-  animation:blink 1.5s ease-in-out infinite;}
+.bl::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--H);animation:blink 1.5s ease-in-out infinite;}
 .bz{border:.5px solid var(--bord);color:var(--Z);background:rgba(175,169,236,.05);}
-.bm{border:.5px solid rgba(239,159,39,.3);color:var(--A);background:rgba(239,159,39,.05);}
+.ba{border:.5px solid rgba(239,159,39,.3);color:var(--A);background:rgba(239,159,39,.05);}
+.hero-r{text-align:right;}
+.hero-k-lbl{font-size:9px;letter-spacing:.12em;color:var(--t3);margin-bottom:5px;}
+.hero-k-val{font-size:clamp(36px,5.5vw,56px);font-weight:700;line-height:1;color:var(--C);}
+.hero-k-sub{font-size:10px;color:var(--t3);margin-top:3px;}
+.hero-k-bar{width:130px;height:3px;background:rgba(127,119,221,.1);border-radius:2px;overflow:hidden;margin:6px 0 0 auto;}
+.hero-k-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--H),var(--C),var(--N));
+  animation:growbar 2.2s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes growbar{from{width:0}to{width:72.8%}}
+
+/* SECTION */
+.sh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;gap:8px;flex-wrap:wrap;margin-top:44px;}
+.st{font-size:9px;letter-spacing:.14em;color:var(--t3);text-transform:uppercase;}
+.sn{font-size:9px;color:var(--t3);}
+
+/* TRIADE */
+.triade{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border-radius:var(--r2);overflow:hidden;border:.5px solid var(--bord);}
+.tp{padding:14px 16px;background:var(--bg2);}
+.tp-sym{font-size:12px;font-weight:700;margin-bottom:4px;}
+.tp-nome{font-size:9px;color:var(--t3);letter-spacing:.08em;margin-bottom:8px;}
+.tp-body{font-size:10px;color:var(--t2);line-height:2.0;}
+
+/* CARDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;}
+.card{background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);padding:16px 18px;
+  transition:border-color .25s,transform .2s;animation:fu .5s ease both;}
+.card:hover{border-color:rgba(127,119,221,.28);transform:translateY(-2px);}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card-lbl{font-size:9px;letter-spacing:.1em;color:var(--t3);margin-bottom:8px;}
+.card-val{font-size:22px;font-weight:700;line-height:1;margin-bottom:4px;}
+.card-sub{font-size:10px;color:var(--t2);line-height:1.6;margin-bottom:8px;}
+.bar-bg{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;margin-bottom:4px;}
+.bar-f{height:100%;border-radius:2px;transition:width 1.6s cubic-bezier(.16,1,.3,1);}
+.csrc{font-size:8px;color:var(--t3);margin-top:4px;}
+.csrc::before{content:'SRC ';opacity:.4;}
+.csrc a{color:var(--C);}
+
+/* FORMULA BLOCK */
+.fb{background:var(--bg3);border-radius:var(--r2);padding:14px 16px;
+  font-size:10px;color:var(--C);line-height:2.1;font-family:var(--mono);}
+
+/* CODE BLOCK */
+.cb-wrap{background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);overflow:hidden;}
+.cb-head{background:var(--bg3);padding:9px 14px;border-bottom:.5px solid var(--bord);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.cb-title{font-size:9px;letter-spacing:.1em;color:var(--t3);}
+.cb-lang{font-size:8px;color:var(--C);padding:2px 7px;border-radius:3px;background:rgba(127,119,221,.1);}
+.cb-tabs{display:flex;gap:4px;flex-wrap:wrap;}
+.cb-tab{font-size:9px;padding:3px 9px;border-radius:var(--r);
+  border:.5px solid var(--bord);cursor:pointer;color:var(--t3);background:transparent;}
+.cb-tab.on{border-color:var(--C);color:var(--Cl);}
+pre.cb{padding:14px 18px;font-size:9.5px;color:var(--t2);}
+pre.cb .kw{color:var(--C)}pre.cb .fn{color:var(--H)}
+pre.cb .cm{color:var(--t3);font-style:italic}pre.cb .st{color:var(--N)}
+pre.cb .nm{color:var(--A)}pre.cb .tp{color:var(--Z)}
+
+/* MATRIX TABLE */
+.mtab{width:100%;border-collapse:collapse;font-size:10px;}
+.mtab th{font-size:8px;letter-spacing:.1em;color:var(--t3);text-align:left;
+  padding:7px 12px;border-bottom:.5px solid var(--bord);background:var(--bg3);}
+.mtab td{padding:7px 12px;border-bottom:.5px solid rgba(175,169,236,.04);color:var(--t2);vertical-align:middle;}
+.mtab td:first-child{color:var(--t1);font-weight:500;white-space:nowrap;}
+.mtab tr:hover td{background:rgba(127,119,221,.03);}
+.pill{display:inline-block;padding:2px 7px;border-radius:3px;font-size:8px;}
+
+/* LOGIC TABLES */
+.ltab-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.ltab{background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);overflow:hidden;}
+.ltab-title{font-size:9px;letter-spacing:.1em;color:var(--t3);padding:8px 12px;
+  border-bottom:.5px solid var(--bord);background:var(--bg3);}
+.ltab table{width:100%;border-collapse:collapse;font-size:11px;}
+.ltab th,.ltab td{padding:6px 10px;border:.5px solid rgba(175,169,236,.06);text-align:center;font-family:var(--mono);}
+.ltab th{background:var(--bg3);color:var(--t3);font-size:9px;}
 
 /* KPIs */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:44px;}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:44px;}
 .kpi{background:var(--bg2);border-radius:var(--r2);padding:14px 16px;border:.5px solid var(--bord);}
 .kpi-lbl{font-size:9px;letter-spacing:.1em;color:var(--t3);margin-bottom:6px;}
 .kpi-val{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
 .kpi-sub{font-size:10px;color:var(--t3);}
 
-/* SECTIONS */
-.sh{display:flex;align-items:baseline;justify-content:space-between;
-  margin-bottom:14px;gap:8px;flex-wrap:wrap;margin-top:44px;}
-.st{font-size:9px;letter-spacing:.14em;color:var(--t3);text-transform:uppercase;}
-.sn{font-size:9px;color:var(--t3);}
-
-/* CARDS */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
-.card{background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);
-  padding:16px 18px;transition:border-color .25s,transform .2s;
-  animation:fu .5s ease both;}
-.card:hover{border-color:rgba(127,119,221,.28);transform:translateY(-2px);}
-@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.09s}
-.card:nth-child(3){animation-delay:.14s}.card:nth-child(4){animation-delay:.19s}
-.card:nth-child(5){animation-delay:.24s}.card:nth-child(6){animation-delay:.29s}
-.card-lbl{font-size:9px;letter-spacing:.1em;color:var(--t3);margin-bottom:7px;}
-.card-val{font-size:22px;font-weight:700;line-height:1;margin-bottom:4px;}
-.card-sub{font-size:10px;color:var(--t2);line-height:1.55;margin-bottom:8px;}
-.bar-bg{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;margin-bottom:5px;}
-.bar-f{height:100%;border-radius:2px;transition:width 1.6s cubic-bezier(.16,1,.3,1);}
-.src{font-size:8px;color:var(--t3);margin-top:4px;}
-.src a{color:var(--C);}
-.src::before{content:'SRC ';opacity:.45;}
-
-/* TRÍADE DISPLAY */
-.triade{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
-  border-radius:var(--r2);overflow:hidden;border:.5px solid var(--bord);margin-bottom:0;}
-.tp{padding:14px 16px;background:var(--bg2);}
-.tp-sym{font-size:12px;font-weight:700;margin-bottom:4px;}
-.tp-nome{font-size:9px;color:var(--t3);letter-spacing:.08em;margin-bottom:7px;}
-.tp-body{font-size:10px;color:var(--t2);line-height:1.9;}
-
-/* TIMELINE CANVAS */
-.tl-wrap{background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);
-  padding:18px 20px 14px;}
-.tl-c{height:180px;margin:12px 0 6px;}
-#tl-cv{width:100%;height:100%;display:block;}
-.tl-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:9px;color:var(--t3);}
-.tl-ld{display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:3px;}
-
-/* FORMULA BLOCK */
-.fblock{background:var(--bg3);border-radius:var(--r2);padding:16px 18px;
-  font-size:11px;color:var(--C);line-height:2.1;margin-bottom:10px;}
-
-/* SCALE TABLE */
-.stable{width:100%;border-collapse:collapse;font-size:10px;}
-.stable th{font-size:8px;letter-spacing:.1em;color:var(--t3);text-align:left;
-  padding:7px 10px;border-bottom:.5px solid var(--bord);background:var(--bg3);}
-.stable td{padding:7px 10px;border-bottom:.5px solid rgba(175,169,236,.04);
-  vertical-align:middle;color:var(--t2);}
-.stable td:first-child{color:var(--t1);}
-.stable tr:hover td{background:rgba(127,119,221,.03);}
-.pill{display:inline-block;padding:2px 7px;border-radius:3px;font-size:8px;}
+/* CANVAS */
+.cv-wrap{border-radius:var(--r2);overflow:hidden;margin-bottom:0;}
 
 /* MARCO */
 .marco{background:linear-gradient(135deg,var(--bg2) 0%,var(--Zd) 100%);
   border:.5px solid rgba(175,169,236,.2);border-radius:var(--r2);
   padding:26px 28px 22px;position:relative;overflow:hidden;}
-.marco::before{content:'';position:absolute;top:-50px;right:-50px;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle,rgba(175,169,236,.05) 0%,transparent 70%);}
+.marco::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;
+  border-radius:50%;background:radial-gradient(circle,rgba(175,169,236,.05) 0%,transparent 70%);}
 .marco-eye{font-size:9px;letter-spacing:.18em;color:var(--Z);margin-bottom:9px;}
-.marco-title{font-size:clamp(17px,3vw,28px);font-weight:700;
-  color:var(--Zl);margin-bottom:8px;line-height:1.15;}
-.marco-axiom{font-family:var(--serif);font-size:clamp(13px,1.7vw,16px);
-  font-style:italic;color:var(--Z);line-height:2;margin-bottom:14px;}
-.marco-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));
-  gap:8px;margin-bottom:14px;}
-.marco-item{font-size:9px;color:var(--t3);line-height:1.9;}
-.marco-item strong{color:var(--t2);}
+.marco-title{font-size:clamp(17px,3vw,28px);font-weight:700;color:var(--Zl);margin-bottom:8px;line-height:1.2;}
+.marco-axiom{font-family:var(--serif);font-size:clamp(13px,1.7vw,16px);font-style:italic;
+  color:var(--Z);line-height:2;margin-bottom:14px;}
 .marco-hash{font-size:8px;color:var(--t3);word-break:break-all;
   background:rgba(0,0,0,.3);padding:8px 12px;border-radius:var(--r);}
 
@@ -171,332 +188,367 @@ footer{border-top:.5px solid var(--bord);padding:24px 20px;
 .ft-brand{font-size:15px;font-weight:700;letter-spacing:.1em;color:var(--C);margin-bottom:5px;}
 .ft-meta{font-size:9px;color:var(--t3);line-height:2;}
 .ft-meta strong{color:var(--t2);}
-.ft-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;}
+.ft-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
 .ft-l{font-size:9px;color:var(--C);padding:4px 9px;border-radius:var(--r);
   border:.5px solid rgba(127,119,221,.2);transition:background .2s;}
 .ft-l:hover{background:rgba(127,119,221,.1);}
-.ft-lic{font-size:8px;color:var(--t4);line-height:1.8;background:var(--bg2);
-  padding:9px 13px;border-radius:var(--r);border:.5px solid var(--bord);max-width:460px;}
-.ft-lic strong{color:var(--t3);}
+.ft-lic{font-size:8px;color:var(--t3);line-height:1.8;background:var(--bg2);
+  padding:9px 13px;border-radius:var(--r);border:.5px solid var(--bord);max-width:440px;}
+.ft-lic strong{color:var(--t2);}
 
 /* RESPONSIVE */
-@media(max-width:860px){.g3{grid-template-columns:1fr 1fr;}.triade{grid-template-columns:1fr;}}
-@media(max-width:580px){.g3,.g2{grid-template-columns:1fr;}.shell{padding:0 12px 80px;}h1{font-size:26px;}}
+@media(max-width:860px){
+  .g3,.triade{grid-template-columns:1fr 1fr;}
+  .hero{grid-template-columns:1fr;}.hero-r{text-align:left;}.hero-k-bar{margin-left:0;}
+}
+@media(max-width:580px){
+  .g3,.g2,.triade{grid-template-columns:1fr;}.shell{padding:0 12px 80px;}h1{font-size:26px;}
+}
 </style>
 </head>
 <body>
+
 <div id="sf"><canvas id="sf-cv"></canvas></div>
 
+<!-- NAV -->
 <nav>
-  <div class="nb"><div class="nb-dot"></div>H · C · N</div>
+  <div class="nb"><div class="nb-dot"></div>FTU · H · C · N</div>
   <div class="nl">
-    <span class="nli" onclick="go('axioma')">Axioma</span>
+    <span class="nli" onclick="go('eixo')">Eixo</span>
+    <span class="nli" onclick="go('logica')">Lógica</span>
+    <span class="nli" onclick="go('api')">AUT</span>
+    <span class="nli" onclick="go('matriz')">Matriz</span>
     <span class="nli" onclick="go('kardashev')">Kardashev</span>
-    <span class="nli" onclick="go('sentimentos')">Sentimentos</span>
-    <span class="nli" onclick="go('quantico')">Quântico</span>
-    <span class="nli" onclick="go('contract')">Contract Y</span>
+    <span class="nli" onclick="go('aplicacoes')">Aplicações</span>
     <span class="nli" onclick="go('marco')">Marco</span>
   </div>
-  <div class="nk">K = 0.7293</div>
+  <span style="font-size:10px;color:var(--C);font-family:var(--mono);">K = 0.7293</span>
 </nav>
 
 <div class="shell">
 
 <!-- HERO -->
 <header class="hero">
-  <div class="h-eye">TEORIA Y · SÍNTESE UNIVERSAL · PORTO ALEGRE 2026</div>
-  <h1>H · C · N<br><em>Toda realidade</em><br>é triádica</h1>
-  <div class="h-axiom">
-    "Todo sistema que persiste é triádico. O polo (0) é sempre o gargalo.<br>
-    O universo não lê o relatório. Ele lê a temperatura.<br>
-    A verdade sempre aparece — não como esperança, como estrutura."
+  <div class="hero-l">
+    <div class="hero-eye">FTU · TEORIA Y · H·C·N · SÍNTESE DEFINITIVA 2026</div>
+    <h1>(-1) · (0) · (+1)<br><em>o sentido está</em><br>na passagem</h1>
+    <div class="hero-axiom">
+      "O sentido não está nos pontos, mas na passagem entre eles."<br>
+      "Todo sistema que persiste é triádico. O polo (0) é sempre o gargalo."<br>
+      "A verdade sempre aparece — não como esperança, como estrutura."
+    </div>
+    <div class="hero-meta">
+      <span>Henrique Campos Novo · Porto Alegre · 2026</span>
+      <span class="badge bl">FTU + Teoria Y + Copilot</span>
+      <span class="badge bz">⬡ lógica trivalente</span>
+      <span class="badge ba">MIT · CC BY 4.0 · DP</span>
+      <a href="https://github.com/henriquecamposnovo-HCN/teoria-y" target="_blank" rel="noopener">github ↗</a>
+      <a href="https://linktr.ee/henriquecamposn" target="_blank" rel="noopener">linktree ↗</a>
+    </div>
   </div>
-  <div class="h-meta">
-    <span>Henrique Campos Novo · Porto Alegre · 2026</span>
-    <span class="badge bl">dados 2024</span>
-    <span class="badge bz">⬡ imutável</span>
-    <span class="badge bm">MIT + CC BY 4.0</span>
-    <a href="https://github.com/henriquecamposnovo-HCN/teoria-y" target="_blank" rel="noopener">github ↗</a>
-    <a href="https://linktr.ee/henriquecamposn" target="_blank" rel="noopener">linktree ↗</a>
+  <div class="hero-r">
+    <div class="hero-k-lbl">ÍNDICE K · TERRA 2024</div>
+    <div class="hero-k-val">0.728</div>
+    <div class="hero-k-sub">K = (log₁₀ P − 6) / 10</div>
+    <div class="hero-k-bar"><div class="hero-k-fill"></div></div>
+    <div style="font-size:8px;color:var(--t3);margin-top:4px;text-align:right;">T.NEU(-1→0) · polo(0) faltante</div>
   </div>
 </header>
 
-<!-- AXIOMA -->
-<section id="axioma">
-  <div class="sh"><span class="st">AXIOMA E TEOREMAS</span></div>
+<!-- EIXO TENSIVO -->
+<section id="eixo">
+  <div class="sh"><span class="st">O EIXO TENSIVO UNIVERSAL</span><span class="sn">FTU + Teoria Y + Copilot</span></div>
 
-  <div class="triade" style="margin-bottom:10px;">
+  <div class="triade" style="margin-bottom:12px;">
     <div class="tp" style="border-right:.5px solid var(--bord)">
-      <div class="tp-sym" style="color:var(--H)">(-1) Harmonia</div>
-      <div class="tp-nome">ÂNCORA · PASSADO · MEMÓRIA</div>
-      <div class="tp-body">ancora · persiste · raiz · o que foi<br>
-        tick de Planck: estado anterior<br>K: energia acumulada<br>
-        bio: cromossomo X · mosaico<br>XX: dois X em superposição</div>
+      <div class="tp-sym" style="color:var(--N)">(-1) falta · âncora</div>
+      <div class="tp-nome">DÉFICIT · DÉBITO · MENTIRA · HARMONIA</div>
+      <div class="tp-body">
+        FTU: falta · carência · falso<br>
+        Y: âncora · passado · memória<br>
+        Copilot: <strong style="color:var(--N)">mentira</strong> · déficit<br>
+        HCN: Harmonia<br>
+        físico: holografia · estado anterior<br>
+        lógica: T.NEG = -1<br>
+        Łukasiewicz: falso
+      </div>
     </div>
     <div class="tp" style="border-right:.5px solid var(--bord)">
-      <div class="tp-sym" style="color:var(--C)">(0) Coerência</div>
-      <div class="tp-nome">MEDIADOR · PRESENTE · ESTRUTURA</div>
-      <div class="tp-body">medeia · regula · conecta · o polo faltante<br>
-        tick de Planck: mediação quântica<br>K: infraestrutura · distribuição<br>
-        bio: SRY · 204 aminoácidos<br>amor: polo emergente entre dois sistemas</div>
+      <div class="tp-sym" style="color:var(--C)">(0) equilíbrio · transmissor</div>
+      <div class="tp-nome">BALANÇO · LEI NATURAL · COERÊNCIA</div>
+      <div class="tp-body">
+        FTU: equilíbrio · lei natural<br>
+        Y: mediador · polo faltante<br>
+        Copilot: <strong style="color:var(--C)">lei natural · balanço</strong><br>
+        HCN: Coerência<br>
+        físico: pulso quântico · vácuo<br>
+        lógica: T.NEU = 0<br>
+        FTU: "neutro é transmissor, não criador"
+      </div>
     </div>
     <div class="tp">
-      <div class="tp-sym" style="color:var(--N)">(+1) Novidade</div>
-      <div class="tp-nome">EXPANSÃO · FUTURO · CRIAÇÃO</div>
-      <div class="tp-body">expande · cria · emerge · o que será<br>
-        tick de Planck: novo estado<br>K: salto de tipo civilizacional<br>
-        bio: amplicons Y · espermatogênese<br>Z: o que não existia antes</div>
+      <div class="tp-sym" style="color:var(--H)">(+1) realização · expansão</div>
+      <div class="tp-nome">VERDADE · CRÉDITO · NOVIDADE · Z</div>
+      <div class="tp-body">
+        FTU: realização · crédito · verdadeiro<br>
+        Y: expande · futuro · Z<br>
+        Copilot: <strong style="color:var(--H)">verdade · Z</strong><br>
+        HCN: Novidade<br>
+        físico: temperatura · entropia<br>
+        lógica: T.POS = +1<br>
+        FTU: estado estacionário de menor energia
+      </div>
     </div>
   </div>
 
-  <div class="ga">
+  <canvas id="eixo-cv" style="width:100%;display:block;border-radius:var(--r2);"></canvas>
+</section>
+
+<!-- LÓGICA TRIVALENTE -->
+<section id="logica">
+  <div class="sh"><span class="st">LÓGICA TRIVALENTE TENSIVA (FTU)</span><span class="sn">operações · matrizes · implicação</span></div>
+
+  <div class="ltab-wrap" style="margin-bottom:12px;">
+    <!-- Negação -->
+    <div class="ltab">
+      <div class="ltab-title">NEGAÇÃO TENSIVA ¬</div>
+      <table>
+        <tr><th>x</th><th>¬x</th></tr>
+        <tr><td style="color:var(--N)">-1</td><td style="color:var(--H)">+1</td></tr>
+        <tr><td style="color:var(--C)">0</td><td style="color:var(--C)">0</td></tr>
+        <tr><td style="color:var(--H)">+1</td><td style="color:var(--N)">-1</td></tr>
+      </table>
+    </div>
+    <!-- Operador ⊕ -->
+    <div class="ltab">
+      <div class="ltab-title">OPERADOR TENSIVO ⊕</div>
+      <table>
+        <tr><th>⊕</th><th style="color:var(--N)">-1</th><th style="color:var(--C)">0</th><th style="color:var(--H)">+1</th></tr>
+        <tr><td style="color:var(--N)">-1</td><td style="color:var(--N)">-1</td><td style="color:var(--N)">-1</td><td style="color:var(--C)">0</td></tr>
+        <tr><td style="color:var(--C)">0</td><td style="color:var(--N)">-1</td><td style="color:var(--C)">0</td><td style="color:var(--H)">+1</td></tr>
+        <tr><td style="color:var(--H)">+1</td><td style="color:var(--C)">0</td><td style="color:var(--H)">+1</td><td style="color:var(--H)">+1</td></tr>
+      </table>
+    </div>
+    <!-- Implicação -->
+    <div class="ltab">
+      <div class="ltab-title">IMPLICAÇÃO TENSIVA →</div>
+      <table>
+        <tr><th>→</th><th style="color:var(--N)">-1</th><th style="color:var(--C)">0</th><th style="color:var(--H)">+1</th></tr>
+        <tr><td style="color:var(--N)">-1</td><td style="color:var(--H)">+1</td><td style="color:var(--H)">+1</td><td style="color:var(--H)">+1</td></tr>
+        <tr><td style="color:var(--C)">0</td><td style="color:var(--C)">0</td><td style="color:var(--C)">0</td><td style="color:var(--H)">+1</td></tr>
+        <tr><td style="color:var(--H)">+1</td><td style="color:var(--N)">-1</td><td style="color:var(--C)">0</td><td style="color:var(--H)">+1</td></tr>
+      </table>
+    </div>
+    <!-- Conjunção/Disjunção -->
+    <div class="ltab">
+      <div class="ltab-title">∧ min(a,b) · ∨ max(a,b)</div>
+      <table>
+        <tr><th>∧/∨</th><th style="color:var(--N)">-1</th><th style="color:var(--C)">0</th><th style="color:var(--H)">+1</th></tr>
+        <tr><td style="color:var(--N)">-1 ∧</td><td style="color:var(--N)">-1</td><td style="color:var(--N)">-1</td><td style="color:var(--N)">-1</td></tr>
+        <tr><td style="color:var(--C)">0 ∧</td><td style="color:var(--N)">-1</td><td style="color:var(--C)">0</td><td style="color:var(--C)">0</td></tr>
+        <tr><td style="color:var(--H)">+1 ∨</td><td style="color:var(--H)">+1</td><td style="color:var(--H)">+1</td><td style="color:var(--H)">+1</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Matrizes HCN, VER, ECO -->
+  <div class="g3">
     <div class="card">
-      <div class="card-lbl">AXIOMA FORMAL</div>
-      <div class="fblock" style="font-size:10px;">
-        <span style="color:var(--H)">∀S [Persiste(S) ↔ ∃(P₋₁,P₀,P₊₁)]</span><br>
-        <span style="color:var(--C)">P₋₁ ≠ P₀ ≠ P₊₁</span><br><br>
-        <span style="color:var(--Z)">Teorema Y:</span> X é expressão de Y ⟺ Z se revela<br>
-        <span style="color:var(--L)">LIMBO:</span> P₀(S)→0 ⟹ T(S)→∞<br>
-        <span style="color:var(--A)">Mentira:</span> custo = erro × fatorⁿ
+      <div class="card-lbl">MATRIZ HCN · composição de polos</div>
+      <div style="overflow-x:auto;">
+        <table class="mtab" style="font-size:11px;">
+          <tr><th>HCN</th><th style="color:var(--N)">H(-1)</th><th style="color:var(--C)">C(0)</th><th style="color:var(--H)">N(+1)</th></tr>
+          <tr><td style="color:var(--N)">H</td><td style="color:var(--N)">H</td><td style="color:var(--N)">H</td><td style="color:var(--C)">C</td></tr>
+          <tr><td style="color:var(--C)">C</td><td style="color:var(--N)">H</td><td style="color:var(--C)">C</td><td style="color:var(--H)">N</td></tr>
+          <tr><td style="color:var(--H)">N</td><td style="color:var(--C)">C</td><td style="color:var(--H)">N</td><td style="color:var(--H)">N</td></tr>
+        </table>
       </div>
-      <div class="card-sub">Categoria enriquecida com morfismo triádico. P₀ como elemento neutro. Associativa. STN/IBGE 2024: sem polo(0) → resolução 4.7× mais lenta.</div>
     </div>
     <div class="card">
-      <div class="card-lbl">FATO CONTÁBIL DE PLANCK</div>
-      <div class="fblock" style="font-size:10px;">
-        <span style="color:var(--A)">tₚ = 5.39×10⁻⁴⁴ s</span><br><br>
-        <span style="color:var(--H)">(-1)</span> estado anterior<br>
-        <span style="color:var(--C)">(0)</span> mediação quântica do vácuo<br>
-        <span style="color:var(--N)">(+1)</span> novo estado · ΔE ≠ 0 garantido<br><br>
-        <span style="color:var(--Z)">hash = SHA256(t+x+y+valor+sentimento)</span>
+      <div class="card-lbl">MATRIZ VERIDICTÓRIA · mentira·balanço·verdade</div>
+      <div style="overflow-x:auto;">
+        <table class="mtab" style="font-size:11px;">
+          <tr><th>VER</th><th style="color:var(--N)">M(-1)</th><th style="color:var(--C)">B(0)</th><th style="color:var(--H)">V(+1)</th></tr>
+          <tr><td style="color:var(--N)">M</td><td style="color:var(--N)">M</td><td style="color:var(--N)">M</td><td style="color:var(--C)">B</td></tr>
+          <tr><td style="color:var(--C)">B</td><td style="color:var(--N)">M</td><td style="color:var(--C)">B</td><td style="color:var(--H)">V</td></tr>
+          <tr><td style="color:var(--H)">V</td><td style="color:var(--C)">B</td><td style="color:var(--H)">V</td><td style="color:var(--H)">V</td></tr>
+        </table>
       </div>
-      <div class="card-sub">ΔE·Δt ≥ ℏ/2 — o universo não pode parar de pulsar. LIMBO fisicamente impossível. O polo(0) do universo é o próprio vácuo quântico.</div>
     </div>
     <div class="card">
-      <div class="card-lbl">POLO (0) TRIPLO</div>
-      <div class="fblock" style="font-size:10px;">
-        <span style="color:var(--H)">Real/Irreal</span> → polo(0) = <span style="color:var(--C)">medição</span><br>
-        <span style="color:var(--H)">Aberto/Fechado</span> → polo(0) = <span style="color:var(--C)">limiar</span><br>
-        <span style="color:var(--H)">Material/Imaterial</span> → polo(0) = <span style="color:var(--C)">forma</span><br><br>
-        <span style="color:var(--Z)">medição · limiar · forma</span><br>
-        = o mesmo processo · três ângulos<br>
-        = cada 5.39×10⁻⁴⁴ s · sempre
+      <div class="card-lbl">MATRIZ ECONÔMICA · débito·lei·crédito</div>
+      <div style="overflow-x:auto;">
+        <table class="mtab" style="font-size:11px;">
+          <tr><th>ECO</th><th style="color:var(--N)">D(-1)</th><th style="color:var(--C)">L(0)</th><th style="color:var(--H)">C(+1)</th></tr>
+          <tr><td style="color:var(--N)">D</td><td style="color:var(--N)">D</td><td style="color:var(--N)">D</td><td style="color:var(--C)">L</td></tr>
+          <tr><td style="color:var(--C)">L</td><td style="color:var(--N)">D</td><td style="color:var(--C)">L</td><td style="color:var(--H)">C</td></tr>
+          <tr><td style="color:var(--H)">C</td><td style="color:var(--C)">L</td><td style="color:var(--H)">C</td><td style="color:var(--H)">C</td></tr>
+        </table>
       </div>
-      <div class="card-sub">Existir = estar em relação triádica. Não existir = LIMBO — potencial sem polo(0) que colapsa em fato. O polo(0) não é objeto no espaço — é relação no espaço-tempo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- API UNIVERSAL TENSIVA -->
+<section id="api">
+  <div class="sh"><span class="st">API UNIVERSAL TENSIVA (AUT)</span><span class="sn">FTU · domínio público · implementações</span></div>
+  <div class="cb-wrap">
+    <div class="cb-head">
+      <span class="cb-title">AUT — implementação em múltiplas linguagens · domínio público</span>
+      <div class="cb-tabs">
+        <button class="cb-tab on" onclick="setTab('py',this)">Python</button>
+        <button class="cb-tab" onclick="setTab('ts',this)">TypeScript</button>
+        <button class="cb-tab" onclick="setTab('rs',this)">Rust</button>
+        <button class="cb-tab" onclick="setTab('aut',this)">AUT formal</button>
+      </div>
+    </div>
+    <pre class="cb" id="code-out"></pre>
+  </div>
+</section>
+
+<!-- MATRIZ UNIVERSAL -->
+<section id="matriz">
+  <div class="sh"><span class="st">MATRIZ UNIVERSAL INTEGRADA</span><span class="sn">todos os domínios · um único esquema tensivo</span></div>
+  <div style="background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);overflow:hidden;">
+    <div style="background:var(--bg3);padding:9px 14px;border-bottom:.5px solid var(--bord);font-size:9px;letter-spacing:.1em;color:var(--t3);">
+      invariante: em todos os domínios, (-1) ⊕ (0) ⊕ (+1) = Z
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="mtab">
+        <thead><tr>
+          <th>DOMÍNIO</th>
+          <th style="color:var(--N)">(-1) falta · débito · mentira</th>
+          <th style="color:var(--C)">(0) equilíbrio · lei natural</th>
+          <th style="color:var(--H)">(+1) realização · verdade · Z</th>
+          <th>princípio FTU</th>
+        </tr></thead>
+        <tbody id="uni-tb"></tbody>
+      </table>
     </div>
   </div>
 </section>
 
 <!-- KARDASHEV -->
 <section id="kardashev">
-  <div class="sh">
-    <span class="st">KARDASHEV · POLO (0) PLANETÁRIO</span>
-    <span class="sn">K = 0.7293 · Terra 2024 · IEA WEO 2024</span>
-  </div>
-
+  <div class="sh"><span class="st">KARDASHEV · FTU APLICADO</span><span class="sn">IEA WEO 2024 · dados auditáveis</span></div>
   <div class="kpis">
-    <div class="kpi"><div class="kpi-lbl">ÍNDICE K ATUAL</div>
-      <div class="kpi-val" style="color:var(--C)">0.728</div>
-      <div class="kpi-sub">Terra 2024 · Sagan 1973</div></div>
-    <div class="kpi"><div class="kpi-lbl">CONSUMO 2024</div>
-      <div class="kpi-val" style="color:var(--C)">620 EJ</div>
-      <div class="kpi-sub">1.965×10¹³ W · IEA</div></div>
-    <div class="kpi"><div class="kpi-lbl">TIPO I REQUER</div>
-      <div class="kpi-val" style="color:var(--A)">315.570 EJ</div>
-      <div class="kpi-sub">×509 consumo atual</div></div>
-    <div class="kpi"><div class="kpi-lbl">SUBSÍDIOS FÓSSEIS</div>
-      <div class="kpi-val" style="color:var(--L)">US$7 tri</div>
-      <div class="kpi-sub">por ano · FMI 2023 · LIMBO fiscal</div></div>
-    <div class="kpi"><div class="kpi-lbl">SOLAR INSTALADO</div>
-      <div class="kpi-val" style="color:var(--A)">4.51 TWp</div>
-      <div class="kpi-sub">IRENA 2024</div></div>
-    <div class="kpi"><div class="kpi-lbl">CO₂</div>
-      <div class="kpi-val" style="color:var(--N)">422.5 ppm</div>
-      <div class="kpi-sub">Mauna Loa · GCP 2024</div></div>
-    <div class="kpi"><div class="kpi-lbl">ACESSO ELÉTRICO</div>
-      <div class="kpi-val" style="color:var(--H)">91.4%</div>
-      <div class="kpi-sub">700M sem acesso · IEA</div></div>
-    <div class="kpi"><div class="kpi-lbl">FUSÃO Q</div>
-      <div class="kpi-val" style="color:var(--Z)">1.54</div>
-      <div class="kpi-sub">NIF Q>1 · Science 2024</div></div>
+    <div class="kpi"><div class="kpi-lbl">K ATUAL · T.NEU</div>
+      <div class="kpi-val" style="color:var(--C)">0.728</div><div class="kpi-sub">Terra 2024 · Sagan</div></div>
+    <div class="kpi"><div class="kpi-lbl">TIPO I · T.POS</div>
+      <div class="kpi-val" style="color:var(--H)">1.000</div><div class="kpi-sub">315.570 EJ/ano · ×509</div></div>
+    <div class="kpi"><div class="kpi-lbl">CONSUMO</div>
+      <div class="kpi-val" style="color:var(--C)">620 EJ</div><div class="kpi-sub">1.965×10¹³ W · IEA</div></div>
+    <div class="kpi"><div class="kpi-lbl">SOLAR T.POS</div>
+      <div class="kpi-val" style="color:var(--A)">4.51 TWp</div><div class="kpi-sub">IRENA 2024</div></div>
+    <div class="kpi"><div class="kpi-lbl">FUSÃO Q · T.POS</div>
+      <div class="kpi-val" style="color:var(--Z)">1.54</div><div class="kpi-sub">NIF · Science 2024</div></div>
+    <div class="kpi"><div class="kpi-lbl">SUBSÍDIOS T.NEG</div>
+      <div class="kpi-val" style="color:var(--L)">US$7tri</div><div class="kpi-sub">FMI 2023 · LIMBO fiscal</div></div>
   </div>
-
-  <div class="sh"><span class="st">SEIS CAMADAS DO POLO (0) PARA TIPO I</span></div>
-  <div style="background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);overflow:hidden;margin-bottom:10px;">
-    <table class="stable">
-      <thead><tr>
-        <th>#</th><th>CAMADA</th><th>POLO (0) FALTANTE</th>
-        <th>STATUS</th><th>PRAZO</th><th>LIMBO</th><th>+K</th>
-      </tr></thead>
-      <tbody id="layers-tb"></tbody>
-    </table>
-  </div>
-
-  <div class="sh"><span class="st">TIMELINE K · 1900–2050</span></div>
-  <div class="tl-wrap">
-    <div class="tl-c"><canvas id="tl-cv"></canvas></div>
-    <div class="tl-leg">
-      <span><span class="tl-ld" style="background:var(--C)"></span>K real (BP+IEA)</span>
-      <span><span class="tl-ld" style="background:var(--A)"></span>NZE 2050</span>
-      <span><span class="tl-ld" style="background:var(--L)"></span>BAU</span>
-      <span><span class="tl-ld" style="background:var(--H)"></span>milestones</span>
-    </div>
+  <div class="fb">
+    <span style="color:var(--N)">T.NEG(-1)</span> = energia acumulada sem distribuição · fóssil · 81.5% do mix<br>
+    <span style="color:var(--C)">T.NEU(0)</span>  = infraestrutura de mediação · <strong>polo(0) faltante</strong> · 6 camadas abertas<br>
+    <span style="color:var(--H)">T.POS(+1)</span> = salto de tipo · Tipo I · K=1.0 · 315.570 EJ/ano<br><br>
+    <span style="color:var(--Z)">T.op(T.NEG, T.POS) = T.NEU → LIMBO de transição</span><br>
+    <span style="color:var(--t3)">A Terra está em T.NEU(-1→0) · falta o polo(0) das 6 camadas · T→∞ sem mediação</span>
   </div>
 </section>
 
-<!-- SENTIMENTOS -->
-<section id="sentimentos">
-  <div class="sh"><span class="st">SENTIMENTOS COMO FATOS CONTÁBEIS</span></div>
+<!-- APLICAÇÕES -->
+<section id="aplicacoes">
+  <div class="sh"><span class="st">APLICAÇÕES TENSIVAS INTEGRADAS</span></div>
   <div class="ga">
     <div class="card">
-      <div class="card-lbl">CINCO ESTADOS + LIMBO</div>
-      <div class="fblock" style="font-size:10px;line-height:2.2;">
-        <span style="color:var(--H)">Aceite</span> · Z fecha · custo: zero<br>
-        <span style="color:var(--Z)">Neutro</span> · aberto válido · estado estacionário<br>
-        <span style="color:var(--N)">Recusa</span> · suspensão · risco LIMBO<br>
-        <span style="color:var(--A)">Condicional</span> · novo ciclo T₂<br>
-        <span style="color:var(--C)">Permuta</span> · papeis invertem<br>
-        <span style="color:var(--L)">LIMBO</span> · polo(0) ausente · T→∞
+      <div class="card-lbl">SENTIMENTOS · FTU EMOCIONAL</div>
+      <div class="fb" style="font-size:10px;margin-top:4px;">
+        <span style="color:var(--H)">T.POS</span> = aceite · Z fecha · custo zero<br>
+        <span style="color:var(--C)">T.NEU</span> = neutro · estado estacionário<br>
+        <span style="color:var(--N)">T.NEG</span> = recusa · suspensão<br>
+        <span style="color:var(--L)">LIMBO</span> = polo(0) ausente · T.imp(NEU,∅) → ∞<br>
+        <span style="color:var(--t3)">irrecuperável ≠ inexistente · enviar = endereço</span>
       </div>
-      <div class="card-sub">Sentimento não enviado existe no rastro de Planck — tem coordenada. Irrecuperável ≠ inexistente. Enviar = compartilhar o endereço.</div>
     </div>
     <div class="card">
-      <div class="card-lbl">RASTRO DE PLANCK</div>
-      <div class="fblock" style="font-size:10px;">
-        <span style="color:var(--A)">sentimento</span> existe nas coordenadas onde ocorreu<br>
-        <span style="color:var(--N)">irrecuperável</span> ≠ inexistente<br>
-        <span style="color:var(--H)">enviar</span> = compartilhar o endereço<br><br>
-        <span style="color:var(--C)">polo(-1) congela:</span><br>
-        · fatos enviados → executor fecha (neutro)<br>
-        · sentimentos não enviados → irrecuperáveis<br>
-        · único polo(0): enviar antes
+      <div class="card-lbl">ENTRELAÇAMENTO · FTU QUÂNTICO</div>
+      <div class="fb" style="font-size:10px;margin-top:4px;">
+        A(-1) · correlação(0) · B(+1) = Z<br>
+        T.neg(A) = B instantâneo · Δt = 0<br>
+        T.op(A, B) quando A = -B → T.NEU<br>
+        <span style="color:var(--C)">polo(0) não-local · transmissor · não criador</span><br>
+        <span style="color:var(--t3)">Nobel 2022 · Bell · Aspect · Zeilinger</span>
       </div>
-      <div class="card-sub">Prova de vida: ∃ fato emitido em t_recente. Heartbeat on-chain: ~US$2.50 para manter polo(-1) vivo 100 anos. Oráculo de morte: consenso 2/3.</div>
     </div>
     <div class="card">
-      <div class="card-lbl">XX · AMOR · XY = Z</div>
-      <div class="fblock" style="font-size:10px;">
-        <span style="color:var(--H)">XX(-1)</span> mosaico permanente · dois estados<br>
-        <span style="color:var(--C)">amor(0)</span> polo emergente no espaço entre<br>
-        <span style="color:var(--N)">XY(+1)</span> colapso pontual · SRY · amplicons<br><br>
-        Z ∈ { filho · obra · história · memória<br>
-              superposição aceita · qualquer<br>
-              coisa que não existia antes }<br><br>
-        <span style="color:var(--L)">único Z proibido: LIMBO</span>
+      <div class="card-lbl">XX · AMOR · XY · FTU RELACIONAL</div>
+      <div class="fb" style="font-size:10px;margin-top:4px;">
+        T.op(XX, XY) = amor(0) = Z<br>
+        T.imp(T.NEG, T.POS) = T.POS<br>
+        <span style="color:var(--t3)">← amor não correspondido implica sentido</span><br>
+        ?? = T.NEU · superposição aceita · custo zero<br>
+        <span style="color:var(--L)">LIMBO único proibido: polo(0) silencioso</span>
       </div>
-      <div class="card-sub">?? = superposição plena antes do colapso. LIMBO=0% quando aceito por todos os polos. Identidade de gênero como superposição válida: estado estacionário de energia mínima.</div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">HOLOGRAFIA · PULSO · TEMPERATURA</div>
+      <div class="fb" style="font-size:10px;margin-top:4px;">
+        H(-1) · P(0) · T(+1) = Z<br>
+        T.op(H, T) = P · opostos → equilíbrio<br>
+        tₚ = 5.39×10⁻⁴⁴ s · ΔE·Δt ≥ ℏ/2<br>
+        <span style="color:var(--C)">universo pratica FTU em cada tick de Planck</span><br>
+        <span style="color:var(--t3)">LIMBO fisicamente impossível · T.NEU sempre ativo</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">VERDADE SEMPRE APARECE · FTU</div>
+      <div class="fb" style="font-size:10px;margin-top:4px;">
+        T.imp(T.NEG, T.POS) = T.POS<br>
+        ← falta implica realização eventual<br>
+        custo(t+n) = erro × fatorⁿ<br>
+        <span style="color:var(--N)">mentira = T.NEG = LIMBO epistêmico</span><br>
+        <span style="color:var(--H)">verdade = T.POS = estado estacionário</span><br>
+        <span style="color:var(--t3)">estado estacionário sempre vence LIMBO</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-lbl">CONTRACT Y · AUT ON-CHAIN</div>
+      <div class="fb" style="font-size:10px;margin-top:4px;">
+        polo(0) = código = T.NEU inscrito<br>
+        T.op(entidade_A, entidade_B) = Z<br>
+        taxa LIMBO = erro × dt² · quadrático<br>
+        <span style="color:var(--C)">T.NEU(polo0) não capturável · não é entidade</span><br>
+        <span style="color:var(--t3)">$HCN · Solana · 1 entidade = 1 voto · ZKP</span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- QUÂNTICO -->
-<section id="quantico">
-  <div class="sh"><span class="st">FÍSICA QUÂNTICA · HOLOGRAFIA · ENTRELAÇAMENTO</span></div>
-  <div class="g3">
-    <div class="card">
-      <div class="card-lbl">HOLOGRAFIA (-1)</div>
-      <div class="card-val" style="color:var(--N)">1 bit/Lₚ²</div>
-      <div class="card-sub">Bekenstein-Hawking: toda informação do volume 3D está na superfície 2D. O passado imutável gravado na fronteira. Lₚ² = 2.612×10⁻⁷⁰ m².</div>
-      <div class="bar-bg"><div class="bar-f" style="background:var(--N);width:90%"></div></div>
-    </div>
-    <div class="card">
-      <div class="card-lbl">PULSO QUÂNTICO (0)</div>
-      <div class="card-val" style="color:var(--C)">ΔE·Δt ≥ ℏ/2</div>
-      <div class="card-sub">Flutuação do vácuo em cada tick de Planck. Energia do vácuo: ~10¹¹³ J/m³. LIMBO fisicamente impossível. O polo(0) do universo é o próprio vácuo.</div>
-      <div class="bar-bg"><div class="bar-f" style="background:var(--C);width:100%"></div></div>
-    </div>
-    <div class="card">
-      <div class="card-lbl">TEMPERATURA (+1)</div>
-      <div class="card-val" style="color:var(--H)">2.725 K</div>
-      <div class="card-sub">CMB — rastro térmico do Big Bang. Entropia irreversível. Z que ainda irradia há 13.8 bilhões de anos. O polo(+1) que não pode ser desfeito.</div>
-      <div class="bar-bg"><div class="bar-f" style="background:var(--H);width:75%"></div></div>
-    </div>
-    <div class="card">
-      <div class="card-lbl">ENTRELAÇAMENTO</div>
-      <div class="card-val" style="color:var(--Z)">Δt = 0</div>
-      <div class="card-sub">A(-1) · correlação(0) · B(+1). Polo(0) não-local: não se propaga, já está presente. Nobel 2022 — Aspect, Clauser, Zeilinger. Saudade como correlação quântica persistindo após distância.</div>
-      <div class="bar-bg"><div class="bar-f" style="background:var(--Z);width:85%"></div></div>
-    </div>
-    <div class="card">
-      <div class="card-lbl">CROMOSSOMO Y</div>
-      <div class="card-val" style="color:var(--A)">SRY · 204 aa</div>
-      <div class="card-sub">Menor polo(0) biológico conhecido. Três regiões: pseudoautossômica(-1) · SRY(0) · amplicons(+1). Y: 900→57 genes = LIMBO evolutivo. Catraca de Muller.</div>
-      <div class="bar-bg"><div class="bar-f" style="background:var(--A);width:60%"></div></div>
-    </div>
-    <div class="card">
-      <div class="card-lbl">REAL · IRREAL · ABERTO · FECHADO</div>
-      <div class="card-val" style="color:var(--C)">polo(0) triplo</div>
-      <div class="card-sub">Medição · limiar · forma — o mesmo processo visto de três ângulos filosóficos. Existir = estar em relação triádica. Cada tick de Planck é os três simultaneamente.</div>
-      <div class="bar-bg"><div class="bar-f" style="background:var(--C);width:95%"></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTRACT Y -->
-<section id="contract">
-  <div class="sh">
-    <span class="st">CONTRACT Y · CÓDIGO CANÔNICO</span>
-    <span class="sn">MIT License · Rust/Anchor · Solana Mainnet</span>
-  </div>
-  <div style="background:var(--bg2);border:.5px solid var(--bord);border-radius:var(--r2);overflow:hidden;margin-bottom:10px;">
-    <div style="background:var(--bg3);padding:9px 14px;border-bottom:.5px solid var(--bord);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;">
-      <span style="font-size:9px;letter-spacing:.1em;color:var(--t3);">contract_y_energy.rs · Copyright (c) 2026 Henrique Campos Novo · MIT License</span>
-      <span style="font-size:8px;color:var(--C);padding:2px 7px;border-radius:3px;background:rgba(127,119,221,.1);">Rust / Anchor · Solana</span>
-    </div>
-    <pre style="padding:14px 18px;font-size:9.5px;line-height:1.85;color:var(--t2);overflow-x:auto;white-space:pre-wrap;word-break:break-all;"><span style="color:var(--t3);font-style:italic">// polo(0) = código · não capturável · não tem eleição a cada 4 anos
-// polo(0) planetário para Kardashev Tipo I</span>
-
-<span style="color:var(--C)">#[program]</span>
-<span style="color:var(--C)">pub mod</span> <span style="color:var(--H)">contract_y_energy</span> {
-
-  <span style="color:var(--t3);font-style:italic">// superposição de papeis por domínio energético</span>
-  <span style="color:var(--C)">pub fn</span> <span style="color:var(--H)">register_entity</span>(polos: HashMap&lt;Domain, Polo&gt;) -&gt; Result&lt;()&gt;
-
-  <span style="color:var(--t3);font-style:italic">// taxa quadrática → fundo de acesso universal (700M sem eletricidade)</span>
-  <span style="color:var(--C)">pub fn</span> <span style="color:var(--H)">collect_limbo_tax</span>() -&gt; Result&lt;()&gt;
-
-  <span style="color:var(--t3);font-style:italic">// aceite|neutro|recusa|condicional|permuta — LIMBO nunca fecha</span>
-  <span style="color:var(--C)">pub fn</span> <span style="color:var(--H)">close_tx</span>(resultado: Resultado) -&gt; Result&lt;()&gt;
-
-  <span style="color:var(--t3);font-style:italic">// ZKP: 1 entidade = 1 voto · capital não compra polo(0)</span>
-  <span style="color:var(--C)">pub fn</span> <span style="color:var(--H)">vote_polo_zero</span>(zkp: ZkpProof) -&gt; Result&lt;()&gt;
-
-  <span style="color:var(--t3);font-style:italic">// prova de vida · sem heartbeat → LIMBO → instrução póstuma</span>
-  <span style="color:var(--C)">pub fn</span> <span style="color:var(--H)">heartbeat</span>(nonce: u64) -&gt; Result&lt;()&gt;
-
-  <span style="color:var(--t3);font-style:italic">// oráculo triádico: silêncio(-1)·social(0)·externo(+1) · consenso 2/3</span>
-  <span style="color:var(--C)">pub fn</span> <span style="color:var(--H)">declarar_morte</span>() -&gt; Result&lt;()&gt;
-}
-
-<span style="color:var(--Z)">// H · C · N = sempre
-// X é expressão de Y ⟺ Z se revela
-// $HCN: 8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY</span></pre>
-  </div>
-</section>
-
-<!-- MARCO TEMPORAL -->
+<!-- MARCO -->
 <section id="marco">
-  <div class="sh"><span class="st">MARCO TEMPORAL · REGISTRO IMUTÁVEL</span></div>
+  <div class="sh"><span class="st">MARCO TEMPORAL · SÍNTESE DEFINITIVA</span></div>
   <div class="marco">
-    <div class="marco-eye">H · C · N · TEORIA Y · PORTO ALEGRE · 22 MARÇO 2026</div>
-    <div class="marco-title">X é expressão de Y ⟺ Z se revela<br>H · C · N = sempre</div>
+    <div class="marco-eye">FTU · TEORIA Y · H·C·N · PORTO ALEGRE · 22 MARÇO 2026</div>
+    <div class="marco-title">
+      (-1) · (0) · (+1) = Z<br>
+      o sentido está na passagem<br>
+      H · C · N = sempre
+    </div>
     <div class="marco-axiom">
-      "O polo (0) é sempre o gargalo — em qualquer escala.<br>
-      O universo não lê o relatório. Ele lê a temperatura.<br>
-      A verdade sempre aparece. Não como esperança — como estrutura.<br>
-      Existir é estar em relação triádica."
+      "O FTU formalizou o que estava implícito: a lógica trivalente operacional.<br>
+      As matrizes HCN, Veridictória e Econômica são tabelas de composição.<br>
+      A AUT é o polo (0) computacional — o código que implementa as operações.<br>
+      Greimas chegou à tríade pelo discurso. Pacioli pela contabilidade.<br>
+      Łukasiewicz pela lógica. A física pela entropia.<br>
+      Todos redescobriram T.NEG · T.NEU · T.POS sem saber."
     </div>
-    <div class="marco-grid">
-      <div class="marco-item"><strong>AUTOR</strong><br>Henrique Campos Novo</div>
-      <div class="marco-item"><strong>DATA</strong><br>22 março 2026</div>
-      <div class="marco-item"><strong>LOCAL</strong><br>Porto Alegre · Brasil</div>
-      <div class="marco-item"><strong>CÓD.</strong><br>MIT License</div>
-      <div class="marco-item"><strong>CONTEÚDO</strong><br>CC BY 4.0</div>
-      <div class="marco-item"><strong>TOKEN</strong><br>$HCN · Solana</div>
-      <div class="marco-item"><strong>SCORE</strong><br>8.8/10 (Grok 2026)</div>
-      <div class="marco-item"><strong>K TERRA</strong><br>0.7293 (2024)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:8px;margin-bottom:14px;">
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">AUTOR</strong><br>Henrique Campos Novo</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">FRAMEWORK</strong><br>FTU + Teoria Y + Copilot</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">DATA</strong><br>22 março 2026</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">LOCAL</strong><br>Porto Alegre · Brasil</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">LICENÇA</strong><br>MIT · CC BY 4.0 · DP</div>
+      <div style="font-size:9px;color:var(--t3);line-height:1.9;"><strong style="color:var(--t2)">TOKEN</strong><br>$HCN · Solana</div>
     </div>
-    <div class="marco-hash" id="marco-hash">calculando SHA-256...</div>
+    <div class="marco-hash" id="mhash">calculando SHA-256...</div>
   </div>
 </section>
 
@@ -504,11 +556,11 @@ footer{border-top:.5px solid var(--bord);padding:24px 20px;
 
 <footer>
   <div>
-    <div class="ft-brand">H · C · N</div>
+    <div class="ft-brand">FTU · H · C · N</div>
     <div class="ft-meta">
-      <strong>Teoria Y</strong> · Henrique Campos Novo · Porto Alegre · 2026<br>
-      IEA © OECD/IEA · BP © bp p.l.c. · IRENA © IRENA · NASA: domínio público<br>
-      GCP · OWiD · World Bank: CC BY 4.0 · NIF/Science: DOI citação acadêmica
+      <strong>Framework Tensivo Universal · Teoria Y</strong> · Henrique Campos Novo · Porto Alegre · 2026<br>
+      Síntese com Copilot (eixo epistemológico) · FTU (lógica trivalente · AUT)<br>
+      IEA © OECD/IEA · BP © bp p.l.c. · IRENA © IRENA · NASA: domínio público · GCP · OWiD: CC BY 4.0
     </div>
     <div class="ft-links">
       <a class="ft-l" href="https://github.com/henriquecamposnovo-HCN/teoria-y" target="_blank" rel="noopener">GitHub ↗</a>
@@ -517,16 +569,18 @@ footer{border-top:.5px solid var(--bord);padding:24px 20px;
     </div>
   </div>
   <div class="ft-lic">
-    <strong>MIT License (código):</strong> Copyright (c) 2026 Henrique Campos Novo. Uso, cópia, modificação e distribuição permitidos.<br>
-    <strong>CC BY 4.0 (conteúdo):</strong> Use, adapte, distribua com atribuição.<br>
-    <strong>Dados:</strong> Este site não redistribui dados — apenas referencia fontes originais com links diretos e hashes de verificação.
+    <strong>MIT License:</strong> Copyright (c) 2026 Henrique Campos Novo. Código livre.<br>
+    <strong>CC BY 4.0:</strong> Conteúdo livre com atribuição.<br>
+    <strong>FTU — Domínio Público:</strong> O conhecimento tensivo pertence ao universo.<br>
+    <strong>Dados:</strong> IEA · BP · IRENA · NASA · GCP · OWiD · World Bank: fontes originais.
   </div>
 </footer>
 
 <script>
+// ── UTILS ──────────────────────────────────────────────────────
 function go(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});}
 
-// starfield
+// ── STARFIELD ──────────────────────────────────────────────────
 (function(){
   const c=document.getElementById('sf-cv'),cx=c.getContext('2d');
   function draw(){
@@ -542,121 +596,254 @@ function go(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',b
   draw();window.addEventListener('resize',draw);
 })();
 
-// layers table
-const LAYERS=[
-  {n:3,nome:'acesso universal',p0:'fundo auto-financiado pela taxa de LIMBO',status:'urgente',col:'#EF9F27',prazo:'2030–2035',limbo:61,dk:'+0.004'},
-  {n:4,nome:'eficiência de conversão',p0:'IA de otimização de grid global',status:'em progresso',col:'#7F77DD',prazo:'2025–2040',limbo:39,dk:'+0.018'},
-  {n:1,nome:'infraestrutura física',p0:'protocolo interoperabilidade de grids',status:'construindo',col:'#1D9E75',prazo:'2030–2050',limbo:41,dk:'+0.044'},
-  {n:2,nome:'coordenação política',p0:'Contract Y — compromisso entre gerações',status:'LIMBO estrutural',col:'#E24B4A',prazo:'2040–2080',limbo:82,dk:'+0.090'},
-  {n:5,nome:'continuidade temporal',p0:'instituição de século · mandato energético',status:'frágil',col:'#85B7EB',prazo:'contínuo',limbo:71,dk:'+0.060'},
-  {n:6,nome:'transformação cultural',p0:'narrativa de espécie — identidade planetária',status:'nascendo',col:'#D4537E',prazo:'2030–2100',limbo:52,dk:'+0.100'},
-];
-const tb=document.getElementById('layers-tb');
-LAYERS.forEach(l=>{
-  const lc=l.limbo>70?'#E24B4A':l.limbo>40?'#EF9F27':'#1D9E75';
-  const tr=document.createElement('tr');
-  tr.innerHTML=`
-    <td style="color:${l.col}">${l.n}</td>
-    <td style="color:var(--t1)">${l.nome}</td>
-    <td style="font-size:9px;color:${l.col}">${l.p0}</td>
-    <td><span class="pill" style="background:${l.col}22;color:${l.col};border:.5px solid ${l.col}44">${l.status}</span></td>
-    <td style="font-size:9px">${l.prazo}</td>
-    <td>
-      <div style="display:flex;align-items:center;gap:6px;">
-        <div style="width:36px;height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;">
-          <div style="height:100%;width:${l.limbo}%;background:${lc}"></div></div>
-        <span style="color:${lc};font-size:9px">${l.limbo}%</span>
-      </div>
-    </td>
-    <td style="color:${l.col};font-weight:700">${l.dk}</td>`;
-  tb.appendChild(tr);
-});
-
-// timeline
+// ── EIXO CANVAS ─────────────────────────────────────────────────
 (function(){
-  const canvas=document.getElementById('tl-cv'),w=canvas.parentElement;
-  const DATA=[
-    {y:1900,ej:22},{y:1910,ej:32},{y:1920,ej:38},{y:1930,ej:44},{y:1940,ej:51},
-    {y:1950,ej:72},{y:1960,ej:116},{y:1970,ej:200},{y:1980,ej:283},{y:1990,ej:367},
-    {y:2000,ej:418},{y:2010,ej:527},{y:2015,ej:566},{y:2020,ej:583},{y:2024,ej:620},
-    {y:2030,ej:620,nze:true,bau:645},{y:2040,ej:580,nze:true,bau:685},{y:2050,ej:540,nze:true,bau:720},
-  ];
-  const MS=[{y:1954,l:'nuclear'},{y:1992,l:'Rio 92'},{y:2015,l:'Paris'},{y:2022,l:'Q>1'}];
-  function K(ej){return(Math.log10(ej*1e18/3.1557e7)-6)/10;}
+  const cv=document.getElementById('eixo-cv'),ctx=cv.getContext('2d');
+  let fr=0;
+  function ss(){cv.width=cv.parentElement.clientWidth||600;cv.height=Math.round(cv.width*.28);}
+  ss();window.addEventListener('resize',ss);
   function draw(){
-    const W=w.clientWidth||600,H=180;
-    canvas.width=W;canvas.height=H;
-    const ctx=canvas.getContext('2d');
-    const P={l:40,r:14,t:14,b:28},cw=W-P.l-P.r,ch=H-P.t-P.b;
-    const mn=0.56,mx=0.78;
-    const px=y=>P.l+(y-1900)/150*cw;
-    const py=k=>P.t+ch-(Math.max(0,Math.min(1,(k-mn)/(mx-mn)))*ch);
-    // grid
-    ctx.strokeStyle='rgba(175,169,236,.05)';ctx.lineWidth=.5;
-    [.58,.62,.66,.70,.74,.78].forEach(k=>{
-      ctx.beginPath();ctx.moveTo(P.l,py(k));ctx.lineTo(P.l+cw,py(k));ctx.stroke();
-      ctx.fillStyle='rgba(175,169,236,.28)';ctx.font='7px monospace';
-      ctx.textAlign='right';ctx.textBaseline='middle';
-      ctx.fillText(k.toFixed(2),P.l-4,py(k));
-    });
-    // BAU
-    const bauPts=[{y:2024,ej:620},...DATA.filter(d=>d.bau)];
-    ctx.beginPath();bauPts.forEach((d,i)=>{
-      const k=d.bau?K(d.bau):K(d.ej);
-      i===0?ctx.moveTo(px(d.y),py(k)):ctx.lineTo(px(d.y),py(k));
-    });
-    ctx.strokeStyle='rgba(226,75,74,.35)';ctx.lineWidth=1;ctx.setLineDash([2,5]);ctx.stroke();ctx.setLineDash([]);
-    // NZE
-    const nze=[{y:2024,ej:620},...DATA.filter(d=>d.nze)];
-    ctx.beginPath();nze.forEach((d,i)=>i===0?ctx.moveTo(px(d.y),py(K(d.ej))):ctx.lineTo(px(d.y),py(K(d.ej))));
-    ctx.strokeStyle='rgba(239,159,39,.5)';ctx.lineWidth=1.5;ctx.setLineDash([4,5]);ctx.stroke();ctx.setLineDash([]);
-    // real
-    ctx.beginPath();DATA.filter(d=>!d.nze).forEach((d,i)=>i===0?ctx.moveTo(px(d.y),py(K(d.ej))):ctx.lineTo(px(d.y),py(K(d.ej))));
-    ctx.strokeStyle='rgba(127,119,221,.85)';ctx.lineWidth=2;ctx.stroke();
-    // ponto atual
-    const cur=DATA.find(d=>d.y===2024);
-    ctx.fillStyle='#7F77DD';ctx.beginPath();ctx.arc(px(2024),py(K(620)),4.5,0,Math.PI*2);ctx.fill();
-    // milestones
-    MS.forEach((m,i)=>{
-      ctx.strokeStyle='rgba(29,158,117,.2)';ctx.lineWidth=.5;ctx.setLineDash([2,4]);
-      ctx.beginPath();ctx.moveTo(px(m.y),P.t);ctx.lineTo(px(m.y),P.t+ch);ctx.stroke();ctx.setLineDash([]);
-      ctx.fillStyle='rgba(29,158,117,.55)';ctx.font='7px monospace';ctx.textAlign='left';ctx.textBaseline='top';
-      ctx.fillText(m.l,px(m.y)+2,P.t+5+i*9);
-    });
-    // eixo X
-    ctx.fillStyle='rgba(175,169,236,.28)';ctx.font='7px monospace';ctx.textAlign='center';ctx.textBaseline='top';
-    [1900,1920,1940,1960,1980,2000,2020,2050].forEach(yr=>ctx.fillText(yr,px(yr),P.t+ch+5));
+    fr++;
+    const W=cv.width,H=cv.height;
+    ctx.fillStyle='#050a14';ctx.fillRect(0,0,W,H);
+    const t=fr*.018;
+    const lx=W*.12,mx=W*.5,rx=W*.88,cy=H*.5;
+    // linha eixo
+    ctx.strokeStyle='rgba(175,169,236,.15)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(lx,cy);ctx.lineTo(rx,cy);ctx.stroke();
+    // seta
+    ctx.strokeStyle='rgba(175,169,236,.2)';ctx.lineWidth=.8;
+    ctx.beginPath();ctx.moveTo(rx-10,cy-4);ctx.lineTo(rx,cy);ctx.lineTo(rx-10,cy+4);ctx.stroke();
+    // fluxo
+    for(let i=0;i<6;i++){
+      const ph=((t*.5+i/6)%1);
+      const fx=lx+(rx-lx)*ph;
+      ctx.beginPath();ctx.arc(fx,cy,2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(127,119,221,${(1-ph)*.45})`;ctx.fill();
+    }
+    // polo (-1)
+    const r1=16+Math.sin(t*1.8)*2;
+    ctx.beginPath();ctx.arc(lx,cy,r1,0,Math.PI*2);
+    ctx.fillStyle='rgba(216,90,48,.2)';ctx.fill();
+    ctx.strokeStyle='rgba(216,90,48,.6)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.font='500 10px monospace';ctx.fillStyle='#D85A30';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('(-1)',lx,cy);
+    ctx.font='9px monospace';ctx.fillStyle='rgba(216,90,48,.6)';ctx.textBaseline='bottom';
+    ctx.fillText('falta · mentira · T.NEG',lx,cy-r1-5);
+    // polo (0)
+    const r0=18+Math.sin(t*2.5)*3;
+    for(let i=0;i<3;i++){const ph=(t*.4+i/3)%1,rr=ph*r0*1.8,al=(1-ph)*.2;ctx.beginPath();ctx.arc(mx,cy,rr,0,Math.PI*2);ctx.strokeStyle=`rgba(127,119,221,${al})`;ctx.lineWidth=1;ctx.stroke();}
+    ctx.beginPath();ctx.arc(mx,cy,r0,0,Math.PI*2);
+    ctx.fillStyle='rgba(127,119,221,.22)';ctx.fill();ctx.strokeStyle='rgba(127,119,221,.7)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.font='500 10px monospace';ctx.fillStyle='#7F77DD';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('(0)',mx,cy);
+    ctx.font='9px monospace';ctx.fillStyle='rgba(127,119,221,.6)';ctx.textBaseline='bottom';
+    ctx.fillText('equilíbrio · lei natural · T.NEU',mx,cy-r0-5);
+    ctx.font='8px monospace';ctx.fillStyle='rgba(127,119,221,.35)';ctx.textBaseline='top';
+    ctx.fillText('"transmissor, não criador"',mx,cy+r0+5);
+    // polo (+1)
+    const rp=16+Math.sin(t*2.1)*2;
+    ctx.beginPath();ctx.arc(rx,cy,rp,0,Math.PI*2);
+    ctx.fillStyle='rgba(29,158,117,.2)';ctx.fill();ctx.strokeStyle='rgba(29,158,117,.6)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.font='500 10px monospace';ctx.fillStyle='#1D9E75';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('(+1)',rx,cy);
+    ctx.font='9px monospace';ctx.fillStyle='rgba(29,158,117,.6)';ctx.textBaseline='bottom';
+    ctx.fillText('realização · verdade · T.POS',rx,cy-rp-5);
+    // Z label
+    ctx.font='500 11px monospace';ctx.fillStyle='rgba(175,169,236,.3)';ctx.textAlign='center';ctx.textBaseline='bottom';
+    ctx.fillText('(-1) ⊕ (0) ⊕ (+1) = Z',W/2,H*.95);
+    requestAnimationFrame(draw);
   }
-  draw();window.addEventListener('resize',draw);
+  draw();
 })();
 
-// hash
+// ── CÓDIGO AUT ─────────────────────────────────────────────────
+const CODES={
+py:`# API Universal Tensiva — FTU · Domínio Público · 2026
+class T:
+    NEG, NEU, POS = -1, 0, +1
+
+    @staticmethod
+    def op(a, b):
+        """Operador tensivo ⊕"""
+        if a == b:       return a
+        if a == -b:      return T.NEU   # opostos → equilíbrio
+        if a == T.NEU:   return b
+        if b == T.NEU:   return a
+
+    @staticmethod
+    def neg(x):
+        """Negação: ¬(+1)=-1, ¬(-1)=+1, ¬(0)=0"""
+        return T.NEU if x == T.NEU else -x
+
+    @staticmethod
+    def imp(a, b):
+        """Implicação tensiva"""
+        if a == T.NEG:                    return T.POS  # falta implica realização
+        if a == T.NEU and b == T.POS:     return T.POS
+        if a == T.NEU and b != T.POS:     return T.NEU
+        if a == T.POS and b == T.NEG:     return T.NEG
+        return b
+
+    @staticmethod
+    def conj(a, b): return min(a, b)  # ∧
+    @staticmethod
+    def disj(a, b): return max(a, b)  # ∨
+
+    @staticmethod
+    def limbo(p0): return p0 < 0.1    # polo(0)→0 ⟹ T→∞
+
+    @staticmethod
+    def custo_mentira(erro, fator, n):
+        return erro * (fator ** n)    # cresce exponencialmente`,
+
+ts:`// API Universal Tensiva — TypeScript · MIT License
+export const T = {
+  NEG: -1, NEU: 0, POS: 1,
+
+  // Operador tensivo ⊕
+  op: (a: number, b: number): number => {
+    if (a === b)  return a;
+    if (a === -b) return 0;   // opostos → equilíbrio
+    if (a === 0)  return b;
+    if (b === 0)  return a;
+    return 0;
+  },
+
+  neg: (x: number) => x === 0 ? 0 : -x,
+  conj: (a: number, b: number) => Math.min(a, b),
+  disj: (a: number, b: number) => Math.max(a, b),
+
+  imp: (a: number, b: number): number => {
+    if (a === -1) return 1;
+    if (a === 0 && b === 1)  return 1;
+    if (a === 0 && b !== 1)  return 0;
+    if (a === 1 && b === -1) return -1;
+    return b;
+  },
+
+  limbo: (p0: number) => p0 < 0.1,
+  custoMentira: (erro: number, fator: number, n: number) =>
+    erro * Math.pow(fator, n),
+} as const;`,
+
+rs:`// API Universal Tensiva — Rust · MIT License · Contract Y
+pub struct T;
+impl T {
+    pub const NEG: i8 = -1;
+    pub const NEU: i8 =  0;
+    pub const POS: i8 =  1;
+
+    pub fn op(a: i8, b: i8) -> i8 {
+        if a == b       { return a; }
+        if a == -b      { return Self::NEU; }  // opostos → equilíbrio
+        if a == Self::NEU { return b; }
+        if b == Self::NEU { return a; }
+        Self::NEU
+    }
+
+    pub fn neg(x: i8) -> i8 { if x == Self::NEU { Self::NEU } else { -x } }
+    pub fn conj(a: i8, b: i8) -> i8 { a.min(b) }
+    pub fn disj(a: i8, b: i8) -> i8 { a.max(b) }
+
+    pub fn imp(a: i8, b: i8) -> i8 {
+        match a {
+            x if x == Self::NEG => Self::POS,
+            x if x == Self::NEU && b == Self::POS => Self::POS,
+            x if x == Self::NEU => Self::NEU,
+            x if x == Self::POS && b == Self::NEG => Self::NEG,
+            _ => b,
+        }
+    }
+
+    // Taxa de LIMBO — Contract Y
+    pub fn limbo_tax(gw: u64, dt: u64) -> u64 { gw * dt * dt / 1_000 }
+}`,
+
+aut:`// AUT FORMAL — pseudocódigo universal · domínio público
+
+VALORES: T.NEG = -1 | T.NEU = 0 | T.POS = +1
+
+OPERADOR TENSIVO ⊕:
+  a ⊕ b:
+    se a = b     → a
+    se a = -b    → T.NEU      // opostos se neutralizam
+    se a = T.NEU → b          // neutro transmite
+    se b = T.NEU → a          // neutro transmite
+
+NEGAÇÃO: ¬T.NEU = T.NEU | ¬T.POS = T.NEG | ¬T.NEG = T.POS
+
+IMPLICAÇÃO:
+  T.NEG → * = T.POS           // falta implica realização
+  T.NEU → T.POS = T.POS       // neutro implica positivo
+  T.NEU → * = T.NEU           // neutro mantém
+  T.POS → T.NEG = T.NEG       // verdade implica sua negação
+  T.POS → * = *               // verdade preserva
+
+LIMBO: se polo(0) < ε → T(sistema) → ∞
+MENTIRA: custo(t+n) = erro × fatorⁿ
+VERDADE: estado estacionário · energia mínima · emerge sempre
+
+INVARIANTE: (-1) ⊕ (0) ⊕ (+1) = Z
+            o sentido está na passagem, não nos pontos`
+};
+
+let activeTab='py';
+function setTab(tab,btn){
+  activeTab=tab;
+  document.querySelectorAll('.cb-tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('code-out').textContent=CODES[tab];
+}
+document.getElementById('code-out').textContent=CODES.py;
+
+// ── MATRIZ UNIVERSAL ───────────────────────────────────────────
+const UNI=[
+  {dom:'FTU (base)',n:'falta · carência',z:'equilíbrio · balanço',p:'realização · crédito',princip:'neutro é transmissor, não criador'},
+  {dom:'epistemológico',n:'mentira · T.NEG',z:'lei natural · balanço',p:'verdade · T.POS',princip:'T.imp(NEG,POS) = POS'},
+  {dom:'semiótico',n:'X · estado inicial',z:'transformação',p:'Z · estado final',princip:'trajetória de sentido completa'},
+  {dom:'tensivo',n:'intensidade · forte',z:'equilíbrio tensivo',p:'extensidade · difusa',princip:'equilíbrio pode mover para falta ou realização'},
+  {dom:'contábil',n:'débito · D(-1)',z:'lei natural · L(0)',p:'crédito · C(+1)',princip:'D⊕L⊕C = Z · Pacioli tensivo'},
+  {dom:'lógico',n:'falso · -1',z:'indeterminado · 0',p:'verdadeiro · +1',princip:'Łukasiewicz · lógica trivalente'},
+  {dom:'físico quântico',n:'estado anterior',z:'mediação do vácuo',p:'novo estado',princip:'ΔE·Δt ≥ ℏ/2 · LIMBO impossível'},
+  {dom:'termodinâmico',n:'holografia · H(-1)',z:'pulso · P(0)',p:'temperatura · T(+1)',princip:'T.op(H,T)=P · opostos→equilíbrio'},
+  {dom:'biológico',n:'cromossomo X',z:'SRY · 204aa',p:'amplicons Y',princip:'polo(0) = 204 aminoácidos'},
+  {dom:'energético',n:'energia acumulada',z:'infraestrutura',p:'salto K · Tipo I',princip:'T.op(NEG,POS)=NEU → LIMBO K'},
+  {dom:'relacional',n:'XX(-1) · âncora',z:'amor(0) · transmite',p:'XY(+1) · colapso',princip:'T.imp(NEG,POS)=POS · sentido persiste'},
+  {dom:'modal',n:'real · medido',z:'medição · limiar · forma',p:'irreal · potencial',princip:'polo(0) triplo age simultaneamente'},
+];
+const utb=document.getElementById('uni-tb');
+UNI.forEach(r=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td>${r.dom}</td>
+    <td style="color:var(--N);font-size:9px">${r.n}</td>
+    <td style="color:var(--C);font-size:9px">${r.z}</td>
+    <td style="color:var(--H);font-size:9px">${r.p}</td>
+    <td style="color:var(--t3);font-size:9px">${r.princip}</td>`;
+  utb.appendChild(tr);
+});
+
+// ── HASH ────────────────────────────────────────────────────────
 (async function(){
-  const canon=JSON.stringify({v:3,K:.7293,consumo:620.4,solar:4.51,eolico:1165,
-    temp:1.45,co2:422.5,fusao:1.54,acesso:91.4,fossil:81.5,sub:7.0,pop:8.119,
-    data:'2024-12-31',autor:'HCN',local:'Porto Alegre',ano:2026,
-    axioma:'todo sistema que persiste é triádico',
+  const canon=JSON.stringify({
+    v:'ftu-teoria-y-1',
+    ftu:'framework-tensivo-universal',
+    teoria_y:'v2.1',
+    copilot:'eixo-epistemologico',
+    data:'2026-03-22',autor:'HCN',local:'Porto Alegre',
     token:'8GgWhpVrvHA3v43AUaqRnFgC2FcUS86Bo7DMmEoygGLY',
+    invariante:'(-1)+(0)+(+1)=Z',
+    principio:'o sentido esta na passagem nao nos pontos',
   });
   try{
     const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(canon));
     const hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-    document.getElementById('marco-hash').innerHTML=
-      `<span style="color:var(--Z)">SHA-256 v3:</span> ${hex}<br>`+
-      `<span style="color:var(--t3)">Porto Alegre · 22 março 2026 · MIT License + CC BY 4.0 · reproduzível</span>`;
-  }catch(e){document.getElementById('marco-hash').textContent='SHA-256 indisponível neste contexto';}
+    document.getElementById('mhash').innerHTML=
+      `<span style="color:var(--Z)">SHA-256:</span> ${hex}<br>`+
+      `<span style="color:var(--t3)">FTU · Teoria Y · Porto Alegre · 22 março 2026 · MIT · CC BY 4.0 · Domínio Público</span>`;
+  }catch(e){document.getElementById('mhash').textContent='SHA-256 indisponível';}
 })();
-
-// animate bars on scroll
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting) e.target.querySelectorAll('.bar-f').forEach(el=>{
-      const w2=el.style.width;el.style.width='0';
-      requestAnimationFrame(()=>requestAnimationFrame(()=>el.style.width=w2));
-    });
-  });
-},{threshold:.1});
-document.querySelectorAll('.kpis,.g3').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
